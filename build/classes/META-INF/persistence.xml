@@ -7,6 +7,14 @@
 	
 	
 	<class>com.xenogears.cotizacion.model.ConfigVariable</class>
+	<class>com.xenogears.cotizacion.model.Sucursal</class>
+	<class>com.xenogears.cotizacion.model.Vendedor</class>
+	<class>com.xenogears.cotizacion.model.Auto</class>
+	<class>com.xenogears.cotizacion.model.Cliente</class>
+	<class>com.xenogears.cotizacion.model.Cotizacion</class>
+	<class>com.xenogears.cotizacion.model.Auditoria</class>
+	<class>com.xenogears.cotizacion.model.Usuario</class>
+	
 <!-- 		<properties> -->
 <!-- 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" /> -->
 <!-- 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/empresabd" /> -->
