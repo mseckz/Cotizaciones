@@ -34,6 +34,8 @@
   <listener>
     <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
   </listener>
-  
+  <welcome-file-list>
+    <welcome-file>login.xhtml</welcome-file>
+	</welcome-file-list>
   
 </web-app>
