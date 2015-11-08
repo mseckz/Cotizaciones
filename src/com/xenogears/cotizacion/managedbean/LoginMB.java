@@ -22,7 +22,7 @@ public class LoginMB {
 		Usuario user = service.getUsuarioRepository().validarLogin(correo, password);
 		if(user == null) System.out.println("error");
 		else System.out.println(user.getCorreo() + " - " + user.getClave());
-		return null;
+		return "/paginas/index.xhtml?faces-redirect=true";
 	}
 	
 	

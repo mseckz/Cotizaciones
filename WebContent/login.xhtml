@@ -6,17 +6,22 @@
 <h:head>
 	<link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-glass-x" />
 </h:head>
-<h:form>
-	<h2>Login</h2>
-	<h:panelGrid columns="2" cellpadding="5">
-		<p:outputLabel value="correo:" />
-		<p:inputText value="#{loginMB.correo}"/>
-		
-		<h:outputText value="Password:" />
-		<p:password value="#{loginMB.password}"/>
-	</h:panelGrid>
-	<p:commandButton value="Registrar" icon="ui-icon-disk" 
-		action="#{loginMB.login}" styleClass="ui-priority-primary" />
-</h:form>
-
+<h:body style="text-align:center">
+	<h:form>
+		<p:panel style="width:400px" header="Login">
+			<h:panelGrid columns="2" cellpadding="5">
+	            <h:outputLabel for="correo" value="Correo" />
+	            <p:inputText id="correo" value="#{loginMB.correo}" required="true" label="correo" />
+	 
+	            <h:outputLabel for="password" value="Password:" />
+	            <p:password id="password" value="#{loginMB.password}" required="true" label="password" />
+	 
+	            <f:facet name="footer">
+	                <p:commandButton value="Registrar" icon="ui-icon-disk" 
+						action="#{loginMB.login}" styleClass="ui-priority-primary" />
+	            </f:facet>  
+	        </h:panelGrid>
+		</p:panel>
+	</h:form>
+</h:body>
 </html>
