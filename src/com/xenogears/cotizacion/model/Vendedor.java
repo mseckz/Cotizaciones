@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="vendedor")
@@ -67,6 +68,9 @@ public class Vendedor {
 	@Column(name="flagEstado", insertable=false)
 	private boolean flagEstado;
 
+	@Transient
+	private String nombreCompleto;
+	
 	public Integer getIdVendedor() {
 		return idVendedor;
 	}
@@ -178,5 +182,9 @@ public class Vendedor {
 	public void setFlagEstado(boolean flagEstado) {
 		this.flagEstado = flagEstado;
 	}
-
+	
+	public String getNombreCompleto(){
+		nombreCompleto = this.nombres + " " + this.apellidoPaterno + " " + this.apellidoMaterno;
+		return nombreCompleto;
+	}
 }

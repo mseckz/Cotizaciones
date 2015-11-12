@@ -1,28 +1,45 @@
 package com.xenogears.cotizacion.managedbean;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import com.xenogears.cotizacion.model.Usuario;
+import com.xenogears.cotizacion.model.Vendedor;
 import com.xenogears.cotizacion.service.UsuarioService;
 
 @ManagedBean
 @SessionScoped
 public class LoginMB {
+
+	private String correo;
+	private String password;
+	private Vendedor vendedorAuth;
 	
 	@ManagedProperty(value="#{usuarioService}")
     private UsuarioService service;
-
 	
-	String correo;
-	String password;
 	
 	public String login(){
 		Usuario user = service.getUsuarioRepository().validarLogin(correo, password);
-		if(user == null) System.out.println("error");
-		else System.out.println(user.getCorreo() + " - " + user.getClave());
-		return "/paginas/index.xhtml?faces-redirect=true";
+		if(user == null){
+			System.out.println("asd");
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Credenciales incorrectas");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			return null;
+		}
+		else{
+			Usuario usuario = service.getUsuarioRepository().obtenerUsuario(correo);
+			vendedorAuth = usuario.getVendedor();
+			return "/paginas/index.xhtml?faces-redirect=true";
+		}
+	}
+	
+	public String logout(){
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		return "/login.xhtml?faces-redirect=true";
 	}
 	
 	
@@ -47,6 +64,14 @@ public class LoginMB {
 
 	public void setService(UsuarioService service) {
 		this.service = service;
+	}
+
+	public Vendedor getVendedorAuth() {
+		return vendedorAuth;
+	}
+
+	public void setVendedorAuth(Vendedor vendedorAuth) {
+		this.vendedorAuth = vendedorAuth;
 	}
 	
 }

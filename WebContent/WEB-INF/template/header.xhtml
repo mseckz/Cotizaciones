@@ -8,10 +8,9 @@
 <body>
 	<h:form>  
 	    <p:growl id="messages"/>
-	 
+	 	
 	    <p:menubar>
 	        <p:submenu label="Mantenimiento" icon="ui-icon-document">
-	            <p:menuitem value="Usuario" url="/paginas/mantenimiento/usuarioIndex.xhtml?faces-redirect=tru" />
 	            <p:menuitem value="Vendedor" url="#{vendedorManagedBean.indexVendedor()}" />
 	        </p:submenu>
 	 
@@ -29,7 +28,7 @@
 	                <p:menuitem value="File" url="#" />
 	            </p:submenu>
 	        </p:submenu>
-	 
+	 	
 	        <p:submenu label="Actions" icon="ui-icon-gear">
 	            <p:submenu label="Ajax" icon="ui-icon-refresh">
 	                <p:menuitem value="Save" actionListener="#{menuView.save}" icon="ui-icon-disk" update="messages"/>
@@ -39,13 +38,12 @@
 	                <p:menuitem value="Delete" actionListener="#{menuView.delete}" icon="ui-icon-close" update="messages" ajax="false"/>
 	            </p:submenu>
 	        </p:submenu>
-	 
-	        <p:menuitem value="Quit" url="http://www.primefaces.org" icon="ui-icon-close" />
-	 
-	        <f:facet name="options">
-	            <p:inputText style="margin-right:10px" placeholder="Search"/>
-	            <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
-	        </f:facet>
+	 		
+		        <f:facet name="options">
+		            <p:inputText style="margin-right:10px" placeholder="Search"/>
+		            <p:commandButton process="@this" value="Logout" icon="ui-icon-extlink" action="#{loginMB.logout()}" />
+		        </f:facet>
+	        
 	    </p:menubar>
 	</h:form>
 </body>

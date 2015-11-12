@@ -6,22 +6,26 @@
 <h:head>
 	<link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-glass-x" />
 </h:head>
-<h:body style="text-align:center">
-	<h:form>
-		<p:panel style="width:400px" header="Login">
-			<h:panelGrid columns="2" cellpadding="5">
-	            <h:outputLabel for="correo" value="Correo" />
-	            <p:inputText id="correo" value="#{loginMB.correo}" required="true" label="correo" />
-	 
-	            <h:outputLabel for="password" value="Password:" />
-	            <p:password id="password" value="#{loginMB.password}" required="true" label="password" />
-	 
-	            <f:facet name="footer">
-	                <p:commandButton value="Ingresar" icon="ui-icon-disk" 
-						action="#{loginMB.login}" styleClass="ui-priority-primary" />
-	            </f:facet>  
-	        </h:panelGrid>
-		</p:panel>
-	</h:form>
+<h:body>
+	<div style="width:400px;margin:auto auto">
+		<h:messages></h:messages>
+		<p:growl autoUpdate="true" life="3000" showSummary="false" showDetail="true" escape="false" globalOnly="true"></p:growl>
+		<h:form>
+			<p:panel header="Login">
+				<h:panelGrid columns="2" cellpadding="5">
+		            <h:outputLabel for="correo" value="Correo" />
+		            <p:inputText id="correo" value="#{loginMB.correo}" required="true" label="correo" />
+		 
+		            <h:outputLabel for="password" value="Password:" />
+		            <p:password id="password" value="#{loginMB.password}" required="true" label="password" />
+		 
+		            <f:facet name="footer">
+		                <p:commandButton value="Ingresar" icon="ui-icon-disk" 
+							action="#{loginMB.login}" styleClass="ui-priority-primary" />
+		            </f:facet>  
+		        </h:panelGrid>
+			</p:panel>
+		</h:form>
+	</div>
 </h:body>
 </html>

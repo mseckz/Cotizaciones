@@ -17,9 +17,18 @@ public class UsuarioRepositoryImpl implements UsuarioRepositoryCustom{
 	@Override
 	public Usuario validarLogin(String correo, String password) {
 		TypedQuery<Usuario> query = entityManager.createQuery(""
-				+ "Select u from Usuario u where u.correo =:correo and u.clave=:password", Usuario.class);
+				+ "Select u from Usuario u where u.correo =:correo and u.clave=:password and u.flagEstado = true", Usuario.class);
 		query.setParameter("correo", correo);
 		query.setParameter("password", password);
+		List<Usuario> resultado = query.getResultList();
+		return resultado.isEmpty() ? null : resultado.get(0);
+	}
+
+	@Override
+	public Usuario obtenerUsuario(String correo) {
+		TypedQuery<Usuario> query = entityManager.createQuery(""
+				+ "Select u from Usuario u where u.correo =:correo and u.flagEstado = true", Usuario.class);
+		query.setParameter("correo", correo);
 		List<Usuario> resultado = query.getResultList();
 		return resultado.isEmpty() ? null : resultado.get(0);
 	}

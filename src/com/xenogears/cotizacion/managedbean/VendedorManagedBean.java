@@ -10,8 +10,10 @@ import javax.faces.bean.SessionScoped;
 
 import com.google.common.collect.Lists;
 import com.xenogears.cotizacion.model.Sucursal;
+import com.xenogears.cotizacion.model.Usuario;
 import com.xenogears.cotizacion.model.Vendedor;
 import com.xenogears.cotizacion.service.SucursalService;
+import com.xenogears.cotizacion.service.UsuarioService;
 import com.xenogears.cotizacion.service.VendedorService;
 
 @ManagedBean
@@ -19,6 +21,7 @@ import com.xenogears.cotizacion.service.VendedorService;
 public class VendedorManagedBean {
 	
 	private Vendedor vendedor;
+	private Usuario usuario;
 	private List<Sucursal> sucursales;
 	private List<Vendedor> vendedores;
 
@@ -28,9 +31,13 @@ public class VendedorManagedBean {
 	@ManagedProperty(value="#{sucursalService}")
 	SucursalService sucursalService;
 	
+	@ManagedProperty(value="#{usuarioService}")
+	UsuarioService usuarioService;
+	
 	@PostConstruct
 	public void init(){
 		vendedor = new Vendedor();
+		usuario = new Usuario();
 		sucursales = sucursalService.listarSucursales();
 		vendedores = new ArrayList<Vendedor>();
 	}
@@ -40,7 +47,11 @@ public class VendedorManagedBean {
 	}
 	
 	public String grabar(){
-		servicio.getVendedorRepository().save(vendedor);
+		Vendedor vend = servicio.getVendedorRepository().save(vendedor);
+		usuario.setCorreo(vend.getCorreo());
+		usuario.setVendedor(vend);
+		usuarioService.getUsuarioRepository().save(usuario);
+		usuario = new Usuario();
 		vendedor = new Vendedor();
 		return null;
 	}
@@ -54,7 +65,14 @@ public class VendedorManagedBean {
 		Vendedor vend = servicio.getVendedorRepository().findOne(idVendedor);
 		vend.setFlagEstado(false);
 		servicio.getVendedorRepository().save(vend);
+		Usuario usuario = usuarioService.getUsuarioRepository().obtenerUsuario(vend.getCorreo());
+		usuario.setFlagEstado(false);
+		usuarioService.getUsuarioRepository().save(usuario);
 		vendedores = Lists.newArrayList(servicio.getVendedorRepository().obtenerPorEstado(true));
+		return null;
+	}
+	
+	public String deshabilitar(Integer vendedor){
 		return null;
 	}
 	
@@ -98,5 +116,22 @@ public class VendedorManagedBean {
 	public void setSucursalService(SucursalService sucursalService) {
 		this.sucursalService = sucursalService;
 	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public UsuarioService getUsuarioService() {
+		return usuarioService;
+	}
+
+	public void setUsuarioService(UsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
+	}
+	
 	
 }
