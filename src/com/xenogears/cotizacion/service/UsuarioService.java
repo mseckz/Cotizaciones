@@ -10,7 +10,7 @@ public class UsuarioService {
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-
+	
 	public UsuarioRepository getUsuarioRepository() {
 		return usuarioRepository;
 	}

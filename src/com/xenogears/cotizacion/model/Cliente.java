@@ -2,6 +2,7 @@ package com.xenogears.cotizacion.model;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Entity;
@@ -11,7 +12,7 @@ import javax.persistence.Entity;
 public class Cliente {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="idCliente")
 	private Integer idCliente;
 	

@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template/template.xhtml">
+	<ui:define name="content">
+	    
+	   <h2>Mantenimiento vendedores</h2>
+	    	<h:form>
+	    		<h:messages></h:messages>
+				<p:panel header="Registrar">
+					<h:panelGrid columns="2" cellpadding="5">
+			            <h:outputLabel for="txtCodigo" value="Codigo" />
+			            <p:inputText id="txtCodigo" value="#{vendedorManagedBean.vendedor.codigoVendedor}" required="true" />
+			 
+			 			<h:outputLabel for="txtDNI" value="DNI" />
+			            <p:inputText id="txtDNI" value="#{vendedorManagedBean.vendedor.docIdentidad}" required="true" />
+			 			
+			            <h:outputLabel for="txtNombres" value="Nombres" />
+			            <p:inputText id="txtNombres" value="#{vendedorManagedBean.vendedor.nombres}" required="true" />
+			            
+			            <h:outputLabel for="txtApellidoPat" value="Apellido Paterno" />
+			            <p:inputText id="txtApellidoPat" value="#{vendedorManagedBean.vendedor.apellidoPaterno}" required="true" />
+			            
+			            <h:outputLabel for="txtApellidoMat" value="Apellido Materno" />
+			            <p:inputText id="txtApellidoMat" value="#{vendedorManagedBean.vendedor.apellidoMaterno}" required="true" />
+			 
+			 			<h:outputLabel for="txtCorreo" value="Correo" />
+			            <p:inputText id="txtCorreo" value="#{vendedorManagedBean.vendedor.correo}" required="true" />
+			            
+			            <h:outputLabel for="txtTelefono" value="Telefono" />
+			            <p:inputText id="txtTelefono" value="#{vendedorManagedBean.vendedor.telefono}" />
+			            
+			            <h:outputLabel for="txtFecNac" value="Fecha Nacimiento" />
+			            <p:calendar id="txtFecNac" required="true" value="#{vendedorManagedBean.vendedor.fechaNacimiento}" showOn="button" pattern="yyyy/MM/dd"
+						requiredMessage="#{msg['msjFechaNac']}" mode="popup" size="20" yearRange="c-100:c" maxdate="today()" navigator="true">
+							<f:convertDateTime pattern="yyyy/MM/dd"></f:convertDateTime>
+						</p:calendar>
+			            
+			            <h:outputLabel for="cboSucursal" value="Sucursal" />
+			            <p:selectOneMenu id="cboSucursal" value="#{vendedorManagedBean.vendedor.idSucursal}">
+			            	<f:selectItem itemLabel="Seleccione Sucursal"  noSelectionOption="true"></f:selectItem>
+			            	<f:selectItems value="#{vendedorManagedBean.sucursales}" var="sucursal" itemValue="#{sucursal.idSucursal}"
+			            	itemLabel="#{sucursal.nombre}"></f:selectItems>
+			            </p:selectOneMenu>
+			 
+			            <f:facet name="footer">
+			                <p:commandButton value="Grabar" icon="ui-icon-disk" 
+								action="#{vendedorManagedBean.grabar}" styleClass="ui-priority-primary" update="@form,tablaVend"/>
+			            </f:facet>  
+			        </h:panelGrid>
+				</p:panel>
+		   	
+		   	<hr></hr>
+		   	<p:dataTable var="vendedor" value="#{vendedorManagedBean.vendedores}" id="tablaVend">
+		   		<p:column headerText="Codigo">
+		   			<h:outputText value="#{vendedor.codigoVendedor}" />
+		   		</p:column>
+		   		<p:column headerText="DNI">
+		   			<h:outputText value="#{vendedor.docIdentidad}" />
+		   		</p:column>
+		   		<p:column headerText="Nombres">
+		   			<h:outputText value="#{vendedor.nombres}" />
+		   		</p:column>
+		   		<p:column headerText="Apellido Pat">
+		   			<h:outputText value="#{vendedor.apellidoPaterno}" />
+		   		</p:column>
+		   		<p:column headerText="Apellido Mat">
+		   			<h:outputText value="#{vendedor.apellidoMaterno}" />
+		   		</p:column>
+		   		<p:column headerText="Correo">
+		   			<h:outputText value="#{vendedor.correo}" />
+		   		</p:column>
+		   		<p:column headerText="Telefono">
+		   			<h:outputText value="#{vendedor.telefono}" />
+		   		</p:column>
+		   		<p:column headerText="">
+		   			<p:commandButton id="btnEditar" icon="fa fa-fw fa-edit" process="@this" action="#{vendedorManagedBean.cargarVendedor(vendedor.idVendedor)}" update="@form"/>
+		   			<p:tooltip value="Editar" for="btnEditar" />
+		   			<p:commandButton id="btnEliminar" icon="fa fa-fw fa-remove" process="@this" action="#{vendedorManagedBean.eliminarVendedor(vendedor.idVendedor)}" update="@form"/>
+		   			<p:tooltip value="Eliminar" for="btnEliminar" />
+		   		</p:column>
+		   	</p:dataTable>
+		   	</h:form> 
+	</ui:define>
+</ui:composition>
+</html>
