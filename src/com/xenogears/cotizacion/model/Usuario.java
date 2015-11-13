@@ -2,7 +2,9 @@ package com.xenogears.cotizacion.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,11 +15,10 @@ import javax.persistence.Table;
 public class Usuario {
 	
 	@Id
-	@GeneratedValue
-	@Column(name="IdUsuario")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer IdUsuario;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="idVendedor")
     private Vendedor vendedor;
 	

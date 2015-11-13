@@ -5,19 +5,21 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="vendedor")
 public class Vendedor {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="idVendedor")
 	private Integer idVendedor;
 	
@@ -53,7 +55,7 @@ public class Vendedor {
 	private String nombreSucursal;
 	
 	@Column(name="fechaNacimiento")
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
     private Date fechaNacimiento;
 	
 	@Column(name="fechaRegistro", insertable=false)
@@ -66,6 +68,9 @@ public class Vendedor {
 	@Column(name="flagEstado", insertable=false)
 	private boolean flagEstado;
 
+	@Transient
+	private String nombreCompleto;
+	
 	public Integer getIdVendedor() {
 		return idVendedor;
 	}
@@ -177,5 +182,9 @@ public class Vendedor {
 	public void setFlagEstado(boolean flagEstado) {
 		this.flagEstado = flagEstado;
 	}
-
+	
+	public String getNombreCompleto(){
+		nombreCompleto = this.nombres + " " + this.apellidoPaterno + " " + this.apellidoMaterno;
+		return nombreCompleto;
+	}
 }

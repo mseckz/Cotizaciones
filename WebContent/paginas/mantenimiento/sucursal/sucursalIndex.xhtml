@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template/template.xhtml">
+	<ui:define name="content">
+	    
+	   	<h2>Mantenimiento Sucursal</h2>
+	   	
+    	<h:form>
+    		<h:messages></h:messages>
+			<p:panel header="Registrar">
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:outputLabel for="txtUbigeo" value="Codigo Ubigeo" />
+		            <p:inputText id="txtCodigo" value="#{sucursalManagedBean.sucursal.codigoUbigeo}" required="true"
+		                requiredMessage="Ingrese Ubigeo" />
+		 
+		 			<h:outputLabel for="txtNombre" value="Nombre" />
+		            <p:inputText id="txtDNI" value="#{sucursalManagedBean.sucursal.nombre}" required="true" 
+		            	requiredMessage="Ingrese Nombre" />
+		            
+		            <f:facet name="footer">
+		                <p:commandButton value="Grabar" icon="ui-icon-disk" 
+							action="#{sucursalManagedBean.registrar}" styleClass="ui-priority-primary" update="@form"/>
+		            </f:facet>
+				</h:panelGrid>
+			</p:panel>
+			<hr></hr>
+			
+			<p:dataTable var="sucursal" value="#{sucursalManagedBean.sucursales}" id="tablaVend" paginator="true" rows="10" 
+		   		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		   		rowsPerPageTemplate="5,10,20, 50" paginatorPosition="bottom">
+				<p:column headerText="Id">
+					<h:outputText value="#{sucursal.idSucursal}" />
+				</p:column>
+				<p:column headerText="Codigo Ubigeo">
+					<h:outputText value="#{sucursal.codigoUbigeo}" />
+				</p:column>
+				<p:column headerText="Id">
+					<h:outputText value="#{sucursal.nombre}" />
+				</p:column>
+				<p:column headerText="Id">
+					<h:outputText value="#{sucursal.nombre}" />
+				</p:column>
+			</p:dataTable>
+			
+		</h:form>
+		
+	</ui:define>
+</ui:composition>
+</html>
