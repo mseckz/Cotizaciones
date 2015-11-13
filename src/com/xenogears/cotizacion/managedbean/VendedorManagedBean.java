@@ -38,7 +38,6 @@ public class VendedorManagedBean {
 	public void init(){
 		vendedor = new Vendedor();
 		usuario = new Usuario();
-		sucursales = sucursalService.listarSucursales();
 		vendedores = new ArrayList<Vendedor>();
 	}
 	
@@ -85,6 +84,7 @@ public class VendedorManagedBean {
 	}
 	
 	public List<Sucursal> getSucursales() {
+		sucursales = sucursalService.listarSucursales();
 		return sucursales;
 	}
 

@@ -72,7 +72,9 @@
 				</p:panel>
 		   	
 		   	<hr></hr>
-		   	<p:dataTable var="vendedor" value="#{vendedorManagedBean.vendedores}" id="tablaVend">
+		   	<p:dataTable var="vendedor" value="#{vendedorManagedBean.vendedores}" id="tablaVend" paginator="true" rows="10" 
+		   		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		   		rowsPerPageTemplate="5,10,20, 50" paginatorPosition="bottom" >
 		   		<p:column headerText="Codigo">
 		   			<h:outputText value="#{vendedor.codigoVendedor}" />
 		   		</p:column>

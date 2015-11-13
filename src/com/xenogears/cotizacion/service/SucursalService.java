@@ -18,4 +18,8 @@ public class SucursalService {
 	public List<Sucursal> listarSucursales(){
 		return Lists.newArrayList(sucursalRepository.findAll());
 	}
+	
+	public Sucursal registrar(Sucursal sucursal){
+		return sucursalRepository.save(sucursal);
+	}
 }
