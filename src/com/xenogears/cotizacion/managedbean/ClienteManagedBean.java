@@ -21,7 +21,8 @@ import com.xenogears.cotizacion.service.UsuarioService;
 public class ClienteManagedBean {
 	private Cliente cliente;
 	private List<Cliente> clientes;
-	private List<ConfigVariable> variable;
+	private ConfigVariable variable;
+	private List<ConfigVariable> variables;
 
 	@ManagedProperty(value="#{clienteService}")
 	ClienteService servicio;
@@ -33,7 +34,7 @@ public class ClienteManagedBean {
 	@PostConstruct
 	public void init(){
 		cliente = new Cliente();
-		variable = new ArrayList<ConfigVariable>();
+		variables = new ArrayList<ConfigVariable>();
 		clientes=new ArrayList<Cliente>();
 	}
 	
@@ -42,17 +43,22 @@ public class ClienteManagedBean {
 	}
 	
 	public String grabar(){
-
 		Cliente cli = servicio.getClienteRepository().save(cliente);
 		servicio.getClienteRepository().save(cli);
 		cliente = new Cliente();
-		//clientes=Lists.newArrayList(servicio.getClienteRepository().obtenerPorEstado(true));
-
 		return null;
 	}
 
 
 
+
+	public ConfigVariable getVariable() {
+		return variable;
+	}
+
+	public void setVariable(ConfigVariable variable) {
+		this.variable = variable;
+	}
 
 	public Cliente getCliente() {
 		return cliente;
@@ -62,12 +68,13 @@ public class ClienteManagedBean {
 		this.cliente = cliente;
 	}
 
-	public List<ConfigVariable> getVariable() {
-		return variable;
+	public List<ConfigVariable> getVariables() {
+		variables=Lists.newArrayList(variableService.getConfigVarRepository().obtenerPorid(11));
+		return variables;
 	}
 
-	public void setVariable(List<ConfigVariable> variable) {
-		this.variable = variable;
+	public void setVariables(List<ConfigVariable> variables) {
+		this.variables = variables;
 	}
 
 	public ClienteService getServicio() {
@@ -86,6 +93,8 @@ public class ClienteManagedBean {
 		this.variableService = variableService;
 	}
 
+	
+	
 	public List<Cliente> getClientes() {
 		clientes=Lists.newArrayList(servicio.getClienteRepository().obtenerPorEstado(true));
 		return clientes;
