@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template/template.xhtml">
+	<ui:define name="content">
+	    
+	   <h2>Mantenimiento variabless</h2>
+    	<h:form>
+    		<h:messages></h:messages>
+			<p:panel header="Registrar">
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputLabel for="chkPadre" value="Tabla" />
+						<p:selectBooleanCheckbox value="#{configVariableManagedBean.flagTabla}">
+							<p:ajax event="change" update="@form" />
+						</p:selectBooleanCheckbox>
+						
+						<h:outputLabel for="cboPadre" value="Tabla" />
+			            <p:selectOneMenu id="cboPadre" value="#{configVariableManagedBean.configVar.padre.idConfigVariable}" disabled="#{configVariableManagedBean.flagTabla}">
+			            	<f:selectItem itemLabel="Elija tabla" itemDisabled="true"></f:selectItem>
+			            	<f:selectItems value="#{configVariableManagedBean.variablesTabla}" var="var" 
+			            	itemLabel="#{var.descripcion}" itemValue="#{var.idConfigVariable}"></f:selectItems>
+			            </p:selectOneMenu>
+			 
+			 			<h:outputLabel for="txtDescripcion" value="Descripcion" />
+			            <p:inputText id="txtDescripcion" value="#{configVariableManagedBean.configVar.descripcion}" required="true" 
+			            	requiredMessage="Ingrese descripcion" />
+			            
+					</h:panelGrid>
+					
+		            <f:facet name="footer">
+		                <p:commandButton value="Grabar" icon="ui-icon-disk" 
+							action="#{configVariableManagedBean.registrar}" styleClass="ui-priority-primary" update="@form,tablaVariables"/>
+		            </f:facet>  
+		        </h:panelGrid>
+			</p:panel>
+		   	
+			<hr></hr>
+			<p:dataTable var="variable" value="#{configVariableManagedBean.variables}" id="tablaVariables" paginator="true" rows="10" 
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,20, 50" paginatorPosition="bottom" >
+				<p:column headerText="Tabla">
+					<h:outputText value="#{variable.padre.idConfigVariable == null ? '-' : variable.padre.descripcion}" />
+				</p:column>
+				<p:column headerText="Descripcion">
+					<h:outputText value="#{variable.descripcion}" />
+				</p:column>
+				<p:column headerText="">
+					<p:commandButton id="btnEditar" icon="fa fa-fw fa-edit" process="@this"  update="@form"/>
+					<p:tooltip value="Editar" for="btnEditar" />
+					<p:commandButton id="btnEliminar" icon="fa fa-fw fa-remove" process="@this" update="@form"/>
+					<p:tooltip value="Eliminar" for="btnEliminar" />
+				</p:column>
+			</p:dataTable>
+	   	</h:form> 
+	</ui:define>
+</ui:composition>
+</html>

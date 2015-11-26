@@ -48,6 +48,9 @@ public class Cotizacion {
 	@Column(name="importe")
 	private Double importe;
 	
+	@Column(name="flagAprobado", insertable=false)
+	private boolean flagAprobado;
+	
 	@Column(name="flagEstado", insertable=false)
 	private boolean flagEstado;
 
@@ -137,6 +140,14 @@ public class Cotizacion {
 
 	public void setFlagEstado(boolean flagEstado) {
 		this.flagEstado = flagEstado;
+	}
+
+	public boolean isFlagAprobado() {
+		return flagAprobado;
+	}
+
+	public void setFlagAprobado(boolean flagAprobado) {
+		this.flagAprobado = flagAprobado;
 	}
 	
 }

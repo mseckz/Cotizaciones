@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template/template.xhtml">
+	<ui:define name="content">
+		<h2>Cotizaciones</h2>
+		
+		<hr />
+		
+		<p:tabView>
+	        <p:tab title="Cotizaciones pendientes">
+	            
+	            <p:dataTable var="cotizacion" value="#{cotizacionManagedBean.cotizacionesPendientes}" id="tablaVend" paginator="true" rows="10" 
+		   			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		   			rowsPerPageTemplate="5,10,20, 50" paginatorPosition="bottom" >
+				
+					<p:column headerText="Codigo">
+						<h:outputText value="#{cotizacion.codigoCotizacion}" />
+					</p:column>
+					
+					<p:column headerText="Vendedor">
+						<h:outputText value="#{cotizacion.vendedor.codigoVendedor}" />
+					</p:column>
+					
+					<p:column headerText="Cliente">
+						<h:outputText value="#{cotizacion.cliente.codigoCliente}" />
+					</p:column>
+					
+					<p:column headerText="Auto">
+						<h:outputText value="#{cotizacion.auto.modelo}" />
+					</p:column>
+					
+					<p:column headerText="Moneda">
+						<h:outputText value="#{cotizacion.descripTipoMoneda}" />
+					</p:column>
+					
+					<p:column headerText="Cantidad">
+						<h:outputText value="#{cotizacion.cantidad}" />
+					</p:column>
+					
+					<p:column headerText="Precio">
+						<h:outputText value="#{cotizacion.precio}" />
+					</p:column>
+					
+					<p:column headerText="Importe">
+						<h:outputText value="#{cotizacion.importe}" />
+					</p:column>
+				</p:dataTable>		   		
+	            
+	            
+	        </p:tab>
+	        <p:tab title="Cotizaciones Aprobadas">
+	            
+	            
+	            
+	        </p:tab>
+	    </p:tabView>
+		
+	</ui:define>
+</ui:composition>
+
+
+</html>

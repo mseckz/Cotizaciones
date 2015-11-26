@@ -13,11 +13,11 @@
 	        <p:submenu label="Mantenimiento" icon="ui-icon-document">
 	            <p:menuitem value="Vendedor" url="#{vendedorManagedBean.indexVendedor()}" />
 	            <p:menuitem value="Sucursal" url="#{sucursalManagedBean.indexSucursal()}" />
+	            <p:menuitem value="Variables" url="#{configVariableManagedBean.indexVariables()}" />
 	        </p:submenu>
 	 
-	        <p:submenu label="Edit" icon="ui-icon-pencil">
-	            <p:menuitem value="Undo" url="#" icon="ui-icon-arrowreturnthick-1-w" />
-	            <p:menuitem value="Redo" url="#" icon="ui-icon-arrowreturnthick-1-e" />
+	        <p:submenu label="Cotizaciones" icon="ui-icon-pencil">
+	            <p:menuitem value="Listado" url="#{cotizacionManagedBean.redireccionarIndex()}" />
 	        </p:submenu>
 	 
 	        <p:submenu label="Help" icon="ui-icon-help">

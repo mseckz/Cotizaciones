@@ -2,9 +2,12 @@ package com.xenogears.cotizacion.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -12,12 +15,13 @@ import javax.persistence.Table;
 public class ConfigVariable {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="idConfigVariable")
 	private Integer idConfigVariable;
 	
-	@Column(name="idPadre")
-    private Integer idPadre;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="idPadre")
+    private ConfigVariable padre;
 	
 	@Column(name="codigo")
     private String codigo;
@@ -25,7 +29,7 @@ public class ConfigVariable {
 	@Column(name="descripcion")
     private String descripcion;
 	
-	@Column(name="flagEstado")
+	@Column(name="flagEstado", insertable=false)
     private boolean flagEstado;
 
 	public Integer getIdConfigVariable() {
@@ -36,12 +40,13 @@ public class ConfigVariable {
 		this.idConfigVariable = idConfigVariable;
 	}
 
-	public Integer getIdPadre() {
-		return idPadre;
+	public ConfigVariable getPadre() {
+		if(padre == null) padre = new ConfigVariable();
+		return padre;
 	}
 
-	public void setIdPadre(Integer idPadre) {
-		this.idPadre = idPadre;
+	public void setPadre(ConfigVariable padre) {
+		this.padre = padre;
 	}
 
 	public String getCodigo() {
