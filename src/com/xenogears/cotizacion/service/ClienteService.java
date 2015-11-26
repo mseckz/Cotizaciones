@@ -9,7 +9,6 @@ import com.xenogears.cotizacion.repository.ClienteRepository;
 public class ClienteService {
 	
 	@Autowired
-
 	private ClienteRepository clienteRepository;
 
 	public ClienteRepository getClienteRepository() {
