@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template/template.xhtml">
+	<ui:define name="content">
+	    
+	   <h2>Mantenimiento Clientes</h2>
+	    	<h:form>
+	    		<h:messages></h:messages>
+				<p:panel header="Registrar">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:panelGrid columns="2" cellpadding="5">
+							<h:outputLabel for="txtCodigo" value="Codigo" />
+				            <p:inputText id="txtCodigo" value="#{clienteManagedBean.cliente.codigoCliente}" required="true"
+				                requiredMessage="Ingrese codigo" />
+				 
+				 			<h:outputLabel for="txtRazonSocial" value="Razon Social" />
+				            <p:inputText id="txtDNI" value="#{clienteManagedBean.cliente.razonSocia}" required="true" 
+				            	requiredMessage="Ingrese DNI" />
+				 			
+				            <h:outputLabel for="txtNombres" value="Nombres" />
+				            <p:inputText id="txtNombres" value="#{clienteManagedBean.cliente.razonSocia}" required="true" 
+				            	requiredMessage="Ingrese nombres"/>
+				            
+				            <h:outputLabel for="txtApellidos" value="Apellido " />
+				            <p:inputText id="txtApellidoPat" value="#{clienteManagedBean.cliente.razonSocia}" required="true"
+				            	requiredMessage="Ingrese apellido" />
+				            
+
+				            <h:outputLabel for="txtNumeroDocumento" value="Numero Documento" />
+				            <p:inputText id="txtNumeroDocumento" value="#{clienteManagedBean.cliente.numeroDocumento}" required="true" 
+				            	requiredMessage="Ingrese numero documento"/>
+				            	
+						</h:panelGrid>
+			            <f:facet name="footer">
+			                <p:commandButton value="Grabar" icon="ui-icon-disk" 
+								action="#{vendedorManagedBean.grabar}" styleClass="ui-priority-primary" update="@form,tablaCli"/>
+			            </f:facet>  
+			        </h:panelGrid>
+				</p:panel>
+		   	
+		   	<hr></hr>
+		   	<p:dataTable var="cliente" value="#{clienteManagedBean.clientes}" id="tablaCli" paginator="true" rows="10" 
+		   		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		   		rowsPerPageTemplate="5,10,20, 50" paginatorPosition="bottom" >
+		   		<p:column headerText="Codigo">
+		   			<h:outputText value="#{clienteManagedBean.cliente}" />
+		   		</p:column>
+		   		<p:column headerText="DNI">
+		   			<h:outputText value="#{clienteManagedBean.cliente}" />
+		   		</p:column>
+		   		<p:column headerText="Nombres">
+		   			<h:outputText value="#{clienteManagedBean.cliente}" />
+		   		</p:column>
+		   		<p:column headerText="Apellido Pat">
+		   			<h:outputText value="#{clienteManagedBean.cliente}" />
+		   		</p:column>
+		   		<p:column headerText="Apellido Mat">
+		   			<h:outputText value="#{clienteManagedBean.cliente}" />
+		   		</p:column>
+		   		<p:column headerText="Correo">
+		   			<h:outputText value="#{clienteManagedBean.cliente}" />
+		   		</p:column>
+		   		<p:column headerText="Telefono">
+		   			<h:outputText value="#{clienteManagedBean.cliente}" />
+		   		</p:column>
+		   		<p:column headerText="">
+		   		<!-- 
+		   			<p:commandButton id="btnEditar" icon="fa fa-fw fa-edit" process="@this" action="#{vendedorManagedBean.cargarVendedor(vendedor.idVendedor)}" update="@form"/>
+		   			<p:tooltip value="Editar" for="btnEditar" />
+		   			<p:commandButton id="btnEliminar" icon="fa fa-fw fa-remove" process="@this" action="#{vendedorManagedBean.eliminarVendedor(vendedor.idVendedor)}" update="@form"/>
+		   			<p:tooltip value="Eliminar" for="btnEliminar" />-->
+		   		</p:column>
+		   	</p:dataTable>
+		   	</h:form> 
+	</ui:define>
+</ui:composition>
+</html>
