@@ -19,7 +19,7 @@ public class AutoRepositoryImpl implements AutoRepositoryCustom{
 		TypedQuery<String> query = entityManager.createQuery(hql, String.class);
 		query.setMaxResults(1);
 		List<String> resultado = query.getResultList();
-		return resultado.isEmpty() ? "A00000001" : resultado.get(0);
+		return resultado.isEmpty() ? "A000001" : resultado.get(0);
 	}
 
 }

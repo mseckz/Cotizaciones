@@ -10,52 +10,27 @@
 		
 		<hr />
 		
+		<p:panel>
+			<h:panelGrid>
+				<p:row>
+					<p:column>
+						<p:button icon="fa fa-file-o" value="Nueva Cotizacion" 
+						outcome="/paginas/cotizacion/altaCotizacion.xhtml?faces-redirect=true"></p:button>
+						
+						<p:spacer width="5px"></p:spacer>
+
+					</p:column>
+				</p:row>
+			</h:panelGrid>
+		</p:panel>
+		
+		
 		<p:tabView>
 	        <p:tab title="Cotizaciones pendientes">
-	            
-	            <p:dataTable var="cotizacion" value="#{cotizacionManagedBean.cotizacionesPendientes}" id="tablaVend" paginator="true" rows="10" 
-		   			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-		   			rowsPerPageTemplate="5,10,20, 50" paginatorPosition="bottom" >
-				
-					<p:column headerText="Codigo">
-						<h:outputText value="#{cotizacion.codigoCotizacion}" />
-					</p:column>
-					
-					<p:column headerText="Vendedor">
-						<h:outputText value="#{cotizacion.vendedor.codigoVendedor}" />
-					</p:column>
-					
-					<p:column headerText="Cliente">
-						<h:outputText value="#{cotizacion.cliente.codigoCliente}" />
-					</p:column>
-					
-					<p:column headerText="Auto">
-						<h:outputText value="#{cotizacion.auto.modelo}" />
-					</p:column>
-					
-					<p:column headerText="Moneda">
-						<h:outputText value="#{cotizacion.descripTipoMoneda}" />
-					</p:column>
-					
-					<p:column headerText="Cantidad">
-						<h:outputText value="#{cotizacion.cantidad}" />
-					</p:column>
-					
-					<p:column headerText="Precio">
-						<h:outputText value="#{cotizacion.precio}" />
-					</p:column>
-					
-					<p:column headerText="Importe">
-						<h:outputText value="#{cotizacion.importe}" />
-					</p:column>
-				</p:dataTable>		   		
-	            
-	            
+	            <ui:include src="tabCotizacionPendientes.xhtml" />
 	        </p:tab>
 	        <p:tab title="Cotizaciones Aprobadas">
-	            
-	            
-	            
+	            <ui:include src="tabCotizacionAprobadas.xhtml" />
 	        </p:tab>
 	    </p:tabView>
 		

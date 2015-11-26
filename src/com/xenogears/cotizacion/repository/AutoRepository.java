@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import com.xenogears.cotizacion.model.Auto;
 
 @Repository
-public interface AutoRepository extends GenericRepository<Auto, Integer>{
+public interface AutoRepository extends GenericRepository<Auto, Integer>, AutoRepositoryCustom{
 
 }

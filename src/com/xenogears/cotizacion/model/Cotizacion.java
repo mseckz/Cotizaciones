@@ -71,6 +71,7 @@ public class Cotizacion {
 	}
 
 	public Vendedor getVendedor() {
+		if(vendedor == null) vendedor = new Vendedor();
 		return vendedor;
 	}
 
@@ -79,6 +80,7 @@ public class Cotizacion {
 	}
 
 	public Cliente getCliente() {
+		if(cliente == null) cliente = new Cliente();
 		return cliente;
 	}
 
@@ -87,6 +89,7 @@ public class Cotizacion {
 	}
 
 	public Auto getAuto() {
+		if(auto == null) auto = new Auto();
 		return auto;
 	}
 

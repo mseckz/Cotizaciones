@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template/template.xhtml">
+	<ui:define name="content">
+		
+		<h1>Alta de cotizacion</h1>
+		
+		<h:form>
+    		<h:messages></h:messages>
+			<p:panel>
+				<h:panelGrid columns="2" cellpadding="5">
+					<p:panel header="Datos de Bien">
+						<h:panelGrid columns="2" cellpadding="5">
+						
+							<h:outputLabel for="txtCodigo" value="Codigo" />
+				            <p:inputText id="txtCodigo" value="#{altaCotizacionManagedBean.autoSeleccionado.codigoAuto}"  readonly="true"/>
+				            
+				            <h:outputLabel for="txtModelo" value="Modelo" />
+				            <p:inputText id="txtModelo" value="#{altaCotizacionManagedBean.autoSeleccionado.codigoAuto}"  readonly="true"/>
+						
+							<p:commandButton value="Buscar Vendedor" ></p:commandButton>
+						</h:panelGrid>
+					</p:panel>
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
