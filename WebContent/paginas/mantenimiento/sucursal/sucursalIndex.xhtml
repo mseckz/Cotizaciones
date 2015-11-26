@@ -35,18 +35,13 @@
 			<p:dataTable var="sucursal" value="#{sucursalManagedBean.sucursales}" id="tablaVend" paginator="true" rows="10" 
 		   		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 		   		rowsPerPageTemplate="5,10,20, 50" paginatorPosition="bottom">
-				<p:column headerText="Id">
-					<h:outputText value="#{sucursal.idSucursal}" />
-				</p:column>
 				<p:column headerText="Codigo Ubigeo">
 					<h:outputText value="#{sucursal.codigoUbigeo}" />
 				</p:column>
-				<p:column headerText="Id">
+				<p:column headerText="Nombre">
 					<h:outputText value="#{sucursal.nombre}" />
 				</p:column>
-				<p:column headerText="Id">
-					<h:outputText value="#{sucursal.nombre}" />
-				</p:column>
+
 			</p:dataTable>
 			
 		</h:form>
