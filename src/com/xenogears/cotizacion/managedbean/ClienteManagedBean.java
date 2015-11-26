@@ -11,14 +11,10 @@ import javax.faces.bean.SessionScoped;
 import com.google.common.collect.Lists;
 import com.xenogears.cotizacion.model.Cliente;
 import com.xenogears.cotizacion.model.ConfigVariable;
-import com.xenogears.cotizacion.model.Sucursal;
 import com.xenogears.cotizacion.model.Usuario;
-import com.xenogears.cotizacion.model.Vendedor;
 import com.xenogears.cotizacion.service.ClienteService;
 import com.xenogears.cotizacion.service.ConfigVariableService;
-import com.xenogears.cotizacion.service.SucursalService;
 import com.xenogears.cotizacion.service.UsuarioService;
-import com.xenogears.cotizacion.service.VendedorService;
 
 @ManagedBean
 @SessionScoped
