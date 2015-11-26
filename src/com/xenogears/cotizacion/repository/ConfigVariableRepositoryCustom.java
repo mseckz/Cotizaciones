@@ -9,4 +9,6 @@ public interface ConfigVariableRepositoryCustom {
 	List<ConfigVariable> listarTablas();
 	
 	List<ConfigVariable> obtenerPorid(Integer id);
+	
+	String obtenerDescripcion(Integer id);
 }

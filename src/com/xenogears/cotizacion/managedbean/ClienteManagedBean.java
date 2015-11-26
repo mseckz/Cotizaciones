@@ -44,6 +44,15 @@ public class ClienteManagedBean {
 	
 	public String grabar(){
 		Cliente cli = servicio.getClienteRepository().save(cliente);
+		ConfigVariable var=variableService.getConfigVarRepository().save(variable);
+		System.out.println("objeto cli" + cli.getNombres());
+		System.out.println("objeto cliente" + cliente.getNombres());
+		String desTipoDoc,desTipoCli;
+		desTipoCli=variableService.getConfigVarRepository().obtenerDescripcion(var.getIdConfigVariable());
+		System.out.println("des sdadasdasd "+ desTipoCli);
+		cli.setIdCliente(1);
+		cli.setIdTipoCliente(1);
+		cli.setIdTipoDocumento(1);
 		servicio.getClienteRepository().save(cli);
 		cliente = new Cliente();
 		return null;
