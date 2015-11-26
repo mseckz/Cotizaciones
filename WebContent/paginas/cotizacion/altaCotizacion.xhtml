@@ -25,6 +25,18 @@
 							<p:commandButton value="Buscar Vendedor" ></p:commandButton>
 						</h:panelGrid>
 					</p:panel>
+					<p:panel header="Datos de Cliente">
+						<h:panelGrid columns="2" cellpadding="5">
+						
+							<h:outputLabel for="txtCodigo" value="Codigo" />
+				            <p:inputText id="txtCodigo" value="#{altaCotizacionManagedBean.autoSeleccionado.codigoAuto}"  readonly="true"/>
+				            
+				            <h:outputLabel for="txtModelo" value="Modelo" />
+				            <p:inputText id="txtModelo" value="#{altaCotizacionManagedBean.autoSeleccionado.codigoAuto}"  readonly="true"/>
+						
+							<p:commandButton value="Buscar Vendedor" ></p:commandButton>
+						</h:panelGrid>
+					</p:panel>
 				</h:panelGrid>
 			</p:panel>
 		</h:form>

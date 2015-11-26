@@ -101,5 +101,67 @@ public class AltaCotizacionManagedBean {
 	public void setVendedorService(VendedorService vendedorService) {
 		this.vendedorService = vendedorService;
 	}
+
+	//LISTAS
+	public List<Auto> getAutos() {
+		autos = autoService.obtenerAutos();
+		return autos;
+	}
+
+	public void setAutos(List<Auto> autos) {
+		this.autos = autos;
+	}
+
+	public List<Cliente> getClientes() {
+		clientes = Lists.newArrayList(clienteService.getClienteRepository().obtenerPorEstado(true));
+		return clientes;
+	}
+
+	public void setClientes(List<Cliente> clientes) {
+		this.clientes = clientes;
+	}
+
+	public List<Vendedor> getVendedores() {
+		vendedores = Lists.newArrayList(vendedorService.getVendedorRepository().obtenerPorEstado(true));
+		return vendedores;
+	}
+
+	public void setVendedores(List<Vendedor> vendedores) {
+		this.vendedores = vendedores;
+	}
+
+	public List<ConfigVariable> getTipoMonedas() {
+		tipoMonedas = cofigVarService.getConfigVarRepository().obtenerPorEstado(true);
+		return tipoMonedas;
+	}
+
+	public void setTipoMonedas(List<ConfigVariable> tipoMonedas) {
+		this.tipoMonedas = tipoMonedas;
+	}
+
+	public Auto getAutoSeleccionado() {
+		return autoSeleccionado;
+	}
+
+	public void setAutoSeleccionado(Auto autoSeleccionado) {
+		this.autoSeleccionado = autoSeleccionado;
+	}
+
+	public Vendedor getVendedorSeleccionado() {
+		return vendedorSeleccionado;
+	}
+
+	public void setVendedorSeleccionado(Vendedor vendedorSeleccionado) {
+		this.vendedorSeleccionado = vendedorSeleccionado;
+	}
+
+	public Cliente getClienteSeleccionado() {
+		return clienteSeleccionado;
+	}
+
+	public void setClienteSeleccionado(Cliente clienteSeleccionado) {
+		this.clienteSeleccionado = clienteSeleccionado;
+	}
+	
 	
 }
