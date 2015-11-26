@@ -25,14 +25,21 @@
 				            	requiredMessage="Ingrese DNI" />
 				 			
 				            <h:outputLabel for="txtNombres" value="Nombres" />
-				            <p:inputText id="txtNombres" value="#{clienteManagedBean.cliente.razonSocia}" required="true" 
+				            <p:inputText id="txtNombres" value="#{clienteManagedBean.cliente.nombres}" required="true" 
 				            	requiredMessage="Ingrese nombres"/>
 				            
 				            <h:outputLabel for="txtApellidos" value="Apellido " />
-				            <p:inputText id="txtApellidoPat" value="#{clienteManagedBean.cliente.razonSocia}" required="true"
+				            <p:inputText id="txtApellidoPat" value="#{clienteManagedBean.cliente.apellidos}" required="true"
 				            	requiredMessage="Ingrese apellido" />
+				            	
+				            <h:outputLabel for="txtidTipoCliente" value="txtidTipoCliente " />
+							<p:inputText id="txtidTipoCliente" value="#{clienteManagedBean.cliente.idTipoCliente}" required="true" 
+				            	requiredMessage="Ingrese numero documento"/>
 				            
-
+				            <h:outputLabel for="txtidTipoDocumento" value="txtidTipoDocumentoe " />
+							<p:inputText id="txtidTipoDocumento" value="#{clienteManagedBean.cliente.idTipoDocumento}" required="true" 
+				            	requiredMessage="Ingrese numero documento"/>
+				            	
 				            <h:outputLabel for="txtNumeroDocumento" value="Numero Documento" />
 				            <p:inputText id="txtNumeroDocumento" value="#{clienteManagedBean.cliente.numeroDocumento}" required="true" 
 				            	requiredMessage="Ingrese numero documento"/>
@@ -40,7 +47,7 @@
 						</h:panelGrid>
 			            <f:facet name="footer">
 			                <p:commandButton value="Grabar" icon="ui-icon-disk" 
-								action="#{vendedorManagedBean.grabar}" styleClass="ui-priority-primary" update="@form,tablaCli"/>
+								action="#{clienteManagedBean.grabar}" styleClass="ui-priority-primary" update="@form,tablaCli"/>
 			            </f:facet>  
 			        </h:panelGrid>
 				</p:panel>
@@ -49,33 +56,26 @@
 		   	<p:dataTable var="cliente" value="#{clienteManagedBean.clientes}" id="tablaCli" paginator="true" rows="10" 
 		   		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 		   		rowsPerPageTemplate="5,10,20, 50" paginatorPosition="bottom" >
-		   		<p:column headerText="Codigo">
-		   			<h:outputText value="#{clienteManagedBean.cliente}" />
+		   		<p:column headerText="Codigo de CLiente">
+		   			<h:outputText value="#{cliente.codigoCliente}" />
 		   		</p:column>
-		   		<p:column headerText="DNI">
-		   			<h:outputText value="#{clienteManagedBean.cliente}" />
+		   		<p:column headerText="Razon Social">
+		   			<h:outputText value="#{cliente.razonSocia}" />
 		   		</p:column>
-		   		<p:column headerText="Nombres">
-		   			<h:outputText value="#{clienteManagedBean.cliente}" />
+		   		<p:column headerText="Nombre">
+		   			<h:outputText value="#{cliente.nombres}" />
 		   		</p:column>
-		   		<p:column headerText="Apellido Pat">
-		   			<h:outputText value="#{clienteManagedBean.cliente}" />
+		   		<p:column headerText="Apellidos">
+		   			<h:outputText value="#{cliente.apellidos}" />
 		   		</p:column>
-		   		<p:column headerText="Apellido Mat">
-		   			<h:outputText value="#{clienteManagedBean.cliente}" />
+		   		<p:column headerText="Tipo de Documento">
+		   			<h:outputText value="#{cliente.idTipoCliente}" />
 		   		</p:column>
-		   		<p:column headerText="Correo">
-		   			<h:outputText value="#{clienteManagedBean.cliente}" />
-		   		</p:column>
-		   		<p:column headerText="Telefono">
-		   			<h:outputText value="#{clienteManagedBean.cliente}" />
+		   		<p:column headerText="Numero de Documento">
+		   			<h:outputText value="#{cliente.numeroDocumento}" />
 		   		</p:column>
 		   		<p:column headerText="">
-		   		<!-- 
-		   			<p:commandButton id="btnEditar" icon="fa fa-fw fa-edit" process="@this" action="#{vendedorManagedBean.cargarVendedor(vendedor.idVendedor)}" update="@form"/>
-		   			<p:tooltip value="Editar" for="btnEditar" />
-		   			<p:commandButton id="btnEliminar" icon="fa fa-fw fa-remove" process="@this" action="#{vendedorManagedBean.eliminarVendedor(vendedor.idVendedor)}" update="@form"/>
-		   			<p:tooltip value="Eliminar" for="btnEliminar" />-->
+
 		   		</p:column>
 		   	</p:dataTable>
 		   	</h:form> 
