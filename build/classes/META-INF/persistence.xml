@@ -14,6 +14,7 @@
 	<class>com.xenogears.cotizacion.model.Cotizacion</class>
 	<class>com.xenogears.cotizacion.model.Auditoria</class>
 	<class>com.xenogears.cotizacion.model.Usuario</class>
+	<class>com.xenogears.cotizacion.model.DetalleCotizacion</class>
 	
 <!-- 		<properties> -->
 <!-- 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" /> -->

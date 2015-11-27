@@ -1,12 +1,17 @@
 package com.xenogears.cotizacion.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -29,18 +34,11 @@ public class Cotizacion {
 	@JoinColumn(name="idCliente")
     private Cliente cliente;
 	
-	@ManyToOne
-	@JoinColumn(name="idAuto")
-    private Auto auto;
-	
 	@JoinColumn(name="idTipoMoneda")
 	private Integer idTipoMoneda;
 	
 	@Column(name="descripTipoMoneda")
 	private String descripTipoMoneda;
-	
-	@Column(name="cantidad")
-    private Integer cantidad;
 	
 	@Column(name="precio")
 	private Double precio;
@@ -53,6 +51,9 @@ public class Cotizacion {
 	
 	@Column(name="flagEstado", insertable=false)
 	private boolean flagEstado;
+	
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="cotizacion",cascade= {CascadeType.PERSIST})
+	private List<DetalleCotizacion> detalle;
 
 	public Integer getIdCotizacion() {
 		return idCotizacion;
@@ -88,15 +89,6 @@ public class Cotizacion {
 		this.cliente = cliente;
 	}
 
-	public Auto getAuto() {
-		if(auto == null) auto = new Auto();
-		return auto;
-	}
-
-	public void setAuto(Auto auto) {
-		this.auto = auto;
-	}
-
 	public Integer getIdTipoMoneda() {
 		return idTipoMoneda;
 	}
@@ -111,14 +103,6 @@ public class Cotizacion {
 
 	public void setDescripTipoMoneda(String descripTipoMoneda) {
 		this.descripTipoMoneda = descripTipoMoneda;
-	}
-
-	public Integer getCantidad() {
-		return cantidad;
-	}
-
-	public void setCantidad(Integer cantidad) {
-		this.cantidad = cantidad;
 	}
 
 	public Double getPrecio() {
@@ -151,6 +135,14 @@ public class Cotizacion {
 
 	public void setFlagAprobado(boolean flagAprobado) {
 		this.flagAprobado = flagAprobado;
+	}
+
+	public List<DetalleCotizacion> getDetalle() {
+		return detalle;
+	}
+
+	public void setDetalle(List<DetalleCotizacion> detalle) {
+		this.detalle = detalle;
 	}
 	
 }

@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import com.google.common.collect.Lists;
 import com.xenogears.cotizacion.model.Cliente;
@@ -21,7 +23,9 @@ import com.xenogears.cotizacion.service.UsuarioService;
 public class ClienteManagedBean {
 	private Cliente cliente;
 	private List<Cliente> clientes;
-	private List<ConfigVariable> variable;
+	private ConfigVariable variable;
+	private List<ConfigVariable> variables;
+	private List<ConfigVariable> tipoClientes;
 
 	@ManagedProperty(value="#{clienteService}")
 	ClienteService servicio;
@@ -33,7 +37,7 @@ public class ClienteManagedBean {
 	@PostConstruct
 	public void init(){
 		cliente = new Cliente();
-		variable = new ArrayList<ConfigVariable>();
+		variables = new ArrayList<ConfigVariable>();
 		clientes=new ArrayList<Cliente>();
 	}
 	
@@ -42,17 +46,27 @@ public class ClienteManagedBean {
 	}
 	
 	public String grabar(){
-
-		Cliente cli = servicio.getClienteRepository().save(cliente);
-		servicio.getClienteRepository().save(cli);
+		ConfigVariable var = variableService.getConfigVarRepository().findOne(cliente.getIdTipoDocumento());
+		cliente.setDescripTipoDoc(var.getDescripcion());
+		ConfigVariable tipoCli = variableService.getConfigVarRepository().findOne(cliente.getIdTipoCliente());
+		cliente.setDescripTipoCliente(tipoCli.getDescripcion());
+		servicio.getClienteRepository().save(cliente);
 		cliente = new Cliente();
-		//clientes=Lists.newArrayList(servicio.getClienteRepository().obtenerPorEstado(true));
-
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Cliente registrado correctamente");
+		FacesContext.getCurrentInstance().addMessage(null, message);
 		return null;
 	}
 
 
 
+
+	public ConfigVariable getVariable() {
+		return variable;
+	}
+
+	public void setVariable(ConfigVariable variable) {
+		this.variable = variable;
+	}
 
 	public Cliente getCliente() {
 		return cliente;
@@ -62,12 +76,13 @@ public class ClienteManagedBean {
 		this.cliente = cliente;
 	}
 
-	public List<ConfigVariable> getVariable() {
-		return variable;
+	public List<ConfigVariable> getVariables() {
+		variables=Lists.newArrayList(variableService.getConfigVarRepository().obtenerPorid(11));
+		return variables;
 	}
 
-	public void setVariable(List<ConfigVariable> variable) {
-		this.variable = variable;
+	public void setVariables(List<ConfigVariable> variables) {
+		this.variables = variables;
 	}
 
 	public ClienteService getServicio() {
@@ -86,6 +101,8 @@ public class ClienteManagedBean {
 		this.variableService = variableService;
 	}
 
+	
+	
 	public List<Cliente> getClientes() {
 		clientes=Lists.newArrayList(servicio.getClienteRepository().obtenerPorEstado(true));
 		return clientes;
@@ -94,7 +111,16 @@ public class ClienteManagedBean {
 	public void setClientes(List<Cliente> clientes) {
 		this.clientes = clientes;
 	}
-	
 
+	public List<ConfigVariable> getTipoClientes() {
+		tipoClientes = Lists.newArrayList(variableService.getConfigVarRepository().obtenerPorid(14));
+		return tipoClientes;
+	}
+
+	public void setTipoClientes(List<ConfigVariable> tipoClientes) {
+		this.tipoClientes = tipoClientes;
+	}
+	
+	
 	
 }

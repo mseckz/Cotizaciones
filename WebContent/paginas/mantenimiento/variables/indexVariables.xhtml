@@ -9,11 +9,9 @@
 
 <ui:composition template="/WEB-INF/template/template.xhtml">
 	<ui:define name="content">
-	    
-	   <h2>Mantenimiento variabless</h2>
     	<h:form>
     		<h:messages></h:messages>
-			<p:panel header="Registrar">
+			<p:panel header="Mantenimiento Variables">
 				<h:panelGrid columns="2" cellpadding="5">
 					<h:panelGrid columns="2" cellpadding="5">
 						<h:outputLabel for="chkPadre" value="Tabla" />
@@ -42,22 +40,24 @@
 			</p:panel>
 		   	
 			<hr></hr>
-			<p:dataTable var="variable" value="#{configVariableManagedBean.variables}" id="tablaVariables" paginator="true" rows="10" 
-				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="5,10,20, 50" paginatorPosition="bottom" >
-				<p:column headerText="Tabla" filterable="true" filterBy="#{variable.padre.descripcion}">
-					<h:outputText value="#{variable.padre.idConfigVariable == null ? '-' : variable.padre.descripcion}" />
-				</p:column>
-				<p:column headerText="Descripcion">
-					<h:outputText value="#{variable.descripcion}" />
-				</p:column>
-				<p:column headerText="">
-					<p:commandButton id="btnEditar" icon="fa fa-fw fa-edit" process="@this"  update="@form"/>
-					<p:tooltip value="Editar" for="btnEditar" />
-					<p:commandButton id="btnEliminar" icon="fa fa-fw fa-remove" process="@this" update="@form"/>
-					<p:tooltip value="Eliminar" for="btnEliminar" />
-				</p:column>
-			</p:dataTable>
+			<p:panel>
+				<p:dataTable var="variable" value="#{configVariableManagedBean.variables}" id="tablaVariables" paginator="true" rows="10" 
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,20, 50" paginatorPosition="bottom" >
+					<p:column headerText="Tabla" filterable="true" filterBy="#{variable.padre.descripcion}">
+						<h:outputText value="#{variable.padre.idConfigVariable == null ? '-' : variable.padre.descripcion}" />
+					</p:column>
+					<p:column headerText="Descripcion">
+						<h:outputText value="#{variable.descripcion}" />
+					</p:column>
+					<p:column headerText="">
+						<p:commandButton id="btnEditar" icon="fa fa-fw fa-edit" process="@this"  update="@form"/>
+						<p:tooltip value="Editar" for="btnEditar" />
+						<p:commandButton id="btnEliminar" icon="fa fa-fw fa-remove" process="@this" update="@form"/>
+						<p:tooltip value="Eliminar" for="btnEliminar" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
 	   	</h:form> 
 	</ui:define>
 </ui:composition>

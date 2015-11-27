@@ -21,11 +21,9 @@ public class LoginMB {
 	@ManagedProperty(value="#{usuarioService}")
     private UsuarioService service;
 	
-	
 	public String login(){
 		Usuario user = service.getUsuarioRepository().validarLogin(correo, password);
 		if(user == null){
-			System.out.println("asd");
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Credenciales incorrectas");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			return null;
@@ -41,6 +39,8 @@ public class LoginMB {
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return "/login.xhtml?faces-redirect=true";
 	}
+	
+//	public String redireccionarDashboard()
 	
 	
 	public String getCorreo() {

@@ -6,40 +6,122 @@
 
 <ui:composition template="/WEB-INF/template/template.xhtml">
 	<ui:define name="content">
+	
 		
-		<h1>Alta de cotizacion</h1>
 		
-		<h:form>
-    		<h:messages></h:messages>
+		<h:form id="formCotizacion">
 			<p:panel>
-				<h:panelGrid columns="2" cellpadding="5">
-					<p:panel header="Datos de Bien">
-						<h:panelGrid columns="2" cellpadding="5">
-						
-							<h:outputLabel for="txtCodigo" value="Codigo" />
-				            <p:inputText id="txtCodigo" value="#{altaCotizacionManagedBean.autoSeleccionado.codigoAuto}"  readonly="true"/>
+				<h1>Alta de cotizacion</h1><br />
+    			<h:messages></h:messages>
+				<h:panelGrid style="margin-bottom:20px;width;100%;">
+					<p:row>
+						<p:column>
+							<p:commandButton icon="fa fa-file-o" value="Registrar" action="#{altaCotizacionManagedBean.registrarCotizacion()}" ></p:commandButton>
+							
+							<p:spacer width="5px"></p:spacer>
+								
+							<p:commandButton value="Limpiar" action="#{altaCotizacionManagedBean.limpiarForm()}"
+							 update="@form" process="@this"></p:commandButton>
+						</p:column>	
+					</p:row>
+				</h:panelGrid>
+				<p:panel header="Datos de Cotizacion" id="panelDatosCotizacion">
+					<h:panelGrid columns="2" cellpadding="5" >
+						<h:outputLabel for="cboTipoMoneda" value="Tipo de Moneda" />
+			            <p:selectOneMenu id="cboTipoMoneda" value="#{altaCotizacionManagedBean.cotizacion.idTipoMoneda}">
+			            	<f:selectItem itemLabel="Seleccione Tipo de Moneda"  noSelectionOption="true" itemDisabled="true"></f:selectItem>
+			            	<f:selectItems value="#{altaCotizacionManagedBean.tipoMonedas}" var="moneda" itemValue="#{moneda.idConfigVariable}"
+			            	itemLabel="#{moneda.descripcion}"></f:selectItems>
+			            </p:selectOneMenu>
+					</h:panelGrid>
+				</p:panel>
+				<p:panel header="Datos de Cliente" id="panelDatosCliente">
+					<h:panelGrid columns="2" cellpadding="5" >
+						<h:panelGrid columns="2" cellpadding="5" >
+							<h:outputLabel for="txtCodigoCliente" value="Codigo" />
+				            <p:inputText id="txtCodigoCliente" value="#{altaCotizacionManagedBean.clienteSeleccionado.codigoCliente}"  readonly="true"/>
 				            
-				            <h:outputLabel for="txtModelo" value="Modelo" />
-				            <p:inputText id="txtModelo" value="#{altaCotizacionManagedBean.autoSeleccionado.codigoAuto}"  readonly="true"/>
-						
-							<p:commandButton value="Buscar Vendedor" ></p:commandButton>
+				            <h:outputLabel for="txtNombreCliente" value="Nombre" />
+				            <p:inputText id="txtNombreCliente" value="#{altaCotizacionManagedBean.clienteSeleccionado.nombreCompleto}"  readonly="true"/>
+			            </h:panelGrid>
+			            <h:panelGrid columns="2" cellpadding="5">
+				            <h:outputLabel for="txtTipoDoc" value="Tipo Doc." />
+				            <p:inputText id="txtTipoDoc" value="#{altaCotizacionManagedBean.clienteSeleccionado.descripTipoDoc}"  readonly="true"/>
+							
+							<h:outputLabel for="txtNumeroDoc" value="Num. Documento" />
+				            <p:inputText id="txtNumeroDoc" value="#{altaCotizacionManagedBean.clienteSeleccionado.numeroDocumento}"  readonly="true"/>
 						</h:panelGrid>
+						<p:commandButton update="@form" process="@this" value="Buscar Cliente" action="#{altaCotizacionManagedBean.popupBuscarCliente()}"></p:commandButton>
+					</h:panelGrid>
+				</p:panel>
+				
+				<h:panelGrid columns="1" cellpadding="5" id="panelCotizacion" style="width:100%">
+					<p:panel header="Datos de Auto">
+						<h:panelGrid columns="2" cellpadding="5" style="margin-bottom:10px;">
+							<h:panelGrid columns="2" cellpadding="5" >
+								<h:outputLabel for="txtCodigoAuto" value="Codigo" />
+					            <p:inputText id="txtCodigoAuto" value="#{altaCotizacionManagedBean.autoSeleccionado.codigoAuto}"  readonly="true"/>
+					            
+					            <h:outputLabel for="txtModelo" value="Modelo" />
+					            <p:inputText id="txtModelo" value="#{altaCotizacionManagedBean.autoSeleccionado.modelo}"  readonly="true"/>
+							</h:panelGrid>
+							
+							<h:panelGrid columns="2" cellpadding="5">
+					            <h:outputLabel for="txtAnio" value="Año" />
+					            <p:inputText id="txtAnio" value="#{altaCotizacionManagedBean.autoSeleccionado.anio}"  readonly="true"/>
+							
+								<h:outputLabel for="txtPrecio" value="Precio" />
+					            <p:inputText id="txtPrecio" value="#{altaCotizacionManagedBean.autoSeleccionado.precio}"  readonly="true"/>
+							
+								<h:outputLabel for="txtCantidad" value="Cantidad" />
+					            <p:inputText id="txtCantidad" value="#{altaCotizacionManagedBean.cantidad}" />
+							</h:panelGrid>
+							<p:commandButton value="Buscar Auto" process="@this" action="#{altaCotizacionManagedBean.popupBuscarAuto()}" ></p:commandButton>
+							<p:commandButton process="@form" value="Agregar Auto" action="#{altaCotizacionManagedBean.agregarDetalle()}" update="tablaDetalle,@form"></p:commandButton>
+						</h:panelGrid>
+						
+						<p:dataTable rowIndexVar="row" id="tablaDetalle" value="#{altaCotizacionManagedBean.listaDetalle}" var="detalle">
+							<p:column headerText="Item">
+								<h:outputText value="#{row + 1}"></h:outputText>
+							</p:column>
+							<p:column headerText="Marca">
+								<h:outputText value="#{detalle.auto.marca}"></h:outputText>
+							</p:column>
+							<p:column headerText="Modelo">
+								<h:outputText value="#{detalle.auto.modelo}"></h:outputText>
+							</p:column>
+							<p:column headerText="precio">
+								<h:outputText value="#{detalle.precio}"></h:outputText>
+							</p:column>
+							<p:column headerText="Cantidad">
+								<h:outputText value="#{detalle.cantidad}"></h:outputText>
+							</p:column>
+							<p:column headerText="Subtotal">
+								<h:outputText value="#{detalle.subtotal}"></h:outputText>
+							</p:column>
+							
+							<f:facet name="footer">
+						        Precio Total: #{altaCotizacionManagedBean.cotizacion.importe}
+						    </f:facet>
+						</p:dataTable>
 					</p:panel>
-					<p:panel header="Datos de Cliente">
+					
+					<p:panel header="Datos de Vendedor">
 						<h:panelGrid columns="2" cellpadding="5">
-						
-							<h:outputLabel for="txtCodigo" value="Codigo" />
-				            <p:inputText id="txtCodigo" value="#{altaCotizacionManagedBean.autoSeleccionado.codigoAuto}"  readonly="true"/>
-				            
-				            <h:outputLabel for="txtModelo" value="Modelo" />
-				            <p:inputText id="txtModelo" value="#{altaCotizacionManagedBean.autoSeleccionado.codigoAuto}"  readonly="true"/>
-						
-							<p:commandButton value="Buscar Vendedor" ></p:commandButton>
+							<h:panelGrid columns="2" cellpadding="5">
+								<h:outputLabel for="txtCodigoVendedor" value="Codigo" />
+					            <p:inputText id="txtCodigoVendedor" value="#{altaCotizacionManagedBean.vendedorSeleccionado.codigoVendedor}"  readonly="true"/>
+					            
+					            <h:outputLabel for="txtNombreVendedor" value="Nombre" />
+					            <p:inputText id="txtNombreVendedor" value="#{altaCotizacionManagedBean.vendedorSeleccionado.nombreCompleto}"  readonly="true"/>
+				            </h:panelGrid>
 						</h:panelGrid>
 					</p:panel>
 				</h:panelGrid>
 			</p:panel>
 		</h:form>
+		<ui:include src="popupBuscarAuto.xhtml"></ui:include>
+		<ui:include src="popupbuscarCliente.xhtml"></ui:include>
 	</ui:define>
 </ui:composition>
 </html>

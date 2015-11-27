@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Entity;
 
 @Entity
@@ -45,6 +46,9 @@ public class Cliente {
 
 	@Column(name="flagEstado", insertable=false)
 	private boolean flagEstado;
+	
+	@Transient
+	private String nombreCompleto;
 
 	public Integer getIdCliente() {
 		return idCliente;
@@ -133,5 +137,13 @@ public class Cliente {
 	public void setFlagEstado(boolean flagEstado) {
 		this.flagEstado = flagEstado;
 	}
+
+	public String getNombreCompleto() {
+		if(this.nombres != null || this.apellidos != null){
+			nombreCompleto = this.nombres + " " + this.apellidos;
+		}
+		return nombreCompleto;
+	}
+	
 	
 }

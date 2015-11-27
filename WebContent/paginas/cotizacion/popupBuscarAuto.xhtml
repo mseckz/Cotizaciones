@@ -1,0 +1,35 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+<p:dialog header="Buscar Auto" 
+widgetVar="w_buscarAutoDialog" modal="true" showEffect="fade" 
+	hideEffect="fade" resizable="false" width="1000" closeOnEscape="true" id="buscarAutoDialog" closable="true">
+
+	<p:outputPanel>
+		<h:form>
+			<p:dataTable var="auto" value="#{altaCotizacionManagedBean.autos}" id="tablaAutos" paginator="true" rows="10" 
+		   			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		   			rowsPerPageTemplate="5,10,20,50" paginatorPosition="bottom" >
+		   		<p:column>
+		   			<p:commandButton value="Seleccionar" action="#{altaCotizacionManagedBean.setAutoSeleccionado(auto)}" 
+		   			process="@form" update=":formCotizacion:panelCotizacion" onclick="PF('w_buscarAutoDialog').hide()" ></p:commandButton>
+		   		</p:column>
+		   		<p:column headerText="Codigo" filterable="true" filterBy="#{auto.codigoAuto}">
+		   			<h:outputText value="#{auto.codigoAuto}" ></h:outputText>
+		   		</p:column>
+		   		<p:column headerText="Modelo" filterable="true" filterBy="#{auto.modelo}">
+		   			<h:outputText value="#{auto.modelo}" ></h:outputText>
+		   		</p:column>
+		   		<p:column headerText="Marca" filterable="true" filterBy="#{auto.marca}">
+		   			<h:outputText value="#{auto.marca}" ></h:outputText>
+		   		</p:column>
+			</p:dataTable>
+		</h:form>
+	</p:outputPanel>
+
+</p:dialog>	
+	
+</html>

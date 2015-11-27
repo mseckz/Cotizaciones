@@ -3,15 +3,21 @@ package com.xenogears.cotizacion.managedbean;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
 
 import com.google.common.collect.Lists;
 import com.xenogears.cotizacion.model.Auto;
 import com.xenogears.cotizacion.model.Cliente;
 import com.xenogears.cotizacion.model.ConfigVariable;
 import com.xenogears.cotizacion.model.Cotizacion;
+import com.xenogears.cotizacion.model.DetalleCotizacion;
 import com.xenogears.cotizacion.model.Vendedor;
 import com.xenogears.cotizacion.service.AutoService;
 import com.xenogears.cotizacion.service.ClienteService;
@@ -38,7 +44,11 @@ public class AltaCotizacionManagedBean {
 	@ManagedProperty("#{configVariableService}")
 	private ConfigVariableService cofigVarService;
 	
-	private Cotizacion cotizacion;
+	@ManagedProperty(value="#{loginMB}")
+	private LoginMB loginManagedBean;
+	
+	private Integer cantidad;
+	private Cotizacion cotizacion = new Cotizacion();
 	private List<Auto> autos = new ArrayList<Auto>();
 	private List<Cliente> clientes = new ArrayList<Cliente>();
 	private List<Vendedor> vendedores = new ArrayList<Vendedor>();
@@ -46,12 +56,77 @@ public class AltaCotizacionManagedBean {
 	private Auto autoSeleccionado = new Auto();
 	private Vendedor vendedorSeleccionado = new Vendedor();
 	private Cliente clienteSeleccionado = new Cliente();
+	private List<DetalleCotizacion> listaDetalle = new ArrayList<DetalleCotizacion>();
+	private DetalleCotizacion detalleSeleccionado;
 	
-	public String registrarCotizacion(){
-		cotizacionService.getCotizacionRepository().save(cotizacion);
-		return null;
+	@PostConstruct
+	public void init(){
+		this.vendedorSeleccionado = loginManagedBean.getVendedorAuth();
+		cotizacion.setImporte(0.0);
 	}
 	
+	public String registrarCotizacion(){
+		String codigo = cotizacionService.getCotizacionRepository().obtenerCodigo();
+		String numCodigo = codigo.substring(3);
+		Integer codInt = Integer.parseInt(numCodigo) + 1;
+		codigo = "COT" + String.format("%03d", codInt);
+		
+		ConfigVariable tipoMoneda = cofigVarService.getConfigVarRepository().findOne(cotizacion.getIdTipoMoneda());
+		cotizacion.setDescripTipoMoneda(tipoMoneda.getDescripcion());
+		cotizacion.setCodigoCotizacion(codigo);
+		cotizacion.setCliente(clienteSeleccionado);
+		cotizacion.setVendedor(vendedorSeleccionado);
+		cotizacion.setDetalle(listaDetalle);
+		cotizacionService.getCotizacionRepository().save(cotizacion);
+		
+		this.limpiarForm();
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Cotizacion realizada correctamente");
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+		
+		return "/paginas/cotizacion/indexCotizacion.xhtml?faces-redirect=true";
+	}
+	
+	public void popupBuscarAuto(){
+		RequestContext.getCurrentInstance().execute("PF('w_buscarAutoDialog').show();");
+	}
+	
+	public void popupBuscarCliente(){
+		RequestContext.getCurrentInstance().execute("PF('w_buscarClienteDialog').show();");
+	}
+	
+	
+	public void agregarDetalle(){
+		DetalleCotizacion det = new DetalleCotizacion();
+		det.setAuto(autoSeleccionado);
+		det.setCotizacion(cotizacion);
+		det.setCantidad(this.cantidad);
+		det.setPrecio(autoSeleccionado.getPrecio());
+		det.setSubtotal(this.cantidad * autoSeleccionado.getPrecio());
+		listaDetalle.add(det);
+		autoSeleccionado = new Auto();
+		this.cantidad = null;
+		cotizacion.setImporte(cotizacion.getImporte() + det.getSubtotal());
+	}
+	
+	public void quitarItemDetalle(){
+		for(DetalleCotizacion det : listaDetalle){
+			if(det.equals(detalleSeleccionado)){
+				listaDetalle.remove(det);
+				break;
+			}
+		}
+	}
+	
+	public void limpiarForm(){
+		cotizacion = new Cotizacion();
+		autoSeleccionado = new Auto();
+		clienteSeleccionado = new Cliente();
+		listaDetalle = new ArrayList<DetalleCotizacion>();
+	}
+	
+	
+	//GETTERS SETTERS
 	public CotizacionService getCotizacionService() {
 		return cotizacionService;
 	}
@@ -131,7 +206,7 @@ public class AltaCotizacionManagedBean {
 	}
 
 	public List<ConfigVariable> getTipoMonedas() {
-		tipoMonedas = cofigVarService.getConfigVarRepository().obtenerPorEstado(true);
+		tipoMonedas = cofigVarService.getConfigVarRepository().obtenerPorid(7);
 		return tipoMonedas;
 	}
 
@@ -162,6 +237,37 @@ public class AltaCotizacionManagedBean {
 	public void setClienteSeleccionado(Cliente clienteSeleccionado) {
 		this.clienteSeleccionado = clienteSeleccionado;
 	}
-	
+
+	public LoginMB getLoginManagedBean() {
+		return loginManagedBean;
+	}
+
+	public void setLoginManagedBean(LoginMB loginManagedBean) {
+		this.loginManagedBean = loginManagedBean;
+	}
+
+	public List<DetalleCotizacion> getListaDetalle() {
+		return listaDetalle;
+	}
+
+	public void setListaDetalle(List<DetalleCotizacion> listaDetalle) {
+		this.listaDetalle = listaDetalle;
+	}
+
+	public Integer getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(Integer cantidad) {
+		this.cantidad = cantidad;
+	}
+
+	public DetalleCotizacion getDetalleSeleccionado() {
+		return detalleSeleccionado;
+	}
+
+	public void setDetalleSeleccionado(DetalleCotizacion detalleSeleccionado) {
+		this.detalleSeleccionado = detalleSeleccionado;
+	}
 	
 }

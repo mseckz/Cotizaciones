@@ -25,10 +25,20 @@ public class ConfigVariableRepositoryImpl implements ConfigVariableRepositoryCus
 	@Override
 	public List<ConfigVariable> obtenerPorid(Integer id) {
 		TypedQuery<ConfigVariable> query = entityManager.createQuery(""
-				+ "Select c from ConfigVariable c where c.padre.idPadre =:id and"
+				+ "Select c from ConfigVariable c where c.padre.idConfigVariable = :id and"
+				+ " c.flagEstado = true", ConfigVariable.class);
+			query.setParameter("id", id);
+
+		return query.getResultList();
+	}
+	
+	public String obtenerDescripcion(Integer id){
+		TypedQuery<ConfigVariable> query = entityManager.createQuery(""
+				+ "Select c from ConfigVariable c where c.padre.idConfigVariable = :id and"
 				+ " c.flagEstado = true", ConfigVariable.class);
 		query.setParameter("id", id);
-		return query.getResultList();
+		System.out.println(query);
+		return "uno";
 	}
 
 }

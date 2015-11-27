@@ -184,7 +184,9 @@ public class Vendedor {
 	}
 	
 	public String getNombreCompleto(){
-		nombreCompleto = this.nombres + " " + this.apellidoPaterno + " " + this.apellidoMaterno;
+		if(this.nombres != null || this.apellidoPaterno != null || this.apellidoMaterno != null){
+			nombreCompleto = this.nombres + " " + this.apellidoPaterno + " " + this.apellidoMaterno;
+		}
 		return nombreCompleto;
 	}
 }

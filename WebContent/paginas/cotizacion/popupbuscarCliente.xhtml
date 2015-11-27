@@ -1,0 +1,45 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+<p:dialog header="Buscar Cliente" 
+widgetVar="w_buscarClienteDialog" modal="true" showEffect="fade" 
+	hideEffect="fade" resizable="false" width="1000" closeOnEscape="true" id="buscarClienteDialog" closable="true">
+
+	<p:outputPanel>
+		<h:form>
+			<p:dataTable var="cliente" value="#{altaCotizacionManagedBean.clientes}" id="tablaClientes" paginator="true" rows="10" 
+		   			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		   			rowsPerPageTemplate="5,10,20,50" paginatorPosition="bottom" >
+				
+				<p:column>
+		   			<p:commandButton value="Seleccionar" 
+		   			process="@this" update="formCotizacion:panelDatosCliente" oncomplete="PF('w_buscarClienteDialog').hide()" >
+		   				<f:setPropertyActionListener value="#{cliente}" target="#{altaCotizacionManagedBean.clienteSeleccionado}"/>
+		   			</p:commandButton>
+		   		</p:column>
+				
+				<p:column headerText="Codigo" filterable="true" filterBy="#{cliente.codigoCliente}">
+					<h:outputText value="#{cliente.codigoCliente}"></h:outputText>
+				</p:column>
+				
+				<p:column headerText="Nombre" filterable="true" filterBy="#{cliente.nombreCompleto}">
+					<h:outputText value="#{cliente.nombreCompleto}"></h:outputText>
+				</p:column>
+				
+				<p:column headerText="Tipo documento">
+					<h:outputText value="#{cliente.descripTipoDoc}"></h:outputText>
+				</p:column>
+				
+				<p:column headerText="Numero Doc." filterable="true" filterBy="#{cliente.numeroDocumento}">
+					<h:outputText value="#{cliente.numeroDocumento}"></h:outputText>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</p:outputPanel>
+
+</p:dialog>	
+	
+</html>

@@ -28,4 +28,13 @@ public class CotizacionRepositoryImpl implements CotizacionRepositoryCustom{
 		return query.getResultList();
 	}
 
+	@Override
+	public String obtenerCodigo() {
+		String hql = "SELECT a.codigoCotizacion from Cotizacion a order by a.idCotizacion desc";
+		TypedQuery<String> query = entityManager.createQuery(hql, String.class);
+		query.setMaxResults(1);
+		List<String> resultado = query.getResultList();
+		return resultado.isEmpty() ? "COT001" : resultado.get(0);
+	}
+
 }

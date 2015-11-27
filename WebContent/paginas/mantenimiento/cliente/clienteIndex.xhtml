@@ -9,11 +9,10 @@
 
 <ui:composition template="/WEB-INF/template/template.xhtml">
 	<ui:define name="content">
-	    
-	   <h2>Mantenimiento Clientes</h2>
 	    	<h:form>
-	    		<h:messages></h:messages>
-				<p:panel header="Registrar">
+	    		<p:growl autoUpdate="true" life="3000" showSummary="true" showDetail="true" escape="false" globalOnly="true"></p:growl>
+	    		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"></p:messages>
+				<p:panel header="Matenimiento de Clientes">
 					<h:panelGrid columns="2" cellpadding="5">
 						<h:panelGrid columns="2" cellpadding="5">
 							<h:outputLabel for="txtCodigo" value="Codigo" />
@@ -21,7 +20,7 @@
 				                requiredMessage="Ingrese codigo" />
 				 
 				 			<h:outputLabel for="txtRazonSocial" value="Razon Social" />
-				            <p:inputText id="txtDNI" value="#{clienteManagedBean.cliente.razonSocia}" required="true" 
+				            <p:inputText id="txtRazonSocial" value="#{clienteManagedBean.cliente.razonSocia}" required="true" 
 				            	requiredMessage="Ingrese DNI" />
 				 			
 				            <h:outputLabel for="txtNombres" value="Nombres" />
@@ -29,21 +28,32 @@
 				            	requiredMessage="Ingrese nombres"/>
 				            
 				            <h:outputLabel for="txtApellidos" value="Apellido " />
-				            <p:inputText id="txtApellidoPat" value="#{clienteManagedBean.cliente.apellidos}" required="true"
+				            <p:inputText id="txtApellidos" value="#{clienteManagedBean.cliente.apellidos}" required="true"
 				            	requiredMessage="Ingrese apellido" />
 				            	
-				            <h:outputLabel for="txtidTipoCliente" value="txtidTipoCliente " />
-							<p:inputText id="txtidTipoCliente" value="#{clienteManagedBean.cliente.idTipoCliente}" required="true" 
-				            	requiredMessage="Ingrese numero documento"/>
-				            
-				            <h:outputLabel for="txtidTipoDocumento" value="txtidTipoDocumentoe " />
-							<p:inputText id="txtidTipoDocumento" value="#{clienteManagedBean.cliente.idTipoDocumento}" required="true" 
-				            	requiredMessage="Ingrese numero documento"/>
-				            	
+				            <h:outputLabel for="cboTipoCliente" value="Tipo de Cliente" />
+				            <p:selectOneMenu id="cboTipoCliente" value="#{clienteManagedBean.cliente.idTipoCliente}">
+				            	<f:selectItem itemLabel="Seleccione Tipo de Cliente"  noSelectionOption="true" itemDisabled="true"></f:selectItem>
+				            	<f:selectItems value="#{clienteManagedBean.tipoClientes}" var="tipo" itemValue="#{tipo.idConfigVariable}"
+				            	itemLabel="#{tipo.descripcion}"></f:selectItems>
+				            </p:selectOneMenu>
+				          
 				            <h:outputLabel for="txtNumeroDocumento" value="Numero Documento" />
 				            <p:inputText id="txtNumeroDocumento" value="#{clienteManagedBean.cliente.numeroDocumento}" required="true" 
 				            	requiredMessage="Ingrese numero documento"/>
 				            	
+				             <h:outputLabel for="cboTipoDocumento" value="Tipo de Documento" />
+				            <p:selectOneMenu id="cboTipoDocumento" value="#{clienteManagedBean.cliente.idTipoDocumento}">
+				            	<f:selectItem itemLabel="Seleccione Tipo de Documento"  noSelectionOption="true" itemDisabled="true"></f:selectItem>
+				            	<f:selectItems value="#{clienteManagedBean.variables}" var="variables" itemValue="#{variables.idConfigVariable}"
+				            	itemLabel="#{variables.descripcion}"></f:selectItems>
+				            </p:selectOneMenu>
+				            
+				              <!-- 
+				            <h:outputLabel for="txtidTipoDocumento" value="txtidTipoDocumentoe " />
+							<p:inputText id="txtidTipoDocumento" value="#{clienteManagedBean.cliente.idTipoDocumento}" required="true" 
+				            	requiredMessage="Ingrese numero documento"/>
+				            	-->
 						</h:panelGrid>
 			            <f:facet name="footer">
 			                <p:commandButton value="Grabar" icon="ui-icon-disk" 
@@ -69,7 +79,7 @@
 		   			<h:outputText value="#{cliente.apellidos}" />
 		   		</p:column>
 		   		<p:column headerText="Tipo de Documento">
-		   			<h:outputText value="#{cliente.idTipoCliente}" />
+		   			<h:outputText value="#{cliente.descripTipoDoc}" />
 		   		</p:column>
 		   		<p:column headerText="Numero de Documento">
 		   			<h:outputText value="#{cliente.numeroDocumento}" />
