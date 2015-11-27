@@ -30,7 +30,7 @@
 				            <h:outputLabel for="txtApellidos" value="Apellido " />
 				            <p:inputText id="txtApellidos" value="#{clienteManagedBean.cliente.apellidos}" required="true"
 				            	requiredMessage="Ingrese apellido" />
-				            	
+
 				            <h:outputLabel for="cboTipoCliente" value="Tipo de Cliente" />
 				            <p:selectOneMenu id="cboTipoCliente" value="#{clienteManagedBean.cliente.idTipoCliente}">
 				            	<f:selectItem itemLabel="Seleccione Tipo de Cliente"  noSelectionOption="true" itemDisabled="true"></f:selectItem>
@@ -79,7 +79,11 @@
 		   			<h:outputText value="#{cliente.apellidos}" />
 		   		</p:column>
 		   		<p:column headerText="Tipo de Documento">
+<<<<<<< HEAD
 		   			<h:outputText value="#{cliente.descripTipoDoc}" />
+=======
+		   			<h:outputText value="#{cliente.descripTipoCliente}" />
+>>>>>>> b8e7db3c4905b226e758609b420e98011f484329
 		   		</p:column>
 		   		<p:column headerText="Numero de Documento">
 		   			<h:outputText value="#{cliente.numeroDocumento}" />

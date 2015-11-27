@@ -13,10 +13,8 @@ import javax.faces.context.FacesContext;
 import com.google.common.collect.Lists;
 import com.xenogears.cotizacion.model.Cliente;
 import com.xenogears.cotizacion.model.ConfigVariable;
-import com.xenogears.cotizacion.model.Usuario;
 import com.xenogears.cotizacion.service.ClienteService;
 import com.xenogears.cotizacion.service.ConfigVariableService;
-import com.xenogears.cotizacion.service.UsuarioService;
 
 @ManagedBean
 @SessionScoped
@@ -26,6 +24,7 @@ public class ClienteManagedBean {
 	private ConfigVariable variable;
 	private List<ConfigVariable> variables;
 	private List<ConfigVariable> tipoClientes;
+
 
 	@ManagedProperty(value="#{clienteService}")
 	ClienteService servicio;

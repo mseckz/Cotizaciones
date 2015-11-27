@@ -40,7 +40,9 @@ public class LoginMB {
 		return "/login.xhtml?faces-redirect=true";
 	}
 	
-//	public String redireccionarDashboard()
+	public String redireccionarDashboard(){
+		return "/paginas/index.xhtml?faces-redirect=true";
+	}
 	
 	
 	public String getCorreo() {
