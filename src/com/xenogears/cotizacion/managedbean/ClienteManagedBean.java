@@ -24,6 +24,11 @@ public class ClienteManagedBean {
 	private ConfigVariable variable;
 	private List<ConfigVariable> variables;
 	private List<ConfigVariable> tipoClientes;
+	
+	//Auxiliares
+	private ConfigVariable tipoDocumento;
+	private ConfigVariable tipoCliente;
+	private Integer tamanoNumeroDocumento;
 
 
 	@ManagedProperty(value="#{clienteService}")
@@ -56,7 +61,21 @@ public class ClienteManagedBean {
 		return null;
 	}
 
-
+	public void limpiarForm(){
+		System.out.println("limpiando");
+		cliente = new Cliente();
+	}
+	
+	public void onTipoDocChange(){
+		Integer idTipoDoc = cliente.getIdTipoDocumento();
+		switch(idTipoDoc){
+		case 12:
+			tamanoNumeroDocumento = 8;break;
+		case 13:
+			tamanoNumeroDocumento = 13;break;
+		}
+		System.out.println(tamanoNumeroDocumento);
+	}
 
 
 	public ConfigVariable getVariable() {
@@ -119,7 +138,29 @@ public class ClienteManagedBean {
 	public void setTipoClientes(List<ConfigVariable> tipoClientes) {
 		this.tipoClientes = tipoClientes;
 	}
-	
-	
+
+	public ConfigVariable getTipoDocumento() {
+		return tipoDocumento;
+	}
+
+	public void setTipoDocumento(ConfigVariable tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
+
+	public ConfigVariable getTipoCliente() {
+		return tipoCliente;
+	}
+
+	public void setTipoCliente(ConfigVariable tipoCliente) {
+		this.tipoCliente = tipoCliente;
+	}
+
+	public Integer getTamanoNumeroDocumento() {
+		return tamanoNumeroDocumento;
+	}
+
+	public void setTamanoNumeroDocumento(Integer tamanoNumeroDocumento) {
+		this.tamanoNumeroDocumento = tamanoNumeroDocumento;
+	}
 	
 }
