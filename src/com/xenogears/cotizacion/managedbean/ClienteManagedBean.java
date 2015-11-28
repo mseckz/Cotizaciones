@@ -15,19 +15,18 @@ import com.xenogears.cotizacion.model.Cliente;
 import com.xenogears.cotizacion.model.ConfigVariable;
 import com.xenogears.cotizacion.service.ClienteService;
 import com.xenogears.cotizacion.service.ConfigVariableService;
+import com.xenogears.cotizacion.util.Constantes;
 
 @ManagedBean
 @SessionScoped
 public class ClienteManagedBean {
+	
 	private Cliente cliente;
 	private List<Cliente> clientes;
 	private ConfigVariable variable;
 	private List<ConfigVariable> variables;
 	private List<ConfigVariable> tipoClientes;
 	
-	//Auxiliares
-	private ConfigVariable tipoDocumento;
-	private ConfigVariable tipoCliente;
 	private Integer tamanoNumeroDocumento;
 
 
@@ -50,6 +49,11 @@ public class ClienteManagedBean {
 	}
 	
 	public String grabar(){
+		//Obtener codigo
+		String ultimoCodigo = servicio.getClienteRepository().obtenerCodigo();
+		Integer numeroCodigo = Integer.parseInt(ultimoCodigo.substring(3));
+		String nuevoCodigo = "CL" + String.format("%04d", (numeroCodigo+1));
+		cliente.setCodigoCliente(nuevoCodigo);
 		ConfigVariable var = variableService.getConfigVarRepository().findOne(cliente.getIdTipoDocumento());
 		cliente.setDescripTipoDoc(var.getDescripcion());
 		ConfigVariable tipoCli = variableService.getConfigVarRepository().findOne(cliente.getIdTipoCliente());
@@ -72,7 +76,7 @@ public class ClienteManagedBean {
 		case 12:
 			tamanoNumeroDocumento = 8;break;
 		case 13:
-			tamanoNumeroDocumento = 13;break;
+			tamanoNumeroDocumento = 11;break;
 		}
 		System.out.println(tamanoNumeroDocumento);
 	}
@@ -95,7 +99,7 @@ public class ClienteManagedBean {
 	}
 
 	public List<ConfigVariable> getVariables() {
-		variables=Lists.newArrayList(variableService.getConfigVarRepository().obtenerPorid(11));
+		variables=Lists.newArrayList(variableService.getConfigVarRepository().obtenerPorid(Constantes.ID_TABLA_TIPO_DOCUMENTO));
 		return variables;
 	}
 
@@ -131,28 +135,12 @@ public class ClienteManagedBean {
 	}
 
 	public List<ConfigVariable> getTipoClientes() {
-		tipoClientes = Lists.newArrayList(variableService.getConfigVarRepository().obtenerPorid(14));
+		tipoClientes = Lists.newArrayList(variableService.getConfigVarRepository().obtenerPorid(Constantes.ID_TABLA_TIPO_CLIENTE));
 		return tipoClientes;
 	}
 
 	public void setTipoClientes(List<ConfigVariable> tipoClientes) {
 		this.tipoClientes = tipoClientes;
-	}
-
-	public ConfigVariable getTipoDocumento() {
-		return tipoDocumento;
-	}
-
-	public void setTipoDocumento(ConfigVariable tipoDocumento) {
-		this.tipoDocumento = tipoDocumento;
-	}
-
-	public ConfigVariable getTipoCliente() {
-		return tipoCliente;
-	}
-
-	public void setTipoCliente(ConfigVariable tipoCliente) {
-		this.tipoCliente = tipoCliente;
 	}
 
 	public Integer getTamanoNumeroDocumento() {

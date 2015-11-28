@@ -16,9 +16,6 @@
 					<h:panelGrid columns="2" cellpadding="5" style="width:100%">
 						<h:panelGrid columns="2" cellpadding="5" style="width:100%;margin-bottom:20px">
 							<h:panelGrid columns="2" cellpadding="5">
-								<h:outputLabel for="txtCodigo" value="Codigo" />
-					            <p:inputText id="txtCodigo" value="#{clienteManagedBean.cliente.codigoCliente}" required="true"
-					                requiredMessage="Ingrese codigo" readonly="true" />
 					 			
 					 			<h:outputLabel for="cboTipoCliente" value="Tipo de Cliente" />
 					            <p:selectOneMenu required="true" requiredMessage="Seleccione tipo de cliente" id="cboTipoCliente" value="#{clienteManagedBean.cliente.idTipoCliente}">
