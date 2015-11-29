@@ -97,7 +97,7 @@
 			   		</p:column>
 			   		<p:column headerText="">
 						<p:commandButton id="btnEditar" icon="fa fa-fw fa-edit" action="#{autoManagedBean.cargarAuto(auto)}" 
-		                	 process="@this" >
+		                	update="@form,tablaAuto"  process="@this" >
 		                	<p:tooltip value="Editar" for="btnEditar"></p:tooltip>
 	                	</p:commandButton>
 	                	<p:commandButton id="btnEliminar" icon="fa fa-fw fa-remove" update="eliminarAutoDialog" process="@this" 

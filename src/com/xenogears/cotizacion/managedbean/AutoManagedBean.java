@@ -107,13 +107,18 @@ public class AutoManagedBean {
 		}
 		return null;
 	}
-	
+	public void cargarAuto(Auto auto){
+		this.auto=auto;
+	}
+	public void cargarAutoEliminar(Auto auto){
+		this.autoEliminar=auto;
+	}
 	public void eliminarAuto(){
 		autoEliminar.setFlagEstado(false);
 		autoServicio.getAutoRepository().save(autoEliminar);
 		autoEliminar= new Auto();
 		RequestContext.getCurrentInstance().execute("{setTimeout(function() {PF('w_eliminarAutoDialog').hide();},1000);}");
-		FacesMessage message= new FacesMessage(FacesMessage.SEVERITY_INFO,"","Auto "+ auto.getCodigoAuto()+ " eliminado correctamente");
+		FacesMessage message= new FacesMessage(FacesMessage.SEVERITY_INFO,"","Auto "+ "eliminado correctamente");
 		FacesContext.getCurrentInstance().addMessage(null, message);	
 	}
 	
