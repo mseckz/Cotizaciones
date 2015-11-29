@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="configVariable")
+@Table(name="configvariable")
 public class ConfigVariable {
 	
 	@Id

@@ -9,13 +9,18 @@
 
 <ui:composition template="/WEB-INF/template/template.xhtml">
 	<ui:define name="content">
-	    	<h:form>
+	    	<h:form id="formCliente">
 	    		<p:growl autoUpdate="true" life="3000" showSummary="true" showDetail="true" escape="false" globalOnly="true"></p:growl>
 	    		<p:messages id="messages" showSummary="true" showDetail="false" autoUpdate="true" closable="true"></p:messages>
 				<p:panel header="Matenimiento de Clientes">
 					<h:panelGrid columns="2" cellpadding="5" style="width:100%">
 						<h:panelGrid columns="2" cellpadding="5" style="width:100%;margin-bottom:20px">
 							<h:panelGrid columns="2" cellpadding="5">
+					 			
+					 			<h:outputLabel for="txtCodigo" value="Codigo " rendered="#{clienteManagedBean.cliente.idCliente != null}" />
+					            <p:inputText id="txtCodigo" value="#{clienteManagedBean.cliente.codigoCliente}" disabled="true" 
+					            	rendered="#{clienteManagedBean.cliente.idCliente != null}">
+				            	</p:inputText>
 					 			
 					 			<h:outputLabel for="cboTipoCliente" value="Tipo de Cliente" />
 					            <p:selectOneMenu required="true" requiredMessage="Seleccione tipo de cliente" id="cboTipoCliente" value="#{clienteManagedBean.cliente.idTipoCliente}">
@@ -27,20 +32,19 @@
 					            <h:outputLabel for="txtNombres" value="Nombres" />
 					            <p:inputText id="txtNombres" value="#{clienteManagedBean.cliente.nombres}" required="true" 
 					            	requiredMessage="Ingrese nombres" validatorMessage="Ingrese nombre valido">
-					            	<f:validateRegex pattern="^[a-z0-9_-]{3,15}$" ></f:validateRegex>
+					            	<f:validateRegex pattern="^[a-zA-Z\\s]*$" ></f:validateRegex>
 				            	</p:inputText>
 					            
 					            <h:outputLabel for="txtApellidos" value="Apellido " />
 					            <p:inputText id="txtApellidos" value="#{clienteManagedBean.cliente.apellidos}" required="true"
 					            	requiredMessage="Ingrese apellido" validatorMessage="Ingrese apellido valido">
-				            		<f:validateRegex pattern="^[a-z0-9_-]{3,15}$"></f:validateRegex>
+				            		<f:validateRegex pattern="^[a-zA-Z\\s]*$"></f:validateRegex>
 				            	</p:inputText>
 							</h:panelGrid>
 							<h:panelGrid columns="2" cellpadding="5">
 								<h:outputLabel for="txtRazonSocial" value="Razon Social" />
 					            <p:inputText id="txtRazonSocial" value="#{clienteManagedBean.cliente.razonSocia}" required="true" 
-					            	requiredMessage="Ingrese Razon social" validatorMessage="Ingrese Razon social valida">
-				            		<f:validateRegex pattern="^[a-z0-9_-]{3,15}$"></f:validateRegex>
+					            	requiredMessage="Ingrese Razon social" >
 				            	</p:inputText>
 							
 								<h:outputLabel for="txtCorreo" value="Correo " />
@@ -77,40 +81,57 @@
 			        </h:panelGrid>
 				</p:panel>
 		   	
-		   	<hr></hr>
-		   	<p:dataTable var="cliente" value="#{clienteManagedBean.clientes}" id="tablaCli" paginator="true" rows="10" 
-		   		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-		   		rowsPerPageTemplate="5,10,20, 50" paginatorPosition="bottom" >
-		   		<p:column headerText="Codigo de CLiente">
-		   			<h:outputText value="#{cliente.codigoCliente}" />
-		   		</p:column>
-		   		<p:column headerText="Razon Social">
-		   			<h:outputText value="#{cliente.razonSocia}" />
-		   		</p:column>
-		   		<p:column headerText="Nombre">
-		   			<h:outputText value="#{cliente.nombres}" />
-		   		</p:column>
-		   		<p:column headerText="Apellidos">
-		   			<h:outputText value="#{cliente.apellidos}" />
-		   		</p:column>
-		   		<p:column headerText="Tipo de Documento">
-		   			<h:outputText value="#{cliente.descripTipoDoc}" />
-		   		</p:column>
-		   		<p:column headerText="Numero de Documento">
-		   			<h:outputText value="#{cliente.numeroDocumento}" />
-		   		</p:column>
-		   		<p:column headerText="">
-					<p:commandButton id="btnEditar" icon="fa fa-fw fa-edit" action="#{clienteManagedBean.grabar}" 
-	                	update="@form,tablaCli" >
-	                	<p:tooltip value="Editar" for="btnEditar"></p:tooltip>
-                	</p:commandButton>
-                	<p:commandButton id="btnEliminar" icon="fa fa-fw fa-remove" action="#{clienteManagedBean.grabar}" 
-	                	update="@form,tablaCli" >
-	                	<p:tooltip value="ELiminar" for="btnEliminar"></p:tooltip>
-                	</p:commandButton>
-		   		</p:column>
-		   	</p:dataTable>
+			   	<hr></hr>
+			   	<p:dataTable var="cliente" value="#{clienteManagedBean.clientes}" id="tablaCli" paginator="true" rows="10" 
+			   		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			   		rowsPerPageTemplate="5,10,20, 50" paginatorPosition="bottom" >
+			   		<p:column headerText="Codigo">
+			   			<h:outputText value="#{cliente.codigoCliente}" />
+			   		</p:column>
+			   		<p:column headerText="Tipo Cliente">
+			   			<h:outputText value="#{cliente.descripTipoCliente}" />
+			   		</p:column>
+			   		<p:column headerText="Razon Social">
+			   			<h:outputText value="#{cliente.razonSocia}" />
+			   		</p:column>
+			   		<p:column headerText="Nombre">
+			   			<h:outputText value="#{cliente.nombreCompleto}" />
+			   		</p:column>
+			   		<p:column headerText="Tipo de Documento">
+			   			<h:outputText value="#{cliente.descripTipoDoc}" />
+			   		</p:column>
+			   		<p:column headerText="Numero de Documento">
+			   			<h:outputText value="#{cliente.numeroDocumento}" />
+			   		</p:column>
+			   		<p:column headerText="Correo">
+			   			<h:outputText value="#{cliente.email}" />
+			   		</p:column>
+			   		<p:column headerText="">
+						<p:commandButton id="btnEditar" icon="fa fa-fw fa-edit" action="#{clienteManagedBean.cargarCliente(cliente)}" 
+		                	update="@form,tablaCli,formCliente:txtNumeroDocumento" process="@this" >
+		                	<p:tooltip value="Editar" for="btnEditar"></p:tooltip>
+	                	</p:commandButton>
+	                	<p:commandButton id="btnEliminar" icon="fa fa-fw fa-remove" update="eliminarClienteDialog" process="@this" 
+	                	oncomplete="PF('w_eliminarClienteDialog').show()" action="#{clienteManagedBean.cargarClienteEliminar(cliente)}">
+		                	<p:tooltip value="ELiminar" for="btnEliminar"></p:tooltip>
+	                	</p:commandButton>
+			   		</p:column>
+			   	</p:dataTable>
 		   	</h:form> 
+		   	
+		   	<p:dialog header="Eliminar Cliente" widgetVar="w_eliminarClienteDialog" modal="true" showEffect="fade" 
+				hideEffect="fade" resizable="false" width="400" closeOnEscape="true" id="eliminarClienteDialog" closable="true">
+			<p:outputPanel>
+				<h:panelGrid columns="1">
+					<h4>Esta seguro de eliminar al cliente #{clienteManagedBean.clienteEliminar.codigoCliente}</h4>
+					<h:panelGrid columns="2">
+						<p:commandButton value="Eliminar" action="#{clienteManagedBean.eliminarCliente}" process="@this" update="formCliente:tablaCli"></p:commandButton>
+						<p:commandButton value="Cancelar" onclick="PF('w_eliminarClienteDialog').hide()" ></p:commandButton>
+					</h:panelGrid>
+				</h:panelGrid>
+			</p:outputPanel>
+		</p:dialog>
+		
 	</ui:define>
 </ui:composition>
 </html>

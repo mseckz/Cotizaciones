@@ -10,6 +10,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.context.RequestContext;
+
 import com.google.common.collect.Lists;
 import com.xenogears.cotizacion.model.Cliente;
 import com.xenogears.cotizacion.model.ConfigVariable;
@@ -26,6 +28,7 @@ public class ClienteManagedBean {
 	private ConfigVariable variable;
 	private List<ConfigVariable> variables;
 	private List<ConfigVariable> tipoClientes;
+	private Cliente clienteEliminar;
 	
 	private Integer tamanoNumeroDocumento;
 
@@ -49,24 +52,58 @@ public class ClienteManagedBean {
 	}
 	
 	public String grabar(){
-		//Obtener codigo
-		String ultimoCodigo = servicio.getClienteRepository().obtenerCodigo();
-		Integer numeroCodigo = Integer.parseInt(ultimoCodigo.substring(3));
-		String nuevoCodigo = "CL" + String.format("%04d", (numeroCodigo+1));
-		cliente.setCodigoCliente(nuevoCodigo);
-		ConfigVariable var = variableService.getConfigVarRepository().findOne(cliente.getIdTipoDocumento());
-		cliente.setDescripTipoDoc(var.getDescripcion());
-		ConfigVariable tipoCli = variableService.getConfigVarRepository().findOne(cliente.getIdTipoCliente());
-		cliente.setDescripTipoCliente(tipoCli.getDescripcion());
+		if(cliente.getIdCliente() == null){
+			//Obtener codigo
+			String ultimoCodigo = servicio.getClienteRepository().obtenerCodigo();
+			Integer numeroCodigo = Integer.parseInt(ultimoCodigo.substring(3));
+			String nuevoCodigo = "CL" + String.format("%04d", (numeroCodigo+1));
+			cliente.setCodigoCliente(nuevoCodigo);
+			
+			//Obtener tipos
+			ConfigVariable var = variableService.getConfigVarRepository().findOne(cliente.getIdTipoDocumento());
+			cliente.setDescripTipoDoc(var.getDescripcion());
+			ConfigVariable tipoCli = variableService.getConfigVarRepository().findOne(cliente.getIdTipoCliente());
+			cliente.setDescripTipoCliente(tipoCli.getDescripcion());
+			
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Cliente "+ cliente.getCodigoCliente() +" registrado correctamente");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+		else{
+			ConfigVariable var = variableService.getConfigVarRepository().findOne(cliente.getIdTipoDocumento());
+			cliente.setDescripTipoDoc(var.getDescripcion());
+			ConfigVariable tipoCli = variableService.getConfigVarRepository().findOne(cliente.getIdTipoCliente());
+			cliente.setDescripTipoCliente(tipoCli.getDescripcion());
+			
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Cliente modificado correctamente");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+		
 		servicio.getClienteRepository().save(cliente);
 		cliente = new Cliente();
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Cliente registrado correctamente");
-		FacesContext.getCurrentInstance().addMessage(null, message);
+		
 		return null;
 	}
 
+	public void cargarCliente(Cliente cliente){
+		this.cliente = cliente;
+		onTipoDocChange();
+	}
+	
+	public void cargarClienteEliminar(Cliente cliente){
+		this.clienteEliminar = cliente;
+	}
+	
+	public void eliminarCliente(){
+		clienteEliminar.setFlagEstado(false);
+		servicio.getClienteRepository().save(clienteEliminar);
+		clienteEliminar = new Cliente();
+		RequestContext.getCurrentInstance().execute("{setTimeout(function() {PF('w_eliminarClienteDialog').hide();},1000);}");
+//		RequestContext.getCurrentInstance().execute("{setTimeout(function() {PF('w_tablaUsuarios').clearFilters();},1000);}");
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Cliente eliminado con exito");
+		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+	
 	public void limpiarForm(){
-		System.out.println("limpiando");
 		cliente = new Cliente();
 	}
 	
@@ -149,6 +186,14 @@ public class ClienteManagedBean {
 
 	public void setTamanoNumeroDocumento(Integer tamanoNumeroDocumento) {
 		this.tamanoNumeroDocumento = tamanoNumeroDocumento;
+	}
+
+	public Cliente getClienteEliminar() {
+		return clienteEliminar;
+	}
+
+	public void setClienteEliminar(Cliente clienteEliminar) {
+		this.clienteEliminar = clienteEliminar;
 	}
 	
 }
