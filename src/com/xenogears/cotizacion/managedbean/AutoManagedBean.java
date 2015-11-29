@@ -70,7 +70,7 @@ public class AutoManagedBean {
 			System.out.println(nuevoCodigo);
 			auto.setCodigoAuto(nuevoCodigo);
 			
-			ConfigVariable tipo= variableService.getConfigVarRepository().findOne(auto.getIdMarca());
+			ConfigVariable tipo= variableService.getConfigVarRepository().findOne(auto.getIdTipoAuto());
 			auto.setDescripcionTipo(tipo.getDescripcion());
 			
 			ConfigVariable modelo= variableService.getConfigVarRepository().findOne(auto.getIdModelo());
