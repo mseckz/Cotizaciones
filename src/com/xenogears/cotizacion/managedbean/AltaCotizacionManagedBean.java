@@ -25,7 +25,6 @@ import com.xenogears.cotizacion.service.ConfigVariableService;
 import com.xenogears.cotizacion.service.CotizacionService;
 import com.xenogears.cotizacion.service.VendedorService;
 import com.xenogears.cotizacion.util.Email;
-import com.xenogears.cotizacion.util.SendEmail;
 
 @ManagedBean
 @SessionScoped
