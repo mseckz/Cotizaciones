@@ -1,5 +1,6 @@
 package com.xenogears.cotizacion.managedbean;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -12,6 +13,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 import com.google.common.collect.Lists;
 import com.xenogears.cotizacion.model.Auto;
@@ -19,10 +22,12 @@ import com.xenogears.cotizacion.model.ConfigVariable;
 import com.xenogears.cotizacion.service.AutoService;
 import com.xenogears.cotizacion.service.ConfigVariableService;
 import com.xenogears.cotizacion.util.Constantes;
+import com.xenogears.cotizacion.util.Util;
 
 @ManagedBean
 @SessionScoped
 public class AutoManagedBean {
+	
 	private Auto auto;
 	private List<Auto> autos;
 	private List<ConfigVariable> tipoAuto;
@@ -31,99 +36,119 @@ public class AutoManagedBean {
 	private Auto autoEliminar;
 	private ArrayList<Integer> anioslist;
 	private ArrayList<Integer> puertalist;
-	@ManagedProperty(value="#{autoService}")
+	private UploadedFile imagen;
+	
+	@ManagedProperty(value = "#{autoService}")
 	AutoService autoServicio;
-	
-	@ManagedProperty(value="#{configVariableService}")
+
+	@ManagedProperty(value = "#{configVariableService}")
 	ConfigVariableService variableService;
-	
+
 	@PostConstruct
-	public void init(){
-		auto=new Auto();
-		autos=new ArrayList<Auto>();
-		tipoAuto=new ArrayList<ConfigVariable>();
-		tipoMarca=new ArrayList<ConfigVariable>();
-		tipoModelo=new ArrayList<ConfigVariable>();
-		anioslist=new ArrayList<Integer>();
-		puertalist=new ArrayList<Integer>();
+	public void init() {
+		auto = new Auto();
+		autos = new ArrayList<Auto>();
+		tipoAuto = new ArrayList<ConfigVariable>();
+		tipoMarca = new ArrayList<ConfigVariable>();
+		tipoModelo = new ArrayList<ConfigVariable>();
+		anioslist = new ArrayList<Integer>();
+		puertalist = new ArrayList<Integer>();
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		for (int i = 0; i < 21; i++) {
-			anioslist.add(year-i);
+			anioslist.add(year - i);
 		}
 		puertalist.add(2);
 		puertalist.add(4);
-		
-	}
-	
-	public String indexAuto(){
-		return "/paginas/mantenimiento/autp/autoIndex.xhtml?faces-redirect=true";
-	}
-	
-	public String grabar(){
-		try {
-			
 
-		if(auto.getIdAuto()== null){
-			String ultimoCodigo = autoServicio.getAutoRepository().obtenerCodigo();
+	}
+
+	public String indexAuto() {
+		auto = new Auto();
+		return "/paginas/mantenimiento/auto/autoIndex.xhtml?faces-redirect=true";
+	}
+
+	public String grabar() throws IOException {
+
+		if (auto.getIdAuto() == null) {
+			String ultimoCodigo = autoServicio.getAutoRepository()
+					.obtenerCodigo();
 			Integer numeroCodigo = Integer.parseInt(ultimoCodigo.substring(4));
-			String nuevoCodigo = "AU" + String.format("%05d", (numeroCodigo+1));
+			String nuevoCodigo = "AU"
+					+ String.format("%05d", (numeroCodigo + 1));
 			System.out.println(nuevoCodigo);
 			auto.setCodigoAuto(nuevoCodigo);
-			
-			ConfigVariable tipo= variableService.getConfigVarRepository().findOne(auto.getIdTipoAuto());
+
+			ConfigVariable tipo = variableService.getConfigVarRepository()
+					.findOne(auto.getIdTipoAuto());
 			auto.setDescripcionTipo(tipo.getDescripcion());
-			
-			ConfigVariable modelo= variableService.getConfigVarRepository().findOne(auto.getIdModelo());
+
+			ConfigVariable modelo = variableService.getConfigVarRepository()
+					.findOne(auto.getIdModelo());
 			auto.setModelo(modelo.getDescripcion());
-			
-			ConfigVariable marca= variableService.getConfigVarRepository().findOne(auto.getIdMarca());
-			System.err.println(marca.getDescripcion());
+
+			ConfigVariable marca = variableService.getConfigVarRepository()
+					.findOne(auto.getIdMarca());
 			auto.setMarca(marca.getDescripcion());
 			
-			FacesMessage message= new FacesMessage(FacesMessage.SEVERITY_INFO,"","Auto "+ auto.getCodigoAuto()+ " registrado correctamente");
-			FacesContext.getCurrentInstance().addMessage(null, message);			
-		}
-		else {
-			ConfigVariable tipo= variableService.getConfigVarRepository().findOne(auto.getIdMarca());
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"", "Auto " + auto.getCodigoAuto()
+							+ " registrado correctamente");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		} else {
+			ConfigVariable tipo = variableService.getConfigVarRepository()
+					.findOne(auto.getIdTipoAuto());
 			auto.setDescripcionTipo(tipo.getDescripcion());
-			
-			ConfigVariable modelo= variableService.getConfigVarRepository().findOne(auto.getIdModelo());
+
+			ConfigVariable modelo = variableService.getConfigVarRepository()
+					.findOne(auto.getIdModelo());
 			auto.setModelo(modelo.getDescripcion());
-			
-			ConfigVariable marca= variableService.getConfigVarRepository().findOne(auto.getAnio());
+
+			ConfigVariable marca = variableService.getConfigVarRepository()
+					.findOne(auto.getIdMarca());
 			auto.setMarca(marca.getDescripcion());
-			System.err.println(marca.getDescripcion());
-			FacesMessage message= new FacesMessage(FacesMessage.SEVERITY_INFO,"","Auto "+ auto.getCodigoAuto()+ " registrado correctamente");
-			FacesContext.getCurrentInstance().addMessage(null, message);			
+			
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"", "Auto " + auto.getCodigoAuto()
+							+ " registrado correctamente");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 		
 		autoServicio.getAutoRepository().save(auto);
-		auto= new Auto();
-		
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.err.println(auto.toString());
-			e.getMessage();
-		}
+		auto = new Auto();
+		imagen = null;
 		return null;
 	}
-	public void cargarAuto(Auto auto){
-		this.auto=auto;
+
+	public void cargarAuto(Auto auto) {
+		this.auto = auto;
 	}
-	public void cargarAutoEliminar(Auto auto){
-		this.autoEliminar=auto;
+
+	public void cargarAutoEliminar(Auto auto) {
+		this.autoEliminar = auto;
 	}
-	public void eliminarAuto(){
+
+	public void eliminarAuto() {
 		autoEliminar.setFlagEstado(false);
 		autoServicio.getAutoRepository().save(autoEliminar);
-		autoEliminar= new Auto();
-		RequestContext.getCurrentInstance().execute("{setTimeout(function() {PF('w_eliminarAutoDialog').hide();},1000);}");
-		FacesMessage message= new FacesMessage(FacesMessage.SEVERITY_INFO,"","Auto "+ "eliminado correctamente");
-		FacesContext.getCurrentInstance().addMessage(null, message);	
+		autoEliminar = new Auto();
+		RequestContext
+				.getCurrentInstance()
+				.execute(
+						"{setTimeout(function() {PF('w_eliminarAutoDialog').hide();},1000);}");
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "",
+				"Auto " + "eliminado correctamente");
+		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+
+	public void limpiarForm() {
+		auto = new Auto();
 	}
 	
-	public void limpiarForm(){
-		auto=new Auto();
+	
+	public void subirFoto(FileUploadEvent e) throws IOException{
+		imagen = e.getFile();
+		auto.setUrlFoto(Constantes.RUTA_FOTO_WEB + imagen.getFileName());
+		Util.subirArchivo(imagen.getFileName(), imagen.getInputstream(),Constantes.RUTA_FOTO_FOTO_FISICA);
 	}
 
 	public Auto getAuto() {
@@ -135,7 +160,8 @@ public class AutoManagedBean {
 	}
 
 	public List<Auto> getAutos() {
-		autos=Lists.newArrayList(autoServicio.getAutoRepository().obtenerPorEstado(true));
+		autos = Lists.newArrayList(autoServicio.getAutoRepository()
+				.obtenerPorEstado(true));
 		return autos;
 	}
 
@@ -144,7 +170,8 @@ public class AutoManagedBean {
 	}
 
 	public List<ConfigVariable> getTipoAuto() {
-		tipoAuto=Lists.newArrayList(variableService.getConfigVarRepository().obtenerPorid(Constantes.ID_TABLA_TIPO_AUTO));
+		tipoAuto = Lists.newArrayList(variableService.getConfigVarRepository()
+				.obtenerPorid(Constantes.ID_TABLA_TIPO_AUTO));
 		return tipoAuto;
 	}
 
@@ -153,7 +180,8 @@ public class AutoManagedBean {
 	}
 
 	public List<ConfigVariable> getTipoMarca() {
-		tipoMarca=Lists.newArrayList(variableService.getConfigVarRepository().obtenerPorid(Constantes.ID_TABLA_MARCA));
+		tipoMarca = Lists.newArrayList(variableService.getConfigVarRepository()
+				.obtenerPorid(Constantes.ID_TABLA_MARCA));
 		return tipoMarca;
 	}
 
@@ -162,7 +190,9 @@ public class AutoManagedBean {
 	}
 
 	public List<ConfigVariable> getTipoModelo() {
-		tipoModelo=Lists.newArrayList(variableService.getConfigVarRepository().obtenerPorid(Constantes.ID_TABLA_MODELO_AUTO));
+		tipoModelo = Lists.newArrayList(variableService
+				.getConfigVarRepository().obtenerPorid(
+						Constantes.ID_TABLA_MODELO_AUTO));
 		return tipoModelo;
 	}
 
@@ -185,7 +215,6 @@ public class AutoManagedBean {
 	public void setVariableService(ConfigVariableService variableService) {
 		this.variableService = variableService;
 	}
-
 
 	public Auto getAutoEliminar() {
 		return autoEliminar;
@@ -211,7 +240,12 @@ public class AutoManagedBean {
 		this.puertalist = puertalist;
 	}
 
+	public UploadedFile getImagen() {
+		return imagen;
+	}
 
-	
+	public void setImagen(UploadedFile imagen) {
+		this.imagen = imagen;
+	}
 
 }

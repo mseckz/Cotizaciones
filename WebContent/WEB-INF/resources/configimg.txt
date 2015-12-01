@@ -1,0 +1,4 @@
+Agregar esto en la carpeta servers del eclipse en server.xml 
+dentro del tag <Host></Host>
+
+<Context docBase="F:/imagenes" path="/imagenes" />
