@@ -24,10 +24,13 @@ import com.xenogears.cotizacion.service.ClienteService;
 import com.xenogears.cotizacion.service.ConfigVariableService;
 import com.xenogears.cotizacion.service.CotizacionService;
 import com.xenogears.cotizacion.service.VendedorService;
+import com.xenogears.cotizacion.util.Email;
+import com.xenogears.cotizacion.util.SendEmail;
 
 @ManagedBean
 @SessionScoped
 public class AltaCotizacionManagedBean {
+	Email emailsend=new Email();
 	
 	@ManagedProperty("#{cotizacionService}")
 	private CotizacionService cotizacionService;
@@ -66,6 +69,9 @@ public class AltaCotizacionManagedBean {
 	}
 	
 	public String registrarCotizacion(){
+		try {
+			
+	
 		String codigo = cotizacionService.getCotizacionRepository().obtenerCodigo();
 		String numCodigo = codigo.substring(3);
 		Integer codInt = Integer.parseInt(numCodigo) + 1;
@@ -77,6 +83,9 @@ public class AltaCotizacionManagedBean {
 		cotizacion.setCliente(clienteSeleccionado);
 		cotizacion.setVendedor(vendedorSeleccionado);
 		cotizacion.setDetalle(listaDetalle);
+		
+		//Envio de Correo
+		emailsend.sentEmailParams(cotizacion);
 		cotizacionService.getCotizacionRepository().save(cotizacion);
 		
 		this.limpiarForm();
@@ -85,6 +94,12 @@ public class AltaCotizacionManagedBean {
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
 		
 		return "/paginas/cotizacion/indexCotizacion.xhtml?faces-redirect=true";
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.getMessage();
+			return "/paginas/cotizacion/indexCotizacion.xhtml?faces-redirect=true";
+			
+		}
 	}
 	
 	public void popupBuscarAuto(){

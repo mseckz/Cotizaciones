@@ -26,6 +26,7 @@ import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.html.simpleparser.HTMLWorker;
 import com.lowagie.text.pdf.PdfWriter;
+import com.xenogears.cotizacion.model.Cotizacion;
 
 public class Email {
 	 public static void sendEmailWithAttachments(String host, String port,
@@ -76,13 +77,13 @@ public class Email {
 	        Transport.send(msg);
 	 
 	    }
-	 
-	    /**
+
+	 	/**
 	     * Test sending e-mail with attachments
 	     * @throws IOException 
 	     * @throws DocumentException 
 	     */
-	    public static void main(String[] args) throws IOException, DocumentException {
+	    public void sentEmailParams(Cotizacion cotizacion) throws IOException, DocumentException {
 	        // SMTP info
 	        String host = "smtp.gmail.com";
 	        String port = "587";
@@ -90,14 +91,17 @@ public class Email {
 	        String password = "qa123456";
 	 
 	        // message info
-	        String mailTo = "jo.sue.yep@hotmail.com";
+	        String mailTo = cotizacion.getCliente().getEmail();
 	        String subject = "New email with attachments";
+	        
+	        
+	        
 	        String message = ""
 					+ "<!DOCTYPE html>"
 					+ "	<html>"
 					+ "	<body>"
 					+ "	<h3>Cotizacion N:12312</h3>"
-					+ "	<legend>Nombre Completos:  asdasdsd</legend>"
+					+ "	<legend>Nombre Completos:  "+cotizacion.getCliente().getNombreCompleto()+"</legend>"
 					+ "	<legend>DNI:  asdasdsd</legend>"
 					+ "	<legend>Celular :  asdasdsd</legend>"
 					+ "	<legend>Correo :  asdasdsd</legend>"
@@ -116,7 +120,6 @@ public class Email {
 		    document.close();
 		    file.close();
 		    
-	        // attachments
 	 
 	        try {
 	            sendEmailWithAttachments(host, port, mailFrom, password, mailTo,
