@@ -28,6 +28,7 @@ public class ConfigVariableManagedBean {
 	
 	public String registrar(){
 		if(flagTabla) configVar.setPadre(null);
+		configVar.setDescripcion(configVar.getDescripcion().toUpperCase());
 		configvarService.getConfigVarRepository().save(configVar);
 		configVar = new ConfigVariable();
 		return null;

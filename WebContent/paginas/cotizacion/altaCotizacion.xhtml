@@ -10,13 +10,13 @@
 		
 		
 		<h:form id="formCotizacion">
-			<p:panel>
+			<p:panel id="content">
 				<h1>Alta de cotizacion</h1><br />
     			<h:messages></h:messages>
 				<h:panelGrid style="margin-bottom:20px;width;100%;">
 					<p:row>
 						<p:column>
-							<p:commandButton icon="fa fa-file-o" value="Registrar" action="#{altaCotizacionManagedBean.registrarCotizacion()}" ></p:commandButton>
+							<p:commandButton id="btnRegistrar" icon="fa fa-file-o" value="Registrar" action="#{altaCotizacionManagedBean.registrarCotizacion()}" ></p:commandButton>
 							
 							<p:spacer width="5px"></p:spacer>
 								
@@ -119,6 +119,9 @@
 					</p:panel>
 				</h:panelGrid>
 			</p:panel>
+			<p:blockUI block="content" trigger="btnRegistrar">
+				<p:graphicImage value="/WebContent/WEB-INF/resources/img/processing.gif"></p:graphicImage>
+			</p:blockUI>
 		</h:form>
 		<ui:include src="popupBuscarAuto.xhtml"></ui:include>
 		<ui:include src="popupbuscarCliente.xhtml"></ui:include>

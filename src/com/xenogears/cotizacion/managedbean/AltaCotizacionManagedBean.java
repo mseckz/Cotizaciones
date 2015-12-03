@@ -1,5 +1,6 @@
 package com.xenogears.cotizacion.managedbean;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 
 import com.google.common.collect.Lists;
+import com.lowagie.text.DocumentException;
 import com.xenogears.cotizacion.model.Auto;
 import com.xenogears.cotizacion.model.Cliente;
 import com.xenogears.cotizacion.model.ConfigVariable;
@@ -24,10 +26,12 @@ import com.xenogears.cotizacion.service.ClienteService;
 import com.xenogears.cotizacion.service.ConfigVariableService;
 import com.xenogears.cotizacion.service.CotizacionService;
 import com.xenogears.cotizacion.service.VendedorService;
+import com.xenogears.cotizacion.util.Email;
 
 @ManagedBean
 @SessionScoped
 public class AltaCotizacionManagedBean {
+	Email emailsend=new Email();
 	
 	@ManagedProperty("#{cotizacionService}")
 	private CotizacionService cotizacionService;
@@ -65,7 +69,8 @@ public class AltaCotizacionManagedBean {
 		cotizacion.setImporte(0.0);
 	}
 	
-	public String registrarCotizacion(){
+	public String registrarCotizacion() throws IOException, DocumentException{
+	
 		String codigo = cotizacionService.getCotizacionRepository().obtenerCodigo();
 		String numCodigo = codigo.substring(3);
 		Integer codInt = Integer.parseInt(numCodigo) + 1;
@@ -77,6 +82,9 @@ public class AltaCotizacionManagedBean {
 		cotizacion.setCliente(clienteSeleccionado);
 		cotizacion.setVendedor(vendedorSeleccionado);
 		cotizacion.setDetalle(listaDetalle);
+		
+		//Envio de Correo
+		emailsend.sentEmailParams(cotizacion);
 		cotizacionService.getCotizacionRepository().save(cotizacion);
 		
 		this.limpiarForm();

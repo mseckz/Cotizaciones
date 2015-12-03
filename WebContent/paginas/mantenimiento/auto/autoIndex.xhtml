@@ -9,101 +9,129 @@
 
 <ui:composition template="/WEB-INF/template/template.xhtml">
 	<ui:define name="content">
-	    
-	   <h2>Mantenimiento vendedores</h2>
-	    	<h:form>
-	    		<h:messages></h:messages>
-				<p:panel header="Registrar">
-					<h:panelGrid columns="2" cellpadding="5">
-						<h:panelGrid columns="2" cellpadding="5">
-							<h:outputLabel for="txtCodigo" value="Codigo" />
-				            <p:inputText id="txtCodigo" value="#{vendedorManagedBean.vendedor.codigoVendedor}" required="true"
-				                requiredMessage="Ingrese codigo" />
-				 
-				 			<h:outputLabel for="txtDNI" value="DNI" />
-				            <p:inputText id="txtDNI" value="#{vendedorManagedBean.vendedor.docIdentidad}" required="true" 
-				            	requiredMessage="Ingrese DNI" />
-				 			
-				            <h:outputLabel for="txtNombres" value="Nombres" />
-				            <p:inputText id="txtNombres" value="#{vendedorManagedBean.vendedor.nombres}" required="true" 
-				            	requiredMessage="Ingrese nombres"/>
-				            
-				            <h:outputLabel for="txtApellidoPat" value="Apellido Paterno" />
-				            <p:inputText id="txtApellidoPat" value="#{vendedorManagedBean.vendedor.apellidoPaterno}" required="true"
-				            	requiredMessage="Ingrese apellido paterno" />
-				            
-				            <h:outputLabel for="txtApellidoMat" value="Apellido Materno" />
-				            <p:inputText id="txtApellidoMat" value="#{vendedorManagedBean.vendedor.apellidoMaterno}" required="true" 
-				            	requiredMessage="Ingrese apellido materno"/>
+	    	<h:form id="formAuto" enctype="multipart/form-data">
+	    		<p:growl autoUpdate="true" life="3000" showSummary="true" showDetail="true" escape="false" globalOnly="true"></p:growl>
+	    		<p:messages id="messages" showSummary="true" showDetail="false" autoUpdate="true" closable="true"></p:messages>
+				<p:panel header="Matenimiento de Autos">
+					<h:panelGrid columns="2" cellpadding="5" style="width:100%">
+						<h:panelGrid columns="2" cellpadding="5" style="width:100%;margin-bottom:20px">
+							<h:panelGrid columns="2" cellpadding="5">
+					 			
+					 			<h:outputLabel for="txtCodigo" value="Codigo " rendered="#{autoManagedBean.auto.idAuto != null}" />
+					            <p:inputText id="txtCodigo" value="#{autoManagedBean.auto.codigoAuto}" disabled="true" 
+					            	rendered="#{clienteManagedBean.cliente.idCliente != null}">
+				            	</p:inputText>
+					 			
+					 			<h:outputLabel for="cboTipoAuto" value="Tipo de Auto" />
+					            <p:selectOneMenu required="true" requiredMessage="Seleccione tipo de auto" id="cboTipoAuto" value="#{autoManagedBean.auto.idTipoAuto}">
+					            	<f:selectItem itemLabel="Seleccione Tipo de Auto"  noSelectionOption="true" itemDisabled="true"></f:selectItem>
+					            	<f:selectItems value="#{autoManagedBean.tipoAuto}" var="tipo" itemValue="#{tipo.idConfigVariable}"
+					            	itemLabel="#{tipo.descripcion}"></f:selectItems>
+					            </p:selectOneMenu>
+					            
+					            <h:outputLabel for="cboMarca" value="Tipo de Marca" />
+					            <p:selectOneMenu required="true" requiredMessage="Seleccione marca del auto" id="cboMarca" value="#{autoManagedBean.auto.idMarca}">
+					            	<f:selectItem itemLabel="Seleccione Marca de Auto"  noSelectionOption="true" itemDisabled="true"></f:selectItem>
+					            	<f:selectItems value="#{autoManagedBean.tipoMarca}" var="marca" itemValue="#{marca.idConfigVariable}"
+					            	itemLabel="#{marca.descripcion}"></f:selectItems>
+					            </p:selectOneMenu>
+					            
+					            <h:outputLabel for="cboModelo" value="Tipo de Modelo" />
+					            <p:selectOneMenu required="true" requiredMessage="Seleccione modelo del auto" id="cboModelo" value="#{autoManagedBean.auto.idModelo}">
+					            	<f:selectItem itemLabel="Seleccione Modelo de Auto"  noSelectionOption="true" itemDisabled="true"></f:selectItem>
+					            	<f:selectItems value="#{autoManagedBean.tipoModelo}" var="modelo" itemValue="#{modelo.idConfigVariable}"
+					            	itemLabel="#{modelo.descripcion}"></f:selectItems>
+					            </p:selectOneMenu>
+					            
+					 			<h:outputLabel for="cboAnios" value="Año de Produccion" />
+					            <p:selectOneMenu required="true" requiredMessage="Seleccione modelo del auto" id="cboAnios" value="#{autoManagedBean.auto.anio}">
+					            	<f:selectItem itemLabel="Seleccione Año"  noSelectionOption="true" itemDisabled="true"></f:selectItem>
+					            	<f:selectItems value="#{autoManagedBean.anioslist}" var="anios" itemValue="#{anios}"
+					            	itemLabel="#{anios}"></f:selectItems>
+					            </p:selectOneMenu>
+
+					 			<h:outputLabel for="txtPrecio" value="Precio del Auto" />
+					            <p:inputText id="txtPrecio" value="#{autoManagedBean.auto.precio}" required="true" 
+					            	requiredMessage="Ingrese Precio">
+					            </p:inputText>
+								
+							</h:panelGrid>
+							<h:panelGrid columns="2">
+								<p:outputLabel value="Seleccione una foto" styleClass="textoLabelBlock" />
+								<p:fileUpload allowTypes="/(\.|\/)(gif|jpe?g|png)$/" update="fotoAuto"
+								fileUploadListener="#{autoManagedBean.subirFoto}" mode="advanced" skinSimple="true" auto="true" />
+							
+								<p:graphicImage style="width:150px;height:150px;" url="#{autoManagedBean.auto.urlFoto}" id="fotoAuto"></p:graphicImage>
+							</h:panelGrid>
+
 						</h:panelGrid>
-						<h:panelGrid columns="2" cellpadding="5">
-							<h:outputLabel for="txtCorreo" value="Correo" />
-				            <p:inputText id="txtCorreo" value="#{vendedorManagedBean.vendedor.correo}" required="true" 
-				            	requiredMessage="Ingrese correo" validatorMessage="Ingrese correo valido">
-				            	<f:validateRegex
-									pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"  />
-				            </p:inputText>
-				            
-				            <h:outputLabel for="txtTelefono" value="Telefono" />
-				            <p:inputText id="txtTelefono" value="#{vendedorManagedBean.vendedor.telefono}"  />
-				            
-				            <h:outputLabel for="txtFecNac" value="Fecha Nacimiento" />
-				            <p:calendar id="txtFecNac" required="true" value="#{vendedorManagedBean.vendedor.fechaNacimiento}" showOn="button" pattern="yyyy/MM/dd"
-							requiredMessage="Ingrese fecha de nacimiento" mode="popup" size="20" yearRange="c-100:c" maxdate="today()" navigator="true" 
-							>
-								<f:convertDateTime pattern="yyyy/MM/dd"></f:convertDateTime>
-							</p:calendar>
-				            
-				            <h:outputLabel for="cboSucursal" value="Sucursal" />
-				            <p:selectOneMenu id="cboSucursal" value="#{vendedorManagedBean.vendedor.idSucursal}">
-				            	<f:selectItem itemLabel="Seleccione Sucursal"  noSelectionOption="true" itemDisabled="true"></f:selectItem>
-				            	<f:selectItems value="#{vendedorManagedBean.sucursales}" var="sucursal" itemValue="#{sucursal.idSucursal}"
-				            	itemLabel="#{sucursal.nombre}"></f:selectItems>
-				            </p:selectOneMenu>
-				            
-				            <h:outputLabel for="txtClave" value="Password" rendered="#{vendedorManagedBean.vendedor.idVendedor eq null}" />
-				            <p:password rendered="#{vendedorManagedBean.vendedor.idVendedor eq null}" id="txtClave" value="#{vendedorManagedBean.usuario.clave}" required="true" requiredMessage="Ingrese password" />
-				        </h:panelGrid>
-			            <f:facet name="footer">
-			                <p:commandButton value="Grabar" icon="ui-icon-disk" 
-								action="#{vendedorManagedBean.grabar}" styleClass="ui-priority-primary" update="@form,tablaVend"/>
-			            </f:facet>  
+ 						<f:facet name="footer" >
+			                <p:commandButton value="Grabar" icon="ui-icon-disk" action="#{autoManagedBean.grabar}" 
+			                	styleClass="ui-priority-primary" update="@form,tablaAuto" style="margin-right:10px"/>
+			            	<p:commandButton process="@this" value="Limpiar" icon="ui-icon-trash" action="#{autoManagedBean.limpiarForm}" 
+			            		 update="@form,tablaAuto">
+			            		<p:resetInput target="@form" />
+			            	</p:commandButton>
+			            		
+			            </f:facet> 
 			        </h:panelGrid>
 				</p:panel>
 		   	
-		   	<hr></hr>
-		   	<p:dataTable var="vendedor" value="#{vendedorManagedBean.vendedores}" id="tablaVend" paginator="true" rows="10" 
-		   		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-		   		rowsPerPageTemplate="5,10,20, 50" paginatorPosition="bottom" >
-		   		<p:column headerText="Codigo">
-		   			<h:outputText value="#{vendedor.codigoVendedor}" />
-		   		</p:column>
-		   		<p:column headerText="DNI">
-		   			<h:outputText value="#{vendedor.docIdentidad}" />
-		   		</p:column>
-		   		<p:column headerText="Nombres">
-		   			<h:outputText value="#{vendedor.nombres}" />
-		   		</p:column>
-		   		<p:column headerText="Apellido Pat">
-		   			<h:outputText value="#{vendedor.apellidoPaterno}" />
-		   		</p:column>
-		   		<p:column headerText="Apellido Mat">
-		   			<h:outputText value="#{vendedor.apellidoMaterno}" />
-		   		</p:column>
-		   		<p:column headerText="Correo">
-		   			<h:outputText value="#{vendedor.correo}" />
-		   		</p:column>
-		   		<p:column headerText="Telefono">
-		   			<h:outputText value="#{vendedor.telefono}" />
-		   		</p:column>
-		   		<p:column headerText="">
-		   			<p:commandButton id="btnEditar" icon="fa fa-fw fa-edit" process="@this" action="#{vendedorManagedBean.cargarVendedor(vendedor.idVendedor)}" update="@form"/>
-		   			<p:tooltip value="Editar" for="btnEditar" />
-		   			<p:commandButton id="btnEliminar" icon="fa fa-fw fa-remove" process="@this" action="#{vendedorManagedBean.eliminarVendedor(vendedor.idVendedor)}" update="@form"/>
-		   			<p:tooltip value="Eliminar" for="btnEliminar" />
-		   		</p:column>
-		   	</p:dataTable>
+			   	<hr></hr>
+				<p:dataTable var="auto" value="#{autoManagedBean.autos}" id="tablaAuto" paginator="true" rows="10" 
+			   		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			   		rowsPerPageTemplate="5,10,20, 50" paginatorPosition="bottom" >
+			   		<p:column headerText="Codigo">
+			   			<h:outputText value="#{auto.codigoAuto}" />
+			   		</p:column>
+			   		<p:column headerText="Tipo Auto">
+			   			<h:outputText value="#{auto.descripcionTipo}" />
+			   		</p:column>
+			   		<p:column headerText="Marca Auto">
+			   			<h:outputText value="#{auto.marca}" />
+			   		</p:column>
+			   		<p:column headerText="Modelo">
+			   			<h:outputText value="#{auto.modelo}" />
+			   		</p:column>
+			   		<p:column headerText="Año de Produccion">
+			   			<h:outputText value="#{auto.anio}" />
+			   		</p:column>
+			   		<p:column headerText="Numero de Documento">
+			   			<h:outputText value="#{auto.modelo}" />
+			   		</p:column>
+			   		<p:column headerText="Precio">
+			   			<h:outputText value="#{auto.precio}" />
+			   		</p:column>
+			   		<p:column headerText="">
+						<p:commandButton id="btnEditar" icon="fa fa-fw fa-edit" action="#{autoManagedBean.cargarAuto(auto)}" 
+		                	update="@form,tablaAuto"  process="@this" >
+		                	<p:tooltip value="Editar" for="btnEditar"></p:tooltip>
+	                	</p:commandButton>
+	                	<p:commandButton id="btnEliminar" icon="fa fa-fw fa-remove" update="eliminarAutoDialog" process="@this" 
+	                	oncomplete="PF('w_eliminarAutoDialog').show()" action="#{autoManagedBean.cargarAutoEliminar(auto)}">
+		                	<p:tooltip value="ELiminar" for="btnEliminar"></p:tooltip>
+	                	</p:commandButton>
+	                	<p:commandButton id="btnDetalle" icon="fa fa-fw fa-remove" update="eliminarAutoDialog" process="@this" 
+	                	oncomplete="PF('w_eliminarAutoDialog').show()" action="#{autoManagedBean.cargarAutoEliminar(auto)}">
+		                	<p:tooltip value="Detalle" for="btnDetalle"></p:tooltip>
+	                	</p:commandButton>
+			   		</p:column>
+			   	</p:dataTable>
 		   	</h:form> 
+		   	
+		   	<p:dialog header="Eliminar Auto" widgetVar="w_eliminarAutoDialog" modal="true" showEffect="fade" 
+				hideEffect="fade" resizable="false" width="400" closeOnEscape="true" id="eliminarAutoDialog" closable="true">
+			<p:outputPanel>
+				<h:panelGrid columns="1">
+					<h4>Esta seguro de eliminar al auto #{autoManagedBean.autoEliminar.codigoAuto}</h4>
+					<h:panelGrid columns="2">
+						<p:commandButton value="Eliminar" action="#{autoManagedBean.eliminarAuto}" process="@this" update="formAuto:tablaAuto"></p:commandButton>
+						<p:commandButton value="Cancelar" onclick="PF('w_eliminarAutoDialog').hide()" ></p:commandButton>
+					</h:panelGrid>
+				</h:panelGrid>
+			</p:outputPanel>
+		</p:dialog>
+		   	
 	</ui:define>
 </ui:composition>
 </html>

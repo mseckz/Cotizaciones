@@ -29,6 +29,9 @@ public class Cliente {
 	@Column(name="apellidos")
 	private String apellidos;
 	
+	@Column(name="email")
+	private String email;
+	
 	@Column(name="idTipoCliente")
 	private Integer idTipoCliente;
 	
@@ -143,6 +146,14 @@ public class Cliente {
 			nombreCompleto = this.nombres + " " + this.apellidos;
 		}
 		return nombreCompleto;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	
