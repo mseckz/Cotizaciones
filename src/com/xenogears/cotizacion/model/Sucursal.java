@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -15,8 +16,14 @@ public class Sucursal {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer idSucursal;
 	
-	@Column(name="codigoUbigeo")
-	private String codigoUbigeo;
+	@JoinColumn(name="codigoDepartamento")
+	private Departamento departamento;
+	
+	@JoinColumn(name="codigoProvincia")
+	private Provincia provincia;
+	
+	@JoinColumn(name="codigoUbigeo")
+	private Ubigeo ubigeo;
 	
 	@Column(name="nombre")
 	private String nombre;
@@ -31,13 +38,32 @@ public class Sucursal {
 	public void setIdSucursal(Integer idSucursal) {
 		this.idSucursal = idSucursal;
 	}
-
-	public String getCodigoUbigeo() {
-		return codigoUbigeo;
+	
+	public Departamento getDepartamento() {
+		if(departamento == null) departamento = new Departamento();
+		return departamento;
 	}
 
-	public void setCodigoUbigeo(String codigoUbigeo) {
-		this.codigoUbigeo = codigoUbigeo;
+	public void setDepartamento(Departamento departamento) {
+		this.departamento = departamento;
+	}
+
+	public Provincia getProvincia() {
+		if(provincia == null) provincia = new Provincia();
+		return provincia;
+	}
+
+	public void setProvincia(Provincia provincia) {
+		this.provincia = provincia;
+	}
+
+	public Ubigeo getUbigeo() {
+		if(ubigeo == null) ubigeo = new Ubigeo();
+		return ubigeo;
+	}
+
+	public void setUbigeo(Ubigeo ubigeo) {
+		this.ubigeo = ubigeo;
 	}
 
 	public String getNombre() {

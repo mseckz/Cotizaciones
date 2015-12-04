@@ -14,9 +14,20 @@
     		<h:messages></h:messages>
 			<p:panel header="Mantenimiento de sucursales">
 				<h:panelGrid columns="2" cellpadding="5">
-					<h:outputLabel for="txtUbigeo" value="Codigo Ubigeo" />
-		            <p:inputText id="txtCodigo" value="#{sucursalManagedBean.sucursal.codigoUbigeo}" required="true"
-		                requiredMessage="Ingrese Ubigeo" />
+					<h:outputLabel for="cboDept" value="Departamento" />
+					
+					<p:selectOneMenu id="cboDept" value="#{sucursalManagedBean.sucursal.departamento.codigo}">
+						<p:ajax listener="#{sucursalManagedBean.obtenerProvincias}" update="cboProv" process="@this"/>
+						<f:selectItem itemLabel="Elija departamento" itemDisabled="true" ></f:selectItem>
+						<f:selectItems value="#{sucursalManagedBean.departamentos}" var="dept" itemLabel="#{dept.nombre}" itemValue="#{dept.codigo}" ></f:selectItems>
+					</p:selectOneMenu>
+					
+					<h:outputLabel for="cboProv" value="Provincia" />
+					
+					<p:selectOneMenu id="cboProv" value="#{sucursalManagedBean.sucursal.provincia.codigo}">
+						<f:selectItem itemLabel="Elija provincia" itemDisabled="true" ></f:selectItem>
+						<f:selectItems value="#{sucursalManagedBean.provincias}" var="prov" itemLabel="#{prov.nombre}" itemValue="#{prov.codigo}" ></f:selectItems>
+					</p:selectOneMenu>
 		 
 		 			<h:outputLabel for="txtNombre" value="Nombre" />
 		            <p:inputText id="txtDNI" value="#{sucursalManagedBean.sucursal.nombre}" required="true" 

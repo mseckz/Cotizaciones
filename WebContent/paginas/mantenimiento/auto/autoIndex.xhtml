@@ -52,7 +52,8 @@
 
 					 			<h:outputLabel for="txtPrecio" value="Precio del Auto" />
 					            <p:inputText id="txtPrecio" value="#{autoManagedBean.auto.precio}" required="true" 
-					            	requiredMessage="Ingrese Precio">
+					            	requiredMessage="Ingrese Precio" >
+					            	<f:convertNumber pattern="#,###,##0.00"/>
 					            </p:inputText>
 								
 							</h:panelGrid>
@@ -100,7 +101,9 @@
 			   			<h:outputText value="#{auto.modelo}" />
 			   		</p:column>
 			   		<p:column headerText="Precio">
-			   			<h:outputText value="#{auto.precio}" />
+			   			<h:outputText value="#{auto.precio}" >
+			   				<f:convertNumber type="currency" currencySymbol="$"></f:convertNumber>
+			   			</h:outputText>
 			   		</p:column>
 			   		<p:column headerText="">
 						<p:commandButton id="btnEditar" icon="fa fa-fw fa-edit" action="#{autoManagedBean.cargarAuto(auto)}" 
