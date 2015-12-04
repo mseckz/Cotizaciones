@@ -111,7 +111,7 @@ public class Email {
 	        
 	        
 //	        String pathattachFiles  = System.getProperty("user.dir")+"/WebContent"+"/WEB-INF"+"/resources/cotizacion.pdf";
-	        String pathattachFiles  = "C:/Users/Jo/Desktop/workspaceforMars/Cotizaciones-master" + "/WebContent"+"/WEB-INF"+"/resources/cotizacion.pdf";
+	        String pathattachFiles  = Constantes.RUTA_PROYECTO + "/WebContent/WEB-INF/resources/cotizacion.pdf";
 
 	        OutputStream file = new FileOutputStream(new File(pathattachFiles));
 		    Document document = new Document();

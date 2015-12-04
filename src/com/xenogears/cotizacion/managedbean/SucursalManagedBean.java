@@ -10,6 +10,7 @@ import javax.faces.bean.SessionScoped;
 import com.xenogears.cotizacion.model.Departamento;
 import com.xenogears.cotizacion.model.Provincia;
 import com.xenogears.cotizacion.model.Sucursal;
+import com.xenogears.cotizacion.model.Ubigeo;
 import com.xenogears.cotizacion.service.SucursalService;
 import com.xenogears.cotizacion.service.UbigeoService;
 
@@ -21,6 +22,8 @@ public class SucursalManagedBean {
 	private List<Sucursal> sucursales = new ArrayList<Sucursal>();
 	private List<Departamento> departamentos = new ArrayList<Departamento>();
 	private List<Provincia> provincias = new ArrayList<Provincia>();
+	private List<Ubigeo> ubigeos = new ArrayList<Ubigeo>();
+	
 	
 	@ManagedProperty("#{sucursalService}")
 	private SucursalService sucursalService;
@@ -40,6 +43,10 @@ public class SucursalManagedBean {
 	
 	public void obtenerProvincias(){
 		provincias = ubigeoService.obtenerProvincias(sucursal.getDepartamento().getCodigo());
+	}
+	
+	public void obtenerDistritos(){
+		ubigeos = ubigeoService.obtenerUbigeos(sucursal.getProvincia().getCodigo());
 	}
 
 	public SucursalService getSucursalService() {
@@ -90,6 +97,14 @@ public class SucursalManagedBean {
 
 	public void setProvincias(List<Provincia> provincias) {
 		this.provincias = provincias;
+	}
+
+	public List<Ubigeo> getUbigeos() {
+		return ubigeos;
+	}
+
+	public void setUbigeos(List<Ubigeo> ubigeos) {
+		this.ubigeos = ubigeos;
 	}
 	
 }	

@@ -5,6 +5,7 @@ public interface Constantes {
 	
 	public static final String RUTA_FOTO_FOTO_FISICA = "F:/imagenes/";
 	public static final String RUTA_FOTO_WEB = "http://localhost:8080/imagenes/";
+	public static final String RUTA_PROYECTO = "F:/Luis/Workspace JEE/Cotizaciones";
 	
 	//Constantes Variables
 	public static final Integer ID_TABLA_TIPO_DOCUMENTO = 11;

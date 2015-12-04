@@ -25,8 +25,16 @@
 					<h:outputLabel for="cboProv" value="Provincia" />
 					
 					<p:selectOneMenu id="cboProv" value="#{sucursalManagedBean.sucursal.provincia.codigo}">
+						<p:ajax listener="#{sucursalManagedBean.obtenerDistritos}" update="cboUbigeo" process="@this"/>
 						<f:selectItem itemLabel="Elija provincia" itemDisabled="true" ></f:selectItem>
 						<f:selectItems value="#{sucursalManagedBean.provincias}" var="prov" itemLabel="#{prov.nombre}" itemValue="#{prov.codigo}" ></f:selectItems>
+					</p:selectOneMenu>
+					
+					<h:outputLabel for="cboUbigeo" value="Distrito" />
+					
+					<p:selectOneMenu id="cboUbigeo" value="#{sucursalManagedBean.sucursal.ubigeo.codigo}">
+						<f:selectItem itemLabel="Elija distrito" itemDisabled="true" ></f:selectItem>
+						<f:selectItems value="#{sucursalManagedBean.ubigeos}" var="ubigeo" itemLabel="#{ubigeo.nombre}" itemValue="#{ubigeo.codigo}" ></f:selectItems>
 					</p:selectOneMenu>
 		 
 		 			<h:outputLabel for="txtNombre" value="Nombre" />
@@ -44,8 +52,14 @@
 			<p:dataTable var="sucursal" value="#{sucursalManagedBean.sucursales}" id="tablaVend" paginator="true" rows="10" 
 		   		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 		   		rowsPerPageTemplate="5,10,20, 50" paginatorPosition="bottom">
-				<p:column headerText="Codigo Ubigeo">
-					<h:outputText value="#{sucursal.codigoUbigeo}" />
+				<p:column headerText="Departamento">
+					<h:outputText value="#{sucursal.departamento.nombre}" />
+				</p:column>
+				<p:column headerText="Provincia">
+					<h:outputText value="#{sucursal.provincia.nombre}" />
+				</p:column>
+				<p:column headerText="Distrito">
+					<h:outputText value="#{sucursal.ubigeo.nombre}" />
 				</p:column>
 				<p:column headerText="Nombre">
 					<h:outputText value="#{sucursal.nombre}" />
