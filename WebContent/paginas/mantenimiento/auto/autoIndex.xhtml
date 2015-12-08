@@ -124,16 +124,16 @@
 		   	
 		   	<p:dialog header="Eliminar Auto" widgetVar="w_eliminarAutoDialog" modal="true" showEffect="fade" 
 				hideEffect="fade" resizable="false" width="400" closeOnEscape="true" id="eliminarAutoDialog" closable="true">
-			<p:outputPanel>
-				<h:panelGrid columns="1">
-					<h4>Esta seguro de eliminar al auto #{autoManagedBean.autoEliminar.codigoAuto}</h4>
-					<h:panelGrid columns="2">
-						<p:commandButton value="Eliminar" action="#{autoManagedBean.eliminarAuto}" process="@this" update="formAuto:tablaAuto"></p:commandButton>
-						<p:commandButton value="Cancelar" onclick="PF('w_eliminarAutoDialog').hide()" ></p:commandButton>
+				<p:outputPanel>
+					<h:panelGrid columns="1">
+						<h4>Esta seguro de eliminar al auto #{autoManagedBean.autoEliminar.codigoAuto}</h4>
+						<h:panelGrid columns="2">
+							<p:commandButton value="Eliminar" action="#{autoManagedBean.eliminarAuto}" process="@this" update="formAuto:tablaAuto"></p:commandButton>
+							<p:commandButton value="Cancelar" onclick="PF('w_eliminarAutoDialog').hide()" ></p:commandButton>
+						</h:panelGrid>
 					</h:panelGrid>
-				</h:panelGrid>
-			</p:outputPanel>
-		</p:dialog>
+				</p:outputPanel>
+			</p:dialog>
 		   	
 	</ui:define>
 </ui:composition>

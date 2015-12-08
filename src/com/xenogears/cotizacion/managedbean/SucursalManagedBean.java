@@ -41,6 +41,12 @@ public class SucursalManagedBean {
 		return null;
 	}
 	
+	public void cargarSucursal(Sucursal sucursal){
+		this.sucursal = sucursal;
+		obtenerProvincias();
+		obtenerDistritos();
+	}
+	
 	public void obtenerProvincias(){
 		provincias = ubigeoService.obtenerProvincias(sucursal.getDepartamento().getCodigo());
 	}

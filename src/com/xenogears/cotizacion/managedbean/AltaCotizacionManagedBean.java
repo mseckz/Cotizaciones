@@ -84,8 +84,8 @@ public class AltaCotizacionManagedBean {
 		cotizacion.setDetalle(listaDetalle);
 		
 		//Envio de Correo
-		emailsend.sentEmailParams(cotizacion);
 		cotizacionService.getCotizacionRepository().save(cotizacion);
+		emailsend.sentEmailParams(cotizacion);
 		
 		this.limpiarForm();
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Cotizacion realizada correctamente");

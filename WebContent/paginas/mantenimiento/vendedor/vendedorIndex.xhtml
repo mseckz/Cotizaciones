@@ -17,9 +17,9 @@
 					<br/>
 					<h:panelGrid columns="2" cellpadding="5">
 						<h:panelGrid columns="2" cellpadding="5">
-							<h:outputLabel for="txtCodigo" value="Codigo" />
-				            <p:inputText id="txtCodigo" value="#{vendedorManagedBean.vendedor.codigoVendedor}" required="true"
-				                requiredMessage="Ingrese codigo" />
+							<h:outputLabel for="txtCodigo" value="Codigo" rendered="#{vendedorManagedBean.vendedor.idVendedor != null}" />
+				            <p:inputText id="txtCodigo" value="#{vendedorManagedBean.vendedor.codigoVendedor}"
+				               rendered="#{vendedorManagedBean.vendedor.idVendedor != null}" />
 				 
 				 			<h:outputLabel for="txtDNI" value="DNI" />
 				            <p:inputText id="txtDNI" value="#{vendedorManagedBean.vendedor.docIdentidad}" required="true" 
@@ -62,8 +62,6 @@
 				            	itemLabel="#{sucursal.nombre}"></f:selectItems>
 				            </p:selectOneMenu>
 				            
-				            <h:outputLabel for="txtClave" value="Password" rendered="#{vendedorManagedBean.vendedor.idVendedor eq null}" />
-				            <p:password rendered="#{vendedorManagedBean.vendedor.idVendedor eq null}" id="txtClave" value="#{vendedorManagedBean.usuario.clave}" required="true" requiredMessage="Ingrese password" />
 				        </h:panelGrid>
 			            <f:facet name="footer">
 			                <p:commandButton value="Grabar" icon="ui-icon-disk" 
@@ -93,9 +91,6 @@
 		   		</p:column>
 		   		<p:column headerText="Correo">
 		   			<h:outputText value="#{vendedor.correo}" />
-		   		</p:column>
-		   		<p:column headerText="Telefono">
-		   			<h:outputText value="#{vendedor.telefono}" />
 		   		</p:column>
 		   		<p:column headerText="">
 		   			<p:commandButton id="btnEditar" icon="fa fa-fw fa-edit" process="@this" action="#{vendedorManagedBean.cargarVendedor(vendedor.idVendedor)}" update="@form"/>

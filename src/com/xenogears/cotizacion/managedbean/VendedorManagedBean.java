@@ -1,5 +1,6 @@
 package com.xenogears.cotizacion.managedbean;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,12 +10,15 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 import com.google.common.collect.Lists;
+import com.lowagie.text.DocumentException;
 import com.xenogears.cotizacion.model.Sucursal;
 import com.xenogears.cotizacion.model.Usuario;
 import com.xenogears.cotizacion.model.Vendedor;
 import com.xenogears.cotizacion.service.SucursalService;
 import com.xenogears.cotizacion.service.UsuarioService;
 import com.xenogears.cotizacion.service.VendedorService;
+import com.xenogears.cotizacion.util.Email;
+import com.xenogears.cotizacion.util.Util;
 
 @ManagedBean
 @SessionScoped
@@ -25,6 +29,8 @@ public class VendedorManagedBean {
 	private List<Sucursal> sucursales;
 	private List<Vendedor> vendedores;
 
+	Email emailsend=new Email();
+	
 	@ManagedProperty(value="#{vendedorService}")
 	VendedorService servicio;
 	
@@ -45,11 +51,21 @@ public class VendedorManagedBean {
 		return "/paginas/mantenimiento/vendedor/vendedorIndex.xhtml?faces-redirect=true";
 	}
 	
-	public String grabar(){
+	public String grabar() throws IOException, DocumentException{
+		String codigo = servicio.getVendedorRepository().obtenerCodigo();
+		Integer numeroCodigo = Integer.parseInt(codigo.substring(1)) + 1;
+		String nuevoCodigo = "V" + String.format("%05d", numeroCodigo);
+		vendedor.setCodigoVendedor(nuevoCodigo);
+		
 		Vendedor vend = servicio.getVendedorRepository().save(vendedor);
 		usuario.setCorreo(vend.getCorreo());
 		usuario.setVendedor(vend);
+		String claveGenerada = Util.generarRandomString();
+		usuario.setClaveSinEncriptar(claveGenerada);
+		usuario.setClave(Util.encriptarPassword(claveGenerada, usuario.getCorreo()));
 		usuarioService.getUsuarioRepository().save(usuario);
+		emailsend.sentEmailUsuario(usuario);
+		
 		usuario = new Usuario();
 		vendedor = new Vendedor();
 		return null;

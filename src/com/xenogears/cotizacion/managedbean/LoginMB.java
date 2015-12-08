@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import com.xenogears.cotizacion.model.Usuario;
 import com.xenogears.cotizacion.model.Vendedor;
 import com.xenogears.cotizacion.service.UsuarioService;
+import com.xenogears.cotizacion.util.Util;
 
 @ManagedBean
 @SessionScoped
@@ -22,7 +23,8 @@ public class LoginMB {
     private UsuarioService service;
 	
 	public String login(){
-		Usuario user = service.getUsuarioRepository().validarLogin(correo, password);
+		String claveEncriptada = Util.encriptarPassword(password, correo); 
+		Usuario user = service.getUsuarioRepository().validarLogin(correo, claveEncriptada);
 		if(user == null){
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Credenciales incorrectas");
 			FacesContext.getCurrentInstance().addMessage(null, message);

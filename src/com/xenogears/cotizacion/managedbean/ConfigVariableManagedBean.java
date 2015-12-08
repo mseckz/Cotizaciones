@@ -31,7 +31,15 @@ public class ConfigVariableManagedBean {
 		configVar.setDescripcion(configVar.getDescripcion().toUpperCase());
 		configvarService.getConfigVarRepository().save(configVar);
 		configVar = new ConfigVariable();
+		flagTabla = false;
 		return null;
+	}
+	
+	public void cargarVariable(ConfigVariable var){
+		this.configVar = var;
+		if(configVar.getPadre().getIdConfigVariable() == null){
+			this.flagTabla = true;
+		}
 	}
 	
 	public ConfigVariableService getConfigvarService() {

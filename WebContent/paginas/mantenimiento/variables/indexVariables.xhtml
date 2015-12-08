@@ -51,8 +51,9 @@
 						<h:outputText value="#{variable.descripcion}" />
 					</p:column>
 					<p:column headerText="">
-						<p:commandButton id="btnEditar" icon="fa fa-fw fa-edit" process="@this"  update="@form"/>
+						<p:commandButton id="btnEditar" icon="fa fa-fw fa-edit" action="#{configVariableManagedBean.cargarVariable(variable)}" process="@this"  update="@form"/>
 						<p:tooltip value="Editar" for="btnEditar" />
+						
 						<p:commandButton id="btnEliminar" icon="fa fa-fw fa-remove" process="@this" update="@form"/>
 						<p:tooltip value="Eliminar" for="btnEliminar" />
 					</p:column>

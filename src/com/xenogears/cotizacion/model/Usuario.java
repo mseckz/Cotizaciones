@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="usuario")
@@ -33,6 +34,9 @@ public class Usuario {
 	
 	@Column(name="flagEstado", insertable=false)
     private boolean flagEstado;
+	
+	@Transient
+	private String claveSinEncriptar;
 
 	public Integer getIdUsuario() {
 		return IdUsuario;
@@ -80,6 +84,14 @@ public class Usuario {
 
 	public void setFlagEstado(boolean flagEstado) {
 		this.flagEstado = flagEstado;
+	}
+
+	public String getClaveSinEncriptar() {
+		return claveSinEncriptar;
+	}
+
+	public void setClaveSinEncriptar(String claveSinEncriptar) {
+		this.claveSinEncriptar = claveSinEncriptar;
 	}
 	
 }

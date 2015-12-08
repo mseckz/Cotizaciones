@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import com.xenogears.cotizacion.model.Vendedor;
 
 @Repository
-public interface VendedorRepository extends GenericRepository<Vendedor, Integer>{
+public interface VendedorRepository extends GenericRepository<Vendedor, Integer>, VendedorRepositoryCustom{
 
 }
