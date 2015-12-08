@@ -33,4 +33,13 @@ public class UsuarioRepositoryImpl implements UsuarioRepositoryCustom{
 		return resultado.isEmpty() ? null : resultado.get(0);
 	}
 
+	@Override
+	public Usuario obtenerUsuarioxIdVend(Integer idVendedor) {
+		TypedQuery<Usuario> query = entityManager.createQuery(""
+				+ "Select u from Usuario u where u.vendedor.idVendedor = :idVendedor", Usuario.class);
+		query.setParameter("idVendedor", idVendedor);
+		List<Usuario> resultado = query.getResultList();
+		return resultado.isEmpty() ? null : resultado.get(0);
+	}
+
 }

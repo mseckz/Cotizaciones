@@ -7,4 +7,6 @@ public interface UsuarioRepositoryCustom {
 	Usuario validarLogin(String correo, String password);
 	
 	Usuario obtenerUsuario(String correo);
+	
+	Usuario obtenerUsuarioxIdVend(Integer idVendedor);
 }
