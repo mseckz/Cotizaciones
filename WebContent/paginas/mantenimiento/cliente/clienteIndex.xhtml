@@ -63,7 +63,7 @@
 					          	
 					            <h:outputLabel for="txtNumeroDocumento" value="Numero Documento" />
 					            <p:inputText id="txtNumeroDocumento" value="#{clienteManagedBean.cliente.numeroDocumento}" required="true" 
-					            	requiredMessage="Ingrese numero documento">
+					            	requiredMessage="Ingrese numero documento" validatorMessage="Ingrese documento valido">
 					            	<f:validateLength maximum="#{clienteManagedBean.tamanoNumeroDocumento}" minimum="#{clienteManagedBean.tamanoNumeroDocumento}"></f:validateLength>
 					            </p:inputText>
 							</h:panelGrid>

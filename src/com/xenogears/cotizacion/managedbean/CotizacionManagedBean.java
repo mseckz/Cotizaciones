@@ -3,9 +3,13 @@ package com.xenogears.cotizacion.managedbean;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.TabChangeEvent;
 
 import com.xenogears.cotizacion.model.Cotizacion;
 import com.xenogears.cotizacion.service.CotizacionService;
@@ -13,19 +17,38 @@ import com.xenogears.cotizacion.service.CotizacionService;
 @ManagedBean
 @SessionScoped
 public class CotizacionManagedBean {
-	
-	@ManagedProperty("#{cotizacionService}") 
+
+	private Cotizacion cotizacion;
+	private List<Cotizacion> cotizaciones = new ArrayList<Cotizacion>();
+
+	@ManagedProperty("#{cotizacionService}")
 	CotizacionService cotService;
 
-	private List<Cotizacion> cotizacionesPendientes = new ArrayList<Cotizacion>();
-	private List<Cotizacion> cotizacionesAprobadas = new ArrayList<Cotizacion>();
-	
-	
-	public String redireccionarIndex(){
+	@PostConstruct
+	public void init() {
+		cotizaciones = cotService.getCotizacionRepository().obtenerPendientes();
+	}
+
+	public String redireccionarIndex() {
 		return "/paginas/cotizacion/indexCotizacion.xhtml?faces-redirect=true";
 	}
+
+	public void onTabChange(TabChangeEvent event) {
+		if (event.getTab().getId().equals("pendientes")) {
+			cotizaciones = cotService.getCotizacionRepository()
+					.obtenerPendientes();
+		}
+		if (event.getTab().getId().equals("aprobados")) {
+			cotizaciones = cotService.getCotizacionRepository()
+					.obtenerAprobados();
+		}
+	}
 	
-	
+	public void cargarCotizacion(Cotizacion cotizacion){
+		this.cotizacion = cotizacion;
+		RequestContext.getCurrentInstance().execute("PF('w_detalleCotizacionDialog').show();");
+	}
+
 	public CotizacionService getCotService() {
 		return cotService;
 	}
@@ -34,22 +57,20 @@ public class CotizacionManagedBean {
 		this.cotService = cotService;
 	}
 
-	public List<Cotizacion> getCotizacionesPendientes() {
-		cotizacionesPendientes = cotService.getCotizacionRepository().obtenerPendientes();
-		return cotizacionesPendientes;
+	public List<Cotizacion> getCotizaciones() {
+		return cotizaciones;
 	}
 
-	public void setCotizacionesPendientes(List<Cotizacion> cotizacionesPendientes) {
-		this.cotizacionesPendientes = cotizacionesPendientes;
+	public void setCotizaciones(List<Cotizacion> cotizaciones) {
+		this.cotizaciones = cotizaciones;
 	}
 
-	public List<Cotizacion> getCotizacionesAprobadas() {
-		cotizacionesAprobadas = cotService.getCotizacionRepository().obtenerAprobados();
-		return cotizacionesAprobadas;
+	public Cotizacion getCotizacion() {
+		return cotizacion;
 	}
 
-	public void setCotizacionesAprobadas(List<Cotizacion> cotizacionesAprobadas) {
-		this.cotizacionesAprobadas = cotizacionesAprobadas;
+	public void setCotizacion(Cotizacion cotizacion) {
+		this.cotizacion = cotizacion;
 	}
-	
+
 }

@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import com.google.common.collect.Lists;
 import com.lowagie.text.DocumentException;
@@ -52,19 +54,38 @@ public class VendedorManagedBean {
 	}
 	
 	public String grabar() throws IOException, DocumentException{
-		String codigo = servicio.getVendedorRepository().obtenerCodigo();
-		Integer numeroCodigo = Integer.parseInt(codigo.substring(1)) + 1;
-		String nuevoCodigo = "V" + String.format("%05d", numeroCodigo);
-		vendedor.setCodigoVendedor(nuevoCodigo);
 		
-		Vendedor vend = servicio.getVendedorRepository().save(vendedor);
-		usuario.setCorreo(vend.getCorreo());
-		usuario.setVendedor(vend);
-		String claveGenerada = Util.generarRandomString();
-		usuario.setClaveSinEncriptar(claveGenerada);
-		usuario.setClave(Util.encriptarPassword(claveGenerada, usuario.getCorreo()));
-		usuarioService.getUsuarioRepository().save(usuario);
-		emailsend.sentEmailUsuario(usuario);
+		if(vendedor.getIdVendedor() == null) {
+			String codigo = servicio.getVendedorRepository().obtenerCodigo();
+			Integer numeroCodigo = Integer.parseInt(codigo.substring(1)) + 1;
+			String nuevoCodigo = "V" + String.format("%05d", numeroCodigo);
+			vendedor.setCodigoVendedor(nuevoCodigo);
+			
+			Vendedor vend = servicio.getVendedorRepository().save(vendedor);
+			usuario.setCorreo(vend.getCorreo());
+			usuario.setVendedor(vend);
+			String claveGenerada = Util.generarRandomString();
+			usuario.setClaveSinEncriptar(claveGenerada);
+			usuario.setClave(Util.encriptarPassword(claveGenerada, usuario.getCorreo()));
+			usuarioService.getUsuarioRepository().save(usuario);
+			emailsend.sentEmailUsuario(usuario);
+			
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Vendedor registrado correctamente");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+		else {
+			
+			Usuario usuario = usuarioService.getUsuarioRepository().obtenerUsuarioxIdVend(vendedor.getIdVendedor());
+			usuario.setCorreo(vendedor.getCorreo());
+			servicio.getVendedorRepository().save(vendedor);
+			usuarioService.getUsuarioRepository().save(usuario);
+			
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Vendedor actualizado correctamente");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+		
+		
+		
 		
 		usuario = new Usuario();
 		vendedor = new Vendedor();

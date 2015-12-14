@@ -20,19 +20,100 @@
 				</p:row>
 			</h:panelGrid>
 		</p:panel>
+		<h:form>
+			<p:panel>
+				<p:tabView>
+					<p:ajax event="tabChange" listener="#{cotizacionManagedBean.onTabChange}" update="formCotizaciones:tablaCotizaciones"/>
+			        <p:tab id="pendientes" title="Cotizaciones pendientes">
+			        </p:tab>
+			        <p:tab id="aprobados" title="Cotizaciones Aprobadas">
+			        </p:tab>
+			    </p:tabView>
+			</p:panel>
+		</h:form>
 		
-		<p:panel>
-			<p:tabView>
-		        <p:tab title="Cotizaciones pendientes">
-		            <ui:include src="tabCotizacionPendientes.xhtml" />
-		        </p:tab>
-		        <p:tab title="Cotizaciones Aprobadas">
-		            <ui:include src="tabCotizacionAprobadas.xhtml" />
-		        </p:tab>
-		    </p:tabView>
-		</p:panel>
+		<h:form id="formCotizaciones">
+			<p:dataTable var="cotizacion" value="#{cotizacionManagedBean.cotizaciones}" id="tablaCotizaciones" paginator="true" rows="10" 
+		   			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		   			rowsPerPageTemplate="5,10,20, 50" paginatorPosition="bottom" >
+				
+				<p:column headerText="Codigo">
+					<h:outputText value="#{cotizacion.codigoCotizacion}" />
+				</p:column>
+				
+				<p:column headerText="Vendedor">
+					<h:outputText value="#{cotizacion.vendedor.codigoVendedor}" />
+				</p:column>
+				
+				<p:column headerText="Cliente">
+					<h:outputText value="#{cotizacion.cliente.codigoCliente}" />
+				</p:column>
+				
+				<p:column headerText="Moneda">
+					<h:outputText value="#{cotizacion.descripTipoMoneda}" />
+				</p:column>
+				
+				<p:column headerText="Precio">
+					<h:outputText value="#{cotizacion.precio}" />
+				</p:column>
+				
+				<p:column headerText="Importe">
+					<h:outputText value="#{cotizacion.importe}" />
+				</p:column>
+				
+				<p:column headerText="">
+					<p:commandButton process="@this" update="detalleCotizacionDialog" id="btnDetalle" icon="fa fa-search" action="#{cotizacionManagedBean.cargarCotizacion(cotizacion)}"></p:commandButton>
+					<p:tooltip for="btnDetalle" value="consultar" ></p:tooltip>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		
+		<p:dialog header="Detalle de Cotizacion" widgetVar="w_detalleCotizacionDialog" modal="true" showEffect="fade" 
+			hideEffect="fade" resizable="false" width="1000" closeOnEscape="true" id="detalleCotizacionDialog" closable="true">
+			
+			<h:panelGrid columns="2" cellpadding="5" style="width:100%">
+				<h:panelGrid columns="2" cellpadding="5" style="width:100%">
+					<p:outputLabel value="Codigo"></p:outputLabel>
+					<h:outputText value="#{cotizacionManagedBean.cotizacion.codigoCotizacion}"></h:outputText>
+					
+					<p:outputLabel value="Cliente"></p:outputLabel>
+					<h:outputText value="#{cotizacionManagedBean.cotizacion.cliente.nombreCompleto}"></h:outputText>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2" cellpadding="5" style="width:100%">
+					<p:outputLabel value="Vendedor"></p:outputLabel>
+					<h:outputText value="#{cotizacionManagedBean.cotizacion.vendedor.nombreCompleto}"></h:outputText>
+				</h:panelGrid>
+				
+			</h:panelGrid>
+			
+			<p:dataTable rowIndexVar="row" id="tablaDetalle" value="#{cotizacionManagedBean.cotizacion.detalle}" var="detalle">
+				<p:column headerText="Item">
+					<h:outputText value="#{row + 1}"></h:outputText>
+				</p:column>
+				<p:column headerText="Marca">
+					<h:outputText value="#{detalle.auto.marca}"></h:outputText>
+				</p:column>
+				<p:column headerText="Modelo">
+					<h:outputText value="#{detalle.auto.modelo}"></h:outputText>
+				</p:column>
+				<p:column headerText="precio">
+					<h:outputText value="#{detalle.precio}"></h:outputText>
+				</p:column>
+				<p:column headerText="Cantidad">
+					<h:outputText value="#{detalle.cantidad}"></h:outputText>
+				</p:column>
+				<p:column headerText="Subtotal">
+					<h:outputText value="#{detalle.subtotal}"></h:outputText>
+				</p:column>
+				
+				<f:facet name="footer">
+			        Precio Total: #{altaCotizacionManagedBean.cotizacion.importe}
+			    </f:facet>
+			</p:dataTable>
+		</p:dialog>
+		
 	</ui:define>
 </ui:composition>
-
 
 </html>

@@ -22,6 +22,11 @@
 								
 							<p:commandButton value="Limpiar" action="#{altaCotizacionManagedBean.limpiarForm()}"
 							 update="@form" process="@this"></p:commandButton>
+							 
+							 <p:spacer width="5px"></p:spacer>
+							 
+							 <p:commandButton value="Nuevo Cliente"  oncomplete="PF('nuevoClienteDialog').show();"
+							 	update="@form" process="@this"></p:commandButton>
 						</p:column>	
 					</p:row>
 				</h:panelGrid>
@@ -120,11 +125,13 @@
 				</h:panelGrid>
 			</p:panel>
 			<p:blockUI block="content" trigger="btnRegistrar">
-				<p:graphicImage value="/WebContent/WEB-INF/resources/img/processing.gif"></p:graphicImage>
+				<p:graphicImage  value="/WebContent/WEB-INF/resources/img/processing.gif"></p:graphicImage>
 			</p:blockUI>
 		</h:form>
 		<ui:include src="popupBuscarAuto.xhtml"></ui:include>
 		<ui:include src="popupbuscarCliente.xhtml"></ui:include>
+		
+		<p:dialog id="nuevoClienteDialog"></p:dialog>
 	</ui:define>
 </ui:composition>
 </html>
