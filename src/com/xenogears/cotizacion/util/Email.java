@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
@@ -20,7 +21,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.html.simpleparser.HTMLWorker;
@@ -29,7 +29,6 @@ import com.xenogears.cotizacion.model.Cotizacion;
 import com.xenogears.cotizacion.model.Usuario;
 
 public class Email {
-	
 	public static void sendEmailWithAttachments(String host, String port,
 			final String userName, final String password, String toAddress,
 			String subject, String message, String attachFiles)
@@ -168,21 +167,109 @@ public class Email {
 		String port = "587";
 		String mailFrom = "kerneluserallteams@gmail.com";
 		String password = "qa123456";
+		Date date=new Date();
+		SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
 
 		// message info
 		String mailTo = cotizacion.getCliente().getEmail();
-		String subject = "New email with attachments";
-
-		String message = "" + "<!DOCTYPE html>" + "	<html>" + "	<body>"
-				+ "	<h3>Cotizacion " + cotizacion.getCodigoCotizacion()
-				+ "</h3>" + "	<legend>Nombre Completos:  "
-				+ cotizacion.getCliente().getNombreCompleto() + "</legend>"
-				+ "	<legend>DNI:  asdasdsd</legend>"
-				+ "	<legend>Celular :  asdasdsd</legend>"
-				+ "	<legend>Correo :  asdasdsd</legend>"
-				+ "	<legend>Cliente :  asdasdsd</legend>" + "	</body>"
-				+ "	</html>";
-
+		String subject = "Su Cotizacion ha sido procesada";
+		
+		/**
+		 * ASDASD
+		 */
+		 
+		String razon,header,datosInteresado,datosCotizacion,parteFinal,message;
+		header=""+
+				"<!DOCTYPE html>"+
+		"<html>"+
+		"<head>"+
+		"<meta charset='UTF-8'>"+
+			"<title>Cotizacion N°"+cotizacion.getCodigoCotizacion()+"</title>"+
+		"</head>"+
+		"<body style='height: auto;width: 900px;margin-left: auto;margin-right: auto;background-image: url(asdsahttp://lparchive.org/Xenogears-%28by-The-Dark-Id%29/Update%2001/1-prologue11.jpg);'>"+
+		" <h2 style='text-align: center;'>Cotizacion N°"+ cotizacion.getCodigoCotizacion()+"</h2>"+
+		"<div style='float:left;padding-top:40px;'>"+
+			"<legend>Fecha de Cotizacion : "+formateador.format(date) +"</legend><br>"+
+			"<legend>Tipo de Cambio : 3.372</legend><br>"+
+		"</div>"+
+		"<div style='float:right;'>"+
+			"<img style='width:150px;height:60px;' src=http://lparchive.org/Xenogears-%28by-The-Dark-Id%29/Update%2001/1-prologue11.jpg>"+
+		"</div>"+
+		"<div style='padding-top:120px;'>"+
+			"<h4>Datos del Interesado</h4>"+
+		"</div>"+
+			
+		"<div>";
+			if(cotizacion.getCliente().getIdTipoCliente()==1){
+				if (cotizacion.getCliente().getRazonSocia()==null) {
+					razon="N/A";
+				}else
+				{
+					razon=cotizacion.getCliente().getRazonSocia();
+				}
+				datosInteresado="<legend>Nombre Completo : "+cotizacion.getCliente().getNombreCompleto()+"</legend><br>"+
+						"<legend>" +cotizacion.getCliente().getDescripTipoDoc()+" : " +cotizacion.getCliente().getNumeroDocumento()+"</legend><br>"+
+						"<legend>Razon Social : " + razon +"</legend><br>"+
+					"</div>"+
+						"<div>"+
+						"<table class='GeneratedTable'>"+
+						"<thead>"+
+						"<tr>"+
+						"<th>Marca</th>"+
+						"<th>Modelo</th>"+
+						"<th>Año</th>"+
+						"<th>Cantidad</th>"+
+						"<th>Precio</th>"+
+						"<th>Subtotal</th>"+
+						"<th>Moneda</th>"+
+						"</tr>"+
+						"</thead>"+
+						"<tbody>";
+				
+			}
+			else{
+				datosInteresado="<legend>Razon Social : " + cotizacion.getCliente().getRazonSocia() +"</legend>"+
+						"<legend>RUC : "+cotizacion.getCliente().getNumeroDocumento()+"</legend>"+
+						"<legend>Representante Legal: "+cotizacion.getCliente().getNombreCompleto()+"</legend>"+
+					"</div>"+
+						"<div>"+
+						"<table class='GeneratedTable'>"+
+							"<thead>"+
+							"<tr>"+
+							"<th>Marca</th>"+
+							"<th>Modelo</th>"+
+							"<th>Año</th>"+
+							"<th>Cantidad</th>"+
+							"<th>Precio</th>"+
+							"<th>Subtotal</th>"+
+							"<th>Moneda</th>"+
+							"</tr>"+
+							"</thead>"+
+							"<tbody>";
+			}
+		
+		StringBuilder stringBuilder = new StringBuilder();
+		for (int i = 0; i < cotizacion.getDetalle().size(); i++) {
+			stringBuilder.append("<tr>");
+			stringBuilder.append("<td>"+cotizacion.getDetalle().get(i).getAuto().getMarca()+"</td>");
+			stringBuilder.append("<td>"+cotizacion.getDetalle().get(i).getAuto().getModelo()+"</td>");
+			stringBuilder.append("<td>"+cotizacion.getDetalle().get(i).getAuto().getAnio()+"</td>");
+			stringBuilder.append("<td>"+cotizacion.getDetalle().get(i).getCantidad()+"</td>");
+			stringBuilder.append("<td>"+cotizacion.getDetalle().get(i).getAuto().getPrecio()+"</td>");
+			stringBuilder.append("<td>"+cotizacion.getDetalle().get(i).getSubtotal()+"</td>");
+			stringBuilder.append("<td>"+cotizacion.getIdTipoMoneda()+"</td>");
+			stringBuilder.append("</tr>");
+		}
+		datosCotizacion=stringBuilder.toString();
+		
+		parteFinal=	"</tbody>"
+			+ "</table><br>"+
+			"<legend>Importe Total : "+cotizacion.getImporte()+"</legend><br>"+
+		"</div>"+
+		"</body>"+
+		"</html>";
+		message=header+datosInteresado+datosCotizacion+parteFinal;
+		System.err.println(message);
 		// String pathattachFiles =
 		// System.getProperty("user.dir")+"/WebContent"+"/WEB-INF"+"/resources/cotizacion.pdf";
 		String pathattachFiles = Constantes.RUTA_PROYECTO
