@@ -117,6 +117,9 @@
 	                	</p:commandButton>
 			   		</p:column>
 			   	</p:dataTable>
+			 <p:blockUI block="formCliente" trigger="btnGrabar">
+				<p:graphicImage value="http://www.cmeparts.com/image/preloader.gif"></p:graphicImage>
+			</p:blockUI>
 		   	</h:form> 
 		   	
 		   	<p:dialog header="Eliminar Cliente" widgetVar="w_eliminarClienteDialog" modal="true" showEffect="fade" 
