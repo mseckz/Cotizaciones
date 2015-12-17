@@ -73,11 +73,11 @@ public class Util {
 		String generatedPassword = null;
 		try {
 			// Create MessageDigest instance for MD5
-			MessageDigest md = MessageDigest.getInstance("MD5");
+			MessageDigest md = MessageDigest.getInstance("SHA-512");
 			// Add password bytes to digest
-			md.update(password.getBytes());
+			md.update(salt.getBytes());
 			// Get the hash's bytes
-			byte[] bytes = md.digest();
+			byte[] bytes = md.digest(password.getBytes());
 			// This bytes[] has bytes in decimal format;
 			// Convert it to hexadecimal format
 			StringBuilder sb = new StringBuilder();

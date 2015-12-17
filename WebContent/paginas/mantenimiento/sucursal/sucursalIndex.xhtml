@@ -11,7 +11,8 @@
 	<ui:define name="content">
 	    
 	    <h:form id="content">
-    		<h:messages></h:messages>
+    		<p:growl autoUpdate="true" life="3000" showSummary="true" showDetail="true" escape="false" globalOnly="true"></p:growl>
+    		<p:messages id="messages" showSummary="true" showDetail="false" autoUpdate="true" closable="true"></p:messages>
 			<p:panel header="Mantenimiento de sucursales">
 				<h:panelGrid columns="2" cellpadding="5">
 					<h:outputLabel for="cboDept" value="Departamento" />

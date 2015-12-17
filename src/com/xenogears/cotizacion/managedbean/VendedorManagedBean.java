@@ -25,95 +25,107 @@ import com.xenogears.cotizacion.util.Util;
 @ManagedBean
 @SessionScoped
 public class VendedorManagedBean {
-	
+
 	private Vendedor vendedor;
 	private Usuario usuario;
 	private List<Sucursal> sucursales;
 	private List<Vendedor> vendedores;
 
-	Email emailsend=new Email();
-	
-	@ManagedProperty(value="#{vendedorService}")
+	Email emailsend = new Email();
+
+	@ManagedProperty(value = "#{vendedorService}")
 	VendedorService servicio;
-	
-	@ManagedProperty(value="#{sucursalService}")
+
+	@ManagedProperty(value = "#{sucursalService}")
 	SucursalService sucursalService;
-	
-	@ManagedProperty(value="#{usuarioService}")
+
+	@ManagedProperty(value = "#{usuarioService}")
 	UsuarioService usuarioService;
-	
+
 	@PostConstruct
-	public void init(){
+	public void init() {
 		vendedor = new Vendedor();
 		usuario = new Usuario();
 		vendedores = new ArrayList<Vendedor>();
 	}
-	
-	public String indexVendedor(){
+
+	public String indexVendedor() {
 		return "/paginas/mantenimiento/vendedor/vendedorIndex.xhtml?faces-redirect=true";
 	}
+
 	public void limpiarForm() {
-		vendedor=new Vendedor();
+		vendedor = new Vendedor();
 	}
-	public String grabar() throws IOException, DocumentException{
-		
-		if(vendedor.getIdVendedor() == null) {
+
+	public String grabar() throws IOException, DocumentException {
+
+		boolean correoValido = servicio.getVendedorRepository().correValido(vendedor.getCorreo());
+		if (!correoValido) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"", "Correo ya existe");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			return null;
+		}
+
+		if (vendedor.getIdVendedor() == null) {
 			String codigo = servicio.getVendedorRepository().obtenerCodigo();
 			Integer numeroCodigo = Integer.parseInt(codigo.substring(1)) + 1;
 			String nuevoCodigo = "V" + String.format("%05d", numeroCodigo);
 			vendedor.setCodigoVendedor(nuevoCodigo);
-			
+
 			Vendedor vend = servicio.getVendedorRepository().save(vendedor);
 			usuario.setCorreo(vend.getCorreo());
 			usuario.setVendedor(vend);
 			String claveGenerada = Util.generarRandomString();
 			usuario.setClaveSinEncriptar(claveGenerada);
-			usuario.setClave(Util.encriptarPassword(claveGenerada, usuario.getCorreo()));
+			usuario.setClave(Util.encriptarPassword(claveGenerada,
+					usuario.getCorreo()));
 			usuarioService.getUsuarioRepository().save(usuario);
 			emailsend.sentEmailUsuario(usuario);
-			
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Vendedor registrado correctamente");
+
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"", "Vendedor registrado correctamente");
 			FacesContext.getCurrentInstance().addMessage(null, message);
-		}
-		else {
-			
-			Usuario usuario = usuarioService.getUsuarioRepository().obtenerUsuarioxIdVend(vendedor.getIdVendedor());
+		} else {
+
+			Usuario usuario = usuarioService.getUsuarioRepository()
+					.obtenerUsuarioxIdVend(vendedor.getIdVendedor());
 			usuario.setCorreo(vendedor.getCorreo());
 			servicio.getVendedorRepository().save(vendedor);
 			usuarioService.getUsuarioRepository().save(usuario);
-			
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Vendedor actualizado correctamente");
+
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"", "Vendedor actualizado correctamente");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-		
-		
-		
-		
+
 		usuario = new Usuario();
 		vendedor = new Vendedor();
 		return null;
 	}
-	
-	public String cargarVendedor(Integer idVendedor){
+
+	public String cargarVendedor(Integer idVendedor) {
 		vendedor = servicio.getVendedorRepository().findOne(idVendedor);
 		return null;
 	}
-	
-	public String eliminarVendedor(Integer idVendedor){
+
+	public String eliminarVendedor(Integer idVendedor) {
 		Vendedor vend = servicio.getVendedorRepository().findOne(idVendedor);
 		vend.setFlagEstado(false);
 		servicio.getVendedorRepository().save(vend);
-		Usuario usuario = usuarioService.getUsuarioRepository().obtenerUsuario(vend.getCorreo());
+		Usuario usuario = usuarioService.getUsuarioRepository().obtenerUsuario(
+				vend.getCorreo());
 		usuario.setFlagEstado(false);
 		usuarioService.getUsuarioRepository().save(usuario);
-		vendedores = Lists.newArrayList(servicio.getVendedorRepository().obtenerPorEstado(true));
+		vendedores = Lists.newArrayList(servicio.getVendedorRepository()
+				.obtenerPorEstado(true));
 		return null;
 	}
-	
-	public String deshabilitar(Integer vendedor){
+
+	public String deshabilitar(Integer vendedor) {
 		return null;
 	}
-	
+
 	public Vendedor getVendedor() {
 		return vendedor;
 	}
@@ -121,7 +133,7 @@ public class VendedorManagedBean {
 	public void setVendedor(Vendedor vendedor) {
 		this.vendedor = vendedor;
 	}
-	
+
 	public List<Sucursal> getSucursales() {
 		sucursales = sucursalService.listarSucursales();
 		return sucursales;
@@ -130,9 +142,10 @@ public class VendedorManagedBean {
 	public void setSucursales(List<Sucursal> sucursales) {
 		this.sucursales = sucursales;
 	}
-	
+
 	public List<Vendedor> getVendedores() {
-		vendedores = Lists.newArrayList(servicio.getVendedorRepository().obtenerPorEstado(true));
+		vendedores = Lists.newArrayList(servicio.getVendedorRepository()
+				.obtenerPorEstado(true));
 		return vendedores;
 	}
 
@@ -171,6 +184,5 @@ public class VendedorManagedBean {
 	public void setUsuarioService(UsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
 	}
-	
-	
+
 }
