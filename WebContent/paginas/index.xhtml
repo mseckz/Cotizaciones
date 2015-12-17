@@ -11,8 +11,60 @@
 	<ui:define name="content">
 		<p:panel>
 				<h1>Bienvenido #{loginMB.vendedorAuth.nombreCompleto}</h1>
+		<p:panel>
+		<h:outputLabel>Tus Ultimas ccotizaciones registradas por ti :</h:outputLabel>
+		<h:form>
+				<p:tabView>
+					<p:ajax event="tabChange" listener="#{cotizacionManagedBean.onTabChange}" update="formCotizaciones:tablaCotizaciones"/>
+			        <p:tab id="pendientes" title="Pendientes">
+			        </p:tab>
+			        <p:tab id="aprobados" title="Aprobadas">
+			        </p:tab>
+			        <p:tab id="anulados" title="Anuladas">
+			        </p:tab>
+			    </p:tabView>
+		</h:form>
+		
+		<h:form id="formCotizaciones">
+			<p:dataTable var="cotizacion" value="#{cotizacionManagedBean.cotizaciones}" id="tablaCotizaciones" paginator="true" rows="10" 
+		   			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		   			rowsPerPageTemplate="5,10,20, 50" paginatorPosition="bottom" >
+				
+				<p:column headerText="Codigo">
+					<h:outputText value="#{cotizacion.codigoCotizacion}" />
+				</p:column>
+				
+				<p:column headerText="Vendedor">
+					<h:outputText value="#{cotizacion.vendedor.codigoVendedor}" />
+				</p:column>
+				
+				<p:column headerText="Cliente">
+					<h:outputText value="#{cotizacion.cliente.codigoCliente}" />
+				</p:column>
+				
+				<p:column headerText="Moneda">
+					<h:outputText value="#{cotizacion.descripTipoMoneda}" />
+				</p:column>
+				
+				<p:column headerText="Importe">
+					<h:outputText value="#{cotizacion.importe}">
+						<f:convertNumber currencySymbol="$" type="currency" ></f:convertNumber>
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="">
+					<p:commandButton process="@this" update="detalleCotizacionDialog" id="btnDetalle" icon="fa fa-search" action="#{cotizacionManagedBean.cargarCotizacion(cotizacion)}"></p:commandButton>
+					<p:tooltip for="btnDetalle" value="consultar" ></p:tooltip>
+				</p:column>
+			</p:dataTable>
+		</h:form>
 		</p:panel>
+		<ui:include src="cotizacion/popupDetalleCotizacion.xhtml"></ui:include>
+		</p:panel>
+	   <p:panel>
+	   <p:chart type="metergauge" model="#{chartBean.meterGaugeModel1}" style="width:400px;height:250px" />
 	   
+	   </p:panel>
 	    
 	</ui:define>
 </ui:composition>
