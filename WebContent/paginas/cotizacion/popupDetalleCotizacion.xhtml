@@ -1,0 +1,74 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<p:dialog header="Detalle de Cotizacion" widgetVar="w_detalleCotizacionDialog" modal="true" showEffect="fade" 
+			hideEffect="fade" resizable="false" width="1000" closeOnEscape="true" id="detalleCotizacionDialog" closable="true">
+			
+		<h:panelGrid columns="2" cellpadding="5" style="width:100%">
+			<h:panelGrid columns="2" cellpadding="5" style="width:80%">
+				<p:outputLabel value="Codigo:"></p:outputLabel>
+				<h:outputText value="#{cotizacionManagedBean.cotizacion.codigoCotizacion}"></h:outputText>
+				
+				<p:outputLabel value="Cliente:"></p:outputLabel>
+				<h:outputText value="#{cotizacionManagedBean.cotizacion.cliente.nombreCompleto}"></h:outputText>
+			</h:panelGrid>
+			
+			<h:panelGrid columns="2" cellpadding="5" style="width:80%">
+				<p:outputLabel value="Vendedor:"></p:outputLabel>
+				<h:outputText value="#{cotizacionManagedBean.cotizacion.vendedor.nombreCompleto}"></h:outputText>
+			</h:panelGrid>
+			
+		</h:panelGrid>
+		
+		<p:dataTable rowIndexVar="row" id="tablaDetalle" value="#{cotizacionManagedBean.cotizacion.detalle}" var="detalle">
+			<p:column headerText="Item">
+				<h:outputText value="#{row + 1}"></h:outputText>
+			</p:column>
+			<p:column headerText="Marca">
+				<h:outputText value="#{detalle.auto.marca}"></h:outputText>
+			</p:column>
+			<p:column headerText="Modelo">
+				<h:outputText value="#{detalle.auto.modelo}"></h:outputText>
+			</p:column>
+			<p:column headerText="precio">
+				<h:outputText value="#{detalle.precio}">
+					<f:convertNumber currencySymbol="$" type="currency" ></f:convertNumber>
+				</h:outputText>
+			</p:column>
+			<p:column headerText="Cantidad">
+				<h:outputText value="#{detalle.cantidad}"></h:outputText>
+			</p:column>
+			<p:column headerText="Subtotal">
+				<h:outputText value="#{detalle.subtotal}">
+					<f:convertNumber currencySymbol="$" type="currency" ></f:convertNumber>
+				</h:outputText>
+			</p:column>
+			
+			<f:facet name="footer">
+		        Precio Total: 
+		        <h:outputText value="#{altaCotizacionManagedBean.cotizacion.importe}">
+					<f:convertNumber currencySymbol="$" type="currency" ></f:convertNumber>
+				</h:outputText>
+		    </f:facet>
+		</p:dataTable>
+		
+		<p:commandButton value="Aprobar" actionListener="#{cotizacionManagedBean.aprobarCotizacion}"
+			 oncomplete="PF('w_detalleCotizacionDialog').hide();" update="formCotizaciones:tablaCotizaciones"
+			 rendered="#{cotizacionManagedBean.cotizacion.flagAprobado == false}" >
+			<p:confirm header="Aprobar Cotizacion" message="¿Seguro de aprobar Cotizacion?" icon="ui-icon-alert" />
+		</p:commandButton>
+		<p:commandButton value="Anular" actionListener="#{cotizacionManagedBean.anularCotizacion}"
+			 oncomplete="PF('w_detalleCotizacionDialog').hide();" update="formCotizaciones:tablaCotizaciones"
+			rendered="#{cotizacionManagedBean.cotizacion.flagAprobado == false}" >
+			<p:confirm header="Anular Cotizacion" message="¿Seguro de anular Cotizacion?" icon="ui-icon-alert" />
+		</p:commandButton>
+	</p:dialog>
+	
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
+</html>

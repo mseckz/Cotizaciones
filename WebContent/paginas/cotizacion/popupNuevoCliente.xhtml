@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+<p:dialog header="Nuevo Cliente" widgetVar="w_nuevoClienteDialog" modal="true" showEffect="fade" 
+	hideEffect="fade" resizable="false" width="1000" closeOnEscape="true" id="nuevoClienteDialog" closable="true">
+	
+	<h:form id="formCliente">
+   		<p:growl autoUpdate="true" life="3000" showSummary="true" showDetail="true" escape="false" globalOnly="true"></p:growl>
+   		<p:messages id="messages" showSummary="true" showDetail="false" autoUpdate="true" closable="true"></p:messages>
+		<h:panelGrid columns="2" cellpadding="5" style="width:100%">
+			<h:panelGrid columns="2" cellpadding="5" style="width:100%;margin-bottom:20px">
+				<h:panelGrid columns="2" cellpadding="5">
+		 			
+		 			<h:outputLabel for="txtCodigo" value="Codigo " rendered="#{clienteManagedBean.cliente.idCliente != null}" />
+		            <p:inputText id="txtCodigo" value="#{clienteManagedBean.cliente.codigoCliente}" disabled="true" 
+		            	rendered="#{clienteManagedBean.cliente.idCliente != null}">
+	            	</p:inputText>
+		 			
+		 			<h:outputLabel for="cboTipoCliente" value="Tipo de Cliente" />
+		            <p:selectOneMenu required="true" requiredMessage="Seleccione tipo de cliente" id="cboTipoCliente" value="#{clienteManagedBean.cliente.idTipoCliente}">
+		            	<f:selectItem itemLabel="Seleccione Tipo de Cliente"  noSelectionOption="true" itemDisabled="true"></f:selectItem>
+		            	<f:selectItems value="#{clienteManagedBean.tipoClientes}" var="tipo" itemValue="#{tipo.idConfigVariable}"
+		            	itemLabel="#{tipo.descripcion}"></f:selectItems>
+		            </p:selectOneMenu>
+		 			
+		            <h:outputLabel for="txtNombres" value="Nombres" />
+		            <p:inputText id="txtNombres" value="#{clienteManagedBean.cliente.nombres}" required="true" 
+		            	requiredMessage="Ingrese nombres" validatorMessage="Ingrese nombre valido">
+		            	<f:validateRegex pattern="^[a-zA-Z\\s]*$" ></f:validateRegex>
+	            	</p:inputText>
+		            
+		            <h:outputLabel for="txtApellidos" value="Apellido " />
+		            <p:inputText id="txtApellidos" value="#{clienteManagedBean.cliente.apellidos}" required="true"
+		            	requiredMessage="Ingrese apellido" validatorMessage="Ingrese apellido valido">
+	            		<f:validateRegex pattern="^[a-zA-Z\\s]*$"></f:validateRegex>
+	            	</p:inputText>
+				</h:panelGrid>
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:outputLabel for="txtRazonSocial" value="Razon Social" />
+		            <p:inputText id="txtRazonSocial" value="#{clienteManagedBean.cliente.razonSocia}" required="true" 
+		            	requiredMessage="Ingrese Razon social" >
+	            	</p:inputText>
+				
+					<h:outputLabel for="txtCorreo" value="Correo " />
+		            <p:inputText id="txtCorreo" value="#{clienteManagedBean.cliente.email}" required="true"
+		            	requiredMessage="Ingrese correo" >
+		            	<f:validator validatorId="emailValidator"></f:validator>	
+	            	</p:inputText>
+
+		          	<h:outputLabel for="cboTipoDocumento" value="Tipo de Documento" />
+		            <p:selectOneMenu required="true" requiredMessage="Seleccione tipo de documento" id="cboTipoDocumento" value="#{clienteManagedBean.cliente.idTipoDocumento}">
+		            	<f:selectItem itemLabel="Seleccione Tipo de Documento"  noSelectionOption="true" itemDisabled="true"></f:selectItem>
+		            	<f:selectItems value="#{clienteManagedBean.variables}" var="variables" itemValue="#{variables.idConfigVariable}"
+		            	itemLabel="#{variables.descripcion}"></f:selectItems>
+		            	<p:ajax listener="#{clienteManagedBean.onTipoDocChange}" process="@this" ></p:ajax>
+		            </p:selectOneMenu>
+		          	
+		            <h:outputLabel for="txtNumeroDocumento" value="Numero Documento" />
+		            <p:inputText id="txtNumeroDocumento" value="#{clienteManagedBean.cliente.numeroDocumento}" required="true" 
+		            	requiredMessage="Ingrese numero documento" validatorMessage="Ingrese documento valido">
+		            	<f:validateLength maximum="#{clienteManagedBean.tamanoNumeroDocumento}" minimum="#{clienteManagedBean.tamanoNumeroDocumento}"></f:validateLength>
+		            </p:inputText>
+				</h:panelGrid>
+			</h:panelGrid>
+            <f:facet name="footer" >
+                <p:commandButton value="Grabar" icon="ui-icon-disk" action="#{clienteManagedBean.grabar}" 
+                	styleClass="ui-priority-primary" update="@form" style="margin-right:10px" />
+                	
+            	<p:commandButton process="@this" value="Limpiar" icon="ui-icon-trash" action="#{clienteManagedBean.limpiarForm}" 
+            		 update="@form">
+            		<p:resetInput target="@form" />
+            	</p:commandButton>
+            		
+            </f:facet>  
+        </h:panelGrid>
+	</h:form>
+</p:dialog>
+</html>

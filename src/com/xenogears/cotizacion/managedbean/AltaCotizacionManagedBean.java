@@ -126,6 +126,10 @@ public class AltaCotizacionManagedBean {
 		}
 	}
 	
+	public void popupNuevoCliente(){
+		RequestContext.getCurrentInstance().execute("PF('w_nuevoClienteDialog').show();");
+	}
+	
 	public void limpiarForm(){
 		cotizacion = new Cotizacion();
 		autoSeleccionado = new Auto();

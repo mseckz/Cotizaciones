@@ -37,4 +37,11 @@ public class CotizacionRepositoryImpl implements CotizacionRepositoryCustom{
 		return resultado.isEmpty() ? "COT001" : resultado.get(0);
 	}
 
+	@Override
+	public List<Cotizacion> obtenerAnulados() {
+		TypedQuery<Cotizacion> query = entityManager.createQuery(""
+				+ "Select c from Cotizacion c where c.flagAnulado = true and c.flagEstado = true", Cotizacion.class);
+		return query.getResultList();
+	}
+
 }

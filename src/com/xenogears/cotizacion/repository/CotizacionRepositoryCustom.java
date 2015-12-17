@@ -10,5 +10,8 @@ public interface CotizacionRepositoryCustom {
 	
 	List<Cotizacion> obtenerPendientes();
 	
+	List<Cotizacion> obtenerAnulados();
+	
 	String obtenerCodigo();
+	
 }

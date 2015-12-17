@@ -25,8 +25,7 @@
 							 
 							 <p:spacer width="5px"></p:spacer>
 							 
-							 <p:commandButton value="Nuevo Cliente"  oncomplete="PF('nuevoClienteDialog').show();"
-							 	update="@form" process="@this"></p:commandButton>
+							 <p:commandButton value="Nuevo Cliente" action="#{altaCotizacionManagedBean.popupNuevoCliente()}" process="@this"></p:commandButton>
 						</p:column>	
 					</p:row>
 				</h:panelGrid>
@@ -130,8 +129,8 @@
 		</h:form>
 		<ui:include src="popupBuscarAuto.xhtml"></ui:include>
 		<ui:include src="popupbuscarCliente.xhtml"></ui:include>
+		<ui:include src="popupNuevoCliente.xhtml"></ui:include>
 		
-		<p:dialog id="nuevoClienteDialog"></p:dialog>
 	</ui:define>
 </ui:composition>
 </html>

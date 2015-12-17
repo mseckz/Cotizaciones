@@ -40,14 +40,14 @@ public class Cotizacion {
 	@Column(name="descripTipoMoneda")
 	private String descripTipoMoneda;
 	
-	@Column(name="precio")
-	private Double precio;
-	
 	@Column(name="importe")
 	private Double importe;
 	
 	@Column(name="flagAprobado", insertable=false)
 	private boolean flagAprobado;
+	
+	@Column(name="flagAnulado", insertable=false)
+	private boolean flagAnulado;
 	
 	@Column(name="flagEstado", insertable=false)
 	private boolean flagEstado;
@@ -105,14 +105,6 @@ public class Cotizacion {
 		this.descripTipoMoneda = descripTipoMoneda;
 	}
 
-	public Double getPrecio() {
-		return precio;
-	}
-
-	public void setPrecio(Double precio) {
-		this.precio = precio;
-	}
-
 	public Double getImporte() {
 		return importe;
 	}
@@ -144,5 +136,14 @@ public class Cotizacion {
 	public void setDetalle(List<DetalleCotizacion> detalle) {
 		this.detalle = detalle;
 	}
+
+	public boolean isFlagAnulado() {
+		return flagAnulado;
+	}
+
+	public void setFlagAnulado(boolean flagAnulado) {
+		this.flagAnulado = flagAnulado;
+	}
+	
 	
 }
