@@ -20,7 +20,7 @@
 						<h:panelGrid columns="2" cellpadding="5">
 							<h:outputLabel for="txtCodigo" value="Codigo" rendered="#{vendedorManagedBean.vendedor.idVendedor != null}" />
 				            <p:inputText id="txtCodigo" value="#{vendedorManagedBean.vendedor.codigoVendedor}"
-				               rendered="#{vendedorManagedBean.vendedor.idVendedor != null}" >
+				               rendered="#{vendedorManagedBean.vendedor.idVendedor != null}" readonly="true" disabled="true" >
 				            </p:inputText>
 				 
 				 			<h:outputLabel for="txtDNI" value="DNI" />
@@ -76,6 +76,10 @@
 			            <f:facet name="footer">
 			                <p:commandButton value="Grabar" icon="ui-icon-disk" 
 								action="#{vendedorManagedBean.grabar}" styleClass="ui-priority-primary" update="@form,tablaVend"/>
+							<p:commandButton process="@this" value="Limpiar" icon="ui-icon-trash" action="#{vendedorManagedBean.limpiarForm}" 
+			            		 update="@form,tablaVend">
+			            		<p:resetInput target="@form" />
+			            	</p:commandButton>
 			            </f:facet>  
 			        </h:panelGrid>
 				</p:panel>

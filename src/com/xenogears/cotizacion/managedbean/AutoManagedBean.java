@@ -63,13 +63,12 @@ public class AutoManagedBean {
 	}
 
 	public String indexAuto() {
-		auto = new Auto();
 		return "/paginas/mantenimiento/auto/autoIndex.xhtml?faces-redirect=true";
 	}
 
 	public String grabar() throws IOException {
 
-		if (auto.getIdAuto() == null) {
+		if (auto.getCodigoAuto() == null) {
 			String ultimoCodigo = autoServicio.getAutoRepository()
 					.obtenerCodigo();
 			Integer numeroCodigo = Integer.parseInt(ultimoCodigo.substring(4));
@@ -110,6 +109,7 @@ public class AutoManagedBean {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"", "Auto " + auto.getCodigoAuto()
 							+ " registrado correctamente");
+			System.err.println(auto.getUrlFoto());
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 		
