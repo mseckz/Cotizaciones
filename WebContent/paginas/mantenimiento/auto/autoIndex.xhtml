@@ -17,9 +17,8 @@
 						<h:panelGrid columns="2" cellpadding="5" style="width:100%;margin-bottom:20px">
 							<h:panelGrid columns="2" cellpadding="5">
 					 			
-					 			<h:outputLabel for="txtCodigo" value="Codigo " rendered="#{autoManagedBean.auto.idAuto != null}" />
-					            <p:inputText id="txtCodigo" value="#{autoManagedBean.auto.codigoAuto}" disabled="true" 
-					            	rendered="#{clienteManagedBean.cliente.idCliente != null}">
+					 			<h:outputLabel for="txtCodigo" value="Codigo "  rendered="#{autoManagedBean.auto.codigoAuto != null}" />
+					            <p:inputText id="txtCodigo" value="#{autoManagedBean.auto.codigoAuto}" rendered="#{autoManagedBean.auto.codigoAuto != null}"  disabled="true" readonly="true">
 				            	</p:inputText>
 					 			
 					 			<h:outputLabel for="cboTipoAuto" value="Tipo de Auto" />
@@ -57,7 +56,7 @@
 					            </p:inputText>
 								
 							</h:panelGrid>
-							<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
 								<p:outputLabel value="Seleccione una foto" styleClass="textoLabelBlock" />
 								<p:fileUpload allowTypes="/(\.|\/)(gif|jpe?g|png)$/" update="fotoAuto"
 								fileUploadListener="#{autoManagedBean.subirFoto}" mode="advanced" skinSimple="true" auto="true" />

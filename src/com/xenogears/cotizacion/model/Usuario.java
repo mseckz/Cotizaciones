@@ -35,6 +35,9 @@ public class Usuario {
 	@Column(name="flagEstado", insertable=false)
     private boolean flagEstado;
 	
+	@Column(name="flagNuevo", insertable=false)
+    private boolean flagNuevo;
+	
 	@Transient
 	private String claveSinEncriptar;
 
@@ -92,6 +95,14 @@ public class Usuario {
 
 	public void setClaveSinEncriptar(String claveSinEncriptar) {
 		this.claveSinEncriptar = claveSinEncriptar;
+	}
+
+	public boolean isFlagNuevo() {
+		return flagNuevo;
+	}
+
+	public void setFlagNuevo(boolean flagNuevo) {
+		this.flagNuevo = flagNuevo;
 	}
 	
 }

@@ -52,7 +52,9 @@ public class VendedorManagedBean {
 	public String indexVendedor(){
 		return "/paginas/mantenimiento/vendedor/vendedorIndex.xhtml?faces-redirect=true";
 	}
-	
+	public void limpiarForm() {
+		vendedor=new Vendedor();
+	}
 	public String grabar() throws IOException, DocumentException{
 		
 		if(vendedor.getIdVendedor() == null) {
