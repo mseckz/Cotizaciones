@@ -24,7 +24,7 @@ public class CotizacionRepositoryImpl implements CotizacionRepositoryCustom{
 	@Override
 	public List<Cotizacion> obtenerPendientes() {
 		TypedQuery<Cotizacion> query = entityManager.createQuery(""
-				+ "Select c from Cotizacion c where c.flagAprobado = false and c.flagEstado = true", Cotizacion.class);
+				+ "Select c from Cotizacion c where c.flagAprobado = false and c.flagAnulado = false and c.flagEstado = true", Cotizacion.class);
 		return query.getResultList();
 	}
 

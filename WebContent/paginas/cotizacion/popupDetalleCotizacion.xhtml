@@ -56,13 +56,13 @@
 		</p:dataTable>
 		
 		<p:commandButton value="Aprobar" actionListener="#{cotizacionManagedBean.aprobarCotizacion}"
-			 oncomplete="PF('w_detalleCotizacionDialog').hide();" update="formCotizaciones:tablaCotizaciones"
-			 rendered="#{cotizacionManagedBean.cotizacion.flagAprobado == false}" >
+			 oncomplete="PF('w_detalleCotizacionDialog').hide();" update="formCotizaciones"
+			 rendered="#{!cotizacionManagedBean.cotizacion.flagAprobado}" >
 			<p:confirm header="Aprobar Cotizacion" message="¿Seguro de aprobar Cotizacion?" icon="ui-icon-alert" />
 		</p:commandButton>
 		<p:commandButton value="Anular" actionListener="#{cotizacionManagedBean.anularCotizacion}"
-			 oncomplete="PF('w_detalleCotizacionDialog').hide();" update="formCotizaciones:tablaCotizaciones"
-			rendered="#{cotizacionManagedBean.cotizacion.flagAprobado == false}" >
+			 oncomplete="PF('w_detalleCotizacionDialog').hide();" update="formCotizaciones"
+			rendered="#{!cotizacionManagedBean.cotizacion.flagAprobado}" >
 			<p:confirm header="Anular Cotizacion" message="¿Seguro de anular Cotizacion?" icon="ui-icon-alert" />
 		</p:commandButton>
 	</p:dialog>

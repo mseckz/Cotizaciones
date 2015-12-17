@@ -18,6 +18,7 @@ public class ConfigVariableManagedBean {
 	private List<ConfigVariable> variables;
 	private List<ConfigVariable> variablesTabla;
 	private boolean flagTabla;
+	private List<ConfigVariable> variablesFiltradas;
 	
 	@ManagedProperty(value ="#{configVariableService}")
 	private ConfigVariableService configvarService;
@@ -26,13 +27,12 @@ public class ConfigVariableManagedBean {
 		return "/paginas/mantenimiento/variables/indexVariables.xhtml?faces-redirect=true";
 	}
 	
-	public String registrar(){
+	public void registrar(){
 		if(flagTabla) configVar.setPadre(null);
 		configVar.setDescripcion(configVar.getDescripcion().toUpperCase());
 		configvarService.getConfigVarRepository().save(configVar);
 		configVar = new ConfigVariable();
 		flagTabla = false;
-		return null;
 	}
 	
 	public void cargarVariable(ConfigVariable var){
@@ -86,6 +86,14 @@ public class ConfigVariableManagedBean {
 
 	public void setFlagTabla(boolean flagTabla) {
 		this.flagTabla = flagTabla;
+	}
+
+	public List<ConfigVariable> getVariablesFiltradas() {
+		return variablesFiltradas;
+	}
+
+	public void setVariablesFiltradas(List<ConfigVariable> variablesFiltradas) {
+		this.variablesFiltradas = variablesFiltradas;
 	}
 	
 }

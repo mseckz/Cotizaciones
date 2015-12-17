@@ -105,17 +105,17 @@
 			   			</h:outputText>
 			   		</p:column>
 			   		<p:column headerText="">
+			   			<p:commandButton id="btnDetalle" icon="fa fa-fw fa-search" update="detalleAutoDialog" process="@this" 
+	                		oncomplete="PF('w_detalleAutoDialog').show()" action="#{autoManagedBean.cargarAutoDetalle(auto)}">
+		                	<p:tooltip value="Detalle" for="btnDetalle"></p:tooltip>
+	                	</p:commandButton>
 						<p:commandButton id="btnEditar" icon="fa fa-fw fa-edit" action="#{autoManagedBean.cargarAuto(auto)}" 
 		                	update="@form,tablaAuto"  process="@this" >
 		                	<p:tooltip value="Editar" for="btnEditar"></p:tooltip>
 	                	</p:commandButton>
 	                	<p:commandButton id="btnEliminar" icon="fa fa-fw fa-remove" update="eliminarAutoDialog" process="@this" 
-	                	oncomplete="PF('w_eliminarAutoDialog').show()" action="#{autoManagedBean.cargarAutoEliminar(auto)}">
+	                		oncomplete="PF('w_eliminarAutoDialog').show()" action="#{autoManagedBean.cargarAutoEliminar(auto)}">
 		                	<p:tooltip value="ELiminar" for="btnEliminar"></p:tooltip>
-	                	</p:commandButton>
-	                	<p:commandButton id="btnDetalle" icon="fa fa-fw fa-remove" update="eliminarAutoDialog" process="@this" 
-	                	oncomplete="PF('w_eliminarAutoDialog').show()" action="#{autoManagedBean.cargarAutoEliminar(auto)}">
-		                	<p:tooltip value="Detalle" for="btnDetalle"></p:tooltip>
 	                	</p:commandButton>
 			   		</p:column>
 			   	</p:dataTable>
@@ -133,7 +133,7 @@
 					</h:panelGrid>
 				</p:outputPanel>
 			</p:dialog>
-		   	
+		   	<ui:include src="popupDetalleAuto.xhtml"></ui:include>
 	</ui:define>
 </ui:composition>
 </html>

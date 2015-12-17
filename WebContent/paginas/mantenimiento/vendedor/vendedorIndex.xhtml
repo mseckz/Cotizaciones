@@ -88,25 +88,25 @@
 		   	<p:dataTable var="vendedor" value="#{vendedorManagedBean.vendedores}" id="tablaVend" paginator="true" rows="10" 
 		   		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 		   		rowsPerPageTemplate="5,10,20, 50" paginatorPosition="bottom" >
-		   		<p:column headerText="Codigo">
+		   		<p:column headerText="Codigo" style="width:100px">
 		   			<h:outputText value="#{vendedor.codigoVendedor}" />
 		   		</p:column>
-		   		<p:column headerText="DNI">
+		   		<p:column headerText="DNI" style="width:100px">
 		   			<h:outputText value="#{vendedor.docIdentidad}" />
 		   		</p:column>
-		   		<p:column headerText="Nombres">
+		   		<p:column headerText="Nombres" style="width:200px" >
 		   			<h:outputText value="#{vendedor.nombres}" />
 		   		</p:column>
-		   		<p:column headerText="Apellido Pat">
+		   		<p:column headerText="Apellido Pat" style="width:200px" >
 		   			<h:outputText value="#{vendedor.apellidoPaterno}" />
 		   		</p:column>
-		   		<p:column headerText="Apellido Mat">
+		   		<p:column headerText="Apellido Mat" style="width:200px" >
 		   			<h:outputText value="#{vendedor.apellidoMaterno}" />
 		   		</p:column>
-		   		<p:column headerText="Correo">
+		   		<p:column headerText="Correo" style="width:250px" >
 		   			<h:outputText value="#{vendedor.correo}" />
 		   		</p:column>
-		   		<p:column headerText="">
+		   		<p:column headerText="" style="width:100px">
 		   			<p:commandButton id="btnEditar" icon="fa fa-fw fa-edit" process="@this" action="#{vendedorManagedBean.cargarVendedor(vendedor.idVendedor)}" update="@form"/>
 		   			<p:tooltip value="Editar" for="btnEditar" />
 		   			<p:commandButton id="btnEliminar" icon="fa fa-fw fa-remove" process="@this" action="#{vendedorManagedBean.eliminarVendedor(vendedor.idVendedor)}" update="@form"/>

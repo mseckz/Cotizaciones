@@ -37,6 +37,7 @@ public class AutoManagedBean {
 	private ArrayList<Integer> anioslist;
 	private ArrayList<Integer> puertalist;
 	private UploadedFile imagen;
+	private Auto autoDetalle;
 	
 	@ManagedProperty(value = "#{autoService}")
 	AutoService autoServicio;
@@ -121,6 +122,10 @@ public class AutoManagedBean {
 
 	public void cargarAuto(Auto auto) {
 		this.auto = auto;
+	}
+	
+	public void cargarAutoDetalle(Auto auto){
+		this.autoDetalle = auto;
 	}
 
 	public void cargarAutoEliminar(Auto auto) {
@@ -248,4 +253,12 @@ public class AutoManagedBean {
 		this.imagen = imagen;
 	}
 
+	public Auto getAutoDetalle() {
+		return autoDetalle;
+	}
+
+	public void setAutoDetalle(Auto autoDetalle) {
+		this.autoDetalle = autoDetalle;
+	}
+	
 }

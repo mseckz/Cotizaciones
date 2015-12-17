@@ -59,13 +59,13 @@ public class VendedorManagedBean {
 
 	public String grabar() throws IOException, DocumentException {
 
-		boolean correoValido = servicio.getVendedorRepository().correValido(vendedor.getCorreo());
-		if (!correoValido) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"", "Correo ya existe");
-			FacesContext.getCurrentInstance().addMessage(null, message);
-			return null;
-		}
+//		boolean correoValido = servicio.getVendedorRepository().correValido(vendedor.getCorreo());
+//		if (!correoValido) {
+//			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+//					"", "Correo ya existe");
+//			FacesContext.getCurrentInstance().addMessage(null, message);
+//			return null;
+//		}
 
 		if (vendedor.getIdVendedor() == null) {
 			String codigo = servicio.getVendedorRepository().obtenerCodigo();

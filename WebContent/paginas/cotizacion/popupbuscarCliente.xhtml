@@ -10,22 +10,25 @@ widgetVar="w_buscarClienteDialog" modal="true" showEffect="fade"
 
 	<p:outputPanel>
 		<h:form>
-			<p:dataTable var="cliente" value="#{altaCotizacionManagedBean.clientes}" id="tablaClientes" paginator="true" rows="10" 
+			<p:dataTable var="cliente" value="#{altaCotizacionManagedBean.clientes}" 
+					filteredValue="#{altaCotizacionManagedBean.clientesFiltrados}"
+					
+					id="tablaClientes" paginator="true" rows="10" 
 		   			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 		   			rowsPerPageTemplate="5,10,20,50" paginatorPosition="bottom" >
 				
 				<p:column>
-		   			<p:commandButton value="Seleccionar" 
-		   			process="@this" update="formCotizacion:panelDatosCliente" oncomplete="PF('w_buscarClienteDialog').hide()" >
+		   			<p:commandButton value="Seleccionar"  update="formDatos:panelDatosCliente"
+		   			process="@form"  oncomplete="PF('w_buscarClienteDialog').hide()" >
 		   				<f:setPropertyActionListener value="#{cliente}" target="#{altaCotizacionManagedBean.clienteSeleccionado}"/>
 		   			</p:commandButton>
 		   		</p:column>
 				
-				<p:column headerText="Codigo" filterable="true" filterBy="#{cliente.codigoCliente}">
+				<p:column headerText="Codigo" filterable="true" filterBy="#{cliente.codigoCliente}" filterMatchMode="contains">
 					<h:outputText value="#{cliente.codigoCliente}"></h:outputText>
 				</p:column>
 				
-				<p:column headerText="Nombre" filterable="true" filterBy="#{cliente.nombreCompleto}">
+				<p:column headerText="Nombre" filterable="true" filterBy="#{cliente.nombreCompleto}" filterMatchMode="contains">
 					<h:outputText value="#{cliente.nombreCompleto}"></h:outputText>
 				</p:column>
 				
@@ -33,7 +36,7 @@ widgetVar="w_buscarClienteDialog" modal="true" showEffect="fade"
 					<h:outputText value="#{cliente.descripTipoDoc}"></h:outputText>
 				</p:column>
 				
-				<p:column headerText="Numero Doc." filterable="true" filterBy="#{cliente.numeroDocumento}">
+				<p:column headerText="Numero Doc." filterable="true" filterBy="#{cliente.numeroDocumento}" filterMatchMode="contains">
 					<h:outputText value="#{cliente.numeroDocumento}"></h:outputText>
 				</p:column>
 			</p:dataTable>

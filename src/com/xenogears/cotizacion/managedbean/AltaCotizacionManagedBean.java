@@ -62,6 +62,11 @@ public class AltaCotizacionManagedBean {
 	private Cliente clienteSeleccionado = new Cliente();
 	private List<DetalleCotizacion> listaDetalle = new ArrayList<DetalleCotizacion>();
 	private DetalleCotizacion detalleSeleccionado;
+	private List<Cliente> clientesFiltrados;
+	private List<Auto> autosFiltrados;
+	private Cliente nuevoCliente;
+	
+	private Integer tamanoNumeroDocumento;
 	
 	@PostConstruct
 	public void init(){
@@ -69,7 +74,24 @@ public class AltaCotizacionManagedBean {
 		cotizacion.setImporte(0.0);
 	}
 	
+	public void seleccionarCliente(Cliente cliente){
+		clienteSeleccionado=cliente;
+		System.out.println(cliente);
+	}
+	
 	public String registrarCotizacion() throws IOException, DocumentException{
+		
+		if(clienteSeleccionado.getIdCliente() == null){
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Debe ingresar Cliente");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			return null;
+		}
+		
+		if(listaDetalle.isEmpty()){
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Debe ingresar autos(s)");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			return null;
+		}
 	
 		String codigo = cotizacionService.getCotizacionRepository().obtenerCodigo();
 		String numCodigo = codigo.substring(3);
@@ -88,7 +110,7 @@ public class AltaCotizacionManagedBean {
 		emailsend.sentEmailParams(cotizacion);
 		
 		this.limpiarForm();
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Cotizacion realizada correctamente");
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Cotizacion realizada correctamente");
 		FacesContext.getCurrentInstance().addMessage(null, message);
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
 		
@@ -105,11 +127,18 @@ public class AltaCotizacionManagedBean {
 	
 	
 	public void agregarDetalle(){
+		if(cantidad == null || cantidad == 0){
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Ingrese cantidad");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			return;
+		}
+		
 		DetalleCotizacion det = new DetalleCotizacion();
 		det.setAuto(autoSeleccionado);
 		det.setCotizacion(cotizacion);
 		det.setCantidad(this.cantidad);
 		det.setPrecio(autoSeleccionado.getPrecio());
+		System.out.println(cantidad + " " + autoSeleccionado.getPrecio());
 		det.setSubtotal(this.cantidad * autoSeleccionado.getPrecio());
 		listaDetalle.add(det);
 		autoSeleccionado = new Auto();
@@ -130,6 +159,12 @@ public class AltaCotizacionManagedBean {
 		RequestContext.getCurrentInstance().execute("PF('w_nuevoClienteDialog').show();");
 	}
 	
+	public void popupTipoCambio(){
+		if(cotizacion.getIdTipoMoneda() == 8){
+			RequestContext.getCurrentInstance().execute("PF('w_tipoCambioDialog').show();");
+		}
+	}
+	
 	public void limpiarForm(){
 		cotizacion = new Cotizacion();
 		autoSeleccionado = new Auto();
@@ -137,6 +172,41 @@ public class AltaCotizacionManagedBean {
 		listaDetalle = new ArrayList<DetalleCotizacion>();
 	}
 	
+	//CLIENTE
+	public void crearCliente(){
+		String ultimoCodigo = clienteService.getClienteRepository().obtenerCodigo();
+		Integer numeroCodigo = Integer.parseInt(ultimoCodigo.substring(3));
+		String nuevoCodigo = "CL" + String.format("%04d", (numeroCodigo+1));
+		nuevoCliente.setCodigoCliente(nuevoCodigo);
+		
+		//Obtener tipos
+		ConfigVariable var = cofigVarService.getConfigVarRepository().findOne(nuevoCliente.getIdTipoDocumento());
+		nuevoCliente.setDescripTipoDoc(var.getDescripcion());
+		ConfigVariable tipoCli = cofigVarService.getConfigVarRepository().findOne(nuevoCliente.getIdTipoCliente());
+		nuevoCliente.setDescripTipoCliente(tipoCli.getDescripcion());
+		clienteService.getClienteRepository().save(nuevoCliente);
+		
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Cliente "+ nuevoCliente.getCodigoCliente() +" registrado correctamente");
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		
+		nuevoCliente = new Cliente();
+		RequestContext.getCurrentInstance().execute("PF('w_nuevoClienteDialog').hide();");
+	}
+	
+	public void onTipoDocChange(){
+		Integer idTipoDoc = nuevoCliente.getIdTipoDocumento();
+		switch(idTipoDoc){
+		case 12:
+			tamanoNumeroDocumento = 8;break;
+		case 13:
+			tamanoNumeroDocumento = 11;break;
+		}
+		System.out.println(tamanoNumeroDocumento);
+	}
+	
+	public void limpiarFormCliente(){
+		nuevoCliente = new Cliente();
+	}
 	
 	//GETTERS SETTERS
 	public CotizacionService getCotizacionService() {
@@ -280,6 +350,41 @@ public class AltaCotizacionManagedBean {
 
 	public void setDetalleSeleccionado(DetalleCotizacion detalleSeleccionado) {
 		this.detalleSeleccionado = detalleSeleccionado;
+	}
+
+	public List<Cliente> getClientesFiltrados() {
+		return clientesFiltrados;
+	}
+
+	public void setClientesFiltrados(List<Cliente> clientesFiltrados) {
+		this.clientesFiltrados = clientesFiltrados;
+	}
+
+	public List<Auto> getAutosFiltrados() {
+		return autosFiltrados;
+	}
+
+	public void setAutosFiltrados(List<Auto> autosFiltrados) {
+		this.autosFiltrados = autosFiltrados;
+	}
+
+	public Cliente getNuevoCliente() {
+		if(nuevoCliente == null) {
+			nuevoCliente = new Cliente();
+		}
+		return nuevoCliente;
+	}
+
+	public void setNuevoCliente(Cliente nuevoCliente) {
+		this.nuevoCliente = nuevoCliente;
+	}
+
+	public Integer getTamanoNumeroDocumento() {
+		return tamanoNumeroDocumento;
+	}
+
+	public void setTamanoNumeroDocumento(Integer tamanoNumeroDocumento) {
+		this.tamanoNumeroDocumento = tamanoNumeroDocumento;
 	}
 	
 }

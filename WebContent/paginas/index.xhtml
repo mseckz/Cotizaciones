@@ -12,7 +12,7 @@
 		<p:panel>
 				<h1>Bienvenido #{loginMB.vendedorAuth.nombreCompleto}</h1>
 		<p:panel>
-		<h:outputLabel>Tus Ultimas ccotizaciones registradas por ti :</h:outputLabel>
+		<h:outputLabel>Tus Ultimas ccotizaciones registradas:</h:outputLabel>
 		<h:form>
 				<p:tabView>
 					<p:ajax event="tabChange" listener="#{cotizacionManagedBean.onTabChange}" update="formCotizaciones:tablaCotizaciones"/>
@@ -62,7 +62,7 @@
 		<ui:include src="cotizacion/popupDetalleCotizacion.xhtml"></ui:include>
 		</p:panel>
 	   <p:panel>
-	   <p:chart type="metergauge" model="#{chartBean.meterGaugeModel1}" style="width:400px;height:250px" />
+	   <!--  <p:chart type="metergauge" model="#{chartBean.meterGaugeModel1}" style="width:400px;height:250px" />-->
 	   
 	   </p:panel>
 	    

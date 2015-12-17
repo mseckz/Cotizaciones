@@ -1,5 +1,6 @@
 package com.xenogears.cotizacion.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -130,6 +131,9 @@ public class Cotizacion {
 	}
 
 	public List<DetalleCotizacion> getDetalle() {
+		if(detalle == null) {
+			detalle = new ArrayList<DetalleCotizacion>();
+		}
 		return detalle;
 	}
 

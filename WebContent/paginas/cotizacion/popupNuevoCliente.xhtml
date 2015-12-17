@@ -14,62 +14,57 @@
 			<h:panelGrid columns="2" cellpadding="5" style="width:100%;margin-bottom:20px">
 				<h:panelGrid columns="2" cellpadding="5">
 		 			
-		 			<h:outputLabel for="txtCodigo" value="Codigo " rendered="#{clienteManagedBean.cliente.idCliente != null}" />
-		            <p:inputText id="txtCodigo" value="#{clienteManagedBean.cliente.codigoCliente}" disabled="true" 
-		            	rendered="#{clienteManagedBean.cliente.idCliente != null}">
-	            	</p:inputText>
-		 			
 		 			<h:outputLabel for="cboTipoCliente" value="Tipo de Cliente" />
-		            <p:selectOneMenu required="true" requiredMessage="Seleccione tipo de cliente" id="cboTipoCliente" value="#{clienteManagedBean.cliente.idTipoCliente}">
+		            <p:selectOneMenu required="true" requiredMessage="Seleccione tipo de cliente" id="cboTipoCliente" value="#{altaCotizacionManagedBean.nuevoCliente.idTipoCliente}">
 		            	<f:selectItem itemLabel="Seleccione Tipo de Cliente"  noSelectionOption="true" itemDisabled="true"></f:selectItem>
 		            	<f:selectItems value="#{clienteManagedBean.tipoClientes}" var="tipo" itemValue="#{tipo.idConfigVariable}"
 		            	itemLabel="#{tipo.descripcion}"></f:selectItems>
 		            </p:selectOneMenu>
 		 			
 		            <h:outputLabel for="txtNombres" value="Nombres" />
-		            <p:inputText id="txtNombres" value="#{clienteManagedBean.cliente.nombres}" required="true" 
+		            <p:inputText id="txtNombres" value="#{altaCotizacionManagedBean.nuevoCliente.nombres}" required="true" 
 		            	requiredMessage="Ingrese nombres" validatorMessage="Ingrese nombre valido">
 		            	<f:validateRegex pattern="^[a-zA-Z\\s]*$" ></f:validateRegex>
 	            	</p:inputText>
 		            
 		            <h:outputLabel for="txtApellidos" value="Apellido " />
-		            <p:inputText id="txtApellidos" value="#{clienteManagedBean.cliente.apellidos}" required="true"
+		            <p:inputText id="txtApellidos" value="#{altaCotizacionManagedBean.nuevoCliente.apellidos}" required="true"
 		            	requiredMessage="Ingrese apellido" validatorMessage="Ingrese apellido valido">
 	            		<f:validateRegex pattern="^[a-zA-Z\\s]*$"></f:validateRegex>
 	            	</p:inputText>
 				</h:panelGrid>
 				<h:panelGrid columns="2" cellpadding="5">
 					<h:outputLabel for="txtRazonSocial" value="Razon Social" />
-		            <p:inputText id="txtRazonSocial" value="#{clienteManagedBean.cliente.razonSocia}" required="true" 
+		            <p:inputText id="txtRazonSocial" value="#{altaCotizacionManagedBean.nuevoCliente.razonSocia}" required="true" 
 		            	requiredMessage="Ingrese Razon social" >
 	            	</p:inputText>
 				
 					<h:outputLabel for="txtCorreo" value="Correo " />
-		            <p:inputText id="txtCorreo" value="#{clienteManagedBean.cliente.email}" required="true"
+		            <p:inputText id="txtCorreo" value="#{altaCotizacionManagedBean.nuevoCliente.email}" required="true"
 		            	requiredMessage="Ingrese correo" >
 		            	<f:validator validatorId="emailValidator"></f:validator>	
 	            	</p:inputText>
 
 		          	<h:outputLabel for="cboTipoDocumento" value="Tipo de Documento" />
-		            <p:selectOneMenu required="true" requiredMessage="Seleccione tipo de documento" id="cboTipoDocumento" value="#{clienteManagedBean.cliente.idTipoDocumento}">
+		            <p:selectOneMenu required="true" requiredMessage="Seleccione tipo de documento" id="cboTipoDocumento" value="#{altaCotizacionManagedBean.nuevoCliente.idTipoDocumento}">
 		            	<f:selectItem itemLabel="Seleccione Tipo de Documento"  noSelectionOption="true" itemDisabled="true"></f:selectItem>
 		            	<f:selectItems value="#{clienteManagedBean.variables}" var="variables" itemValue="#{variables.idConfigVariable}"
 		            	itemLabel="#{variables.descripcion}"></f:selectItems>
-		            	<p:ajax listener="#{clienteManagedBean.onTipoDocChange}" process="@this" ></p:ajax>
+		            	<p:ajax listener="#{altaCotizacionManagedBean.onTipoDocChange}" process="@this" ></p:ajax>
 		            </p:selectOneMenu>
 		          	
 		            <h:outputLabel for="txtNumeroDocumento" value="Numero Documento" />
-		            <p:inputText id="txtNumeroDocumento" value="#{clienteManagedBean.cliente.numeroDocumento}" required="true" 
+		            <p:inputText id="txtNumeroDocumento" value="#{altaCotizacionManagedBean.nuevoCliente.numeroDocumento}" required="true" 
 		            	requiredMessage="Ingrese numero documento" validatorMessage="Ingrese documento valido">
-		            	<f:validateLength maximum="#{clienteManagedBean.tamanoNumeroDocumento}" minimum="#{clienteManagedBean.tamanoNumeroDocumento}"></f:validateLength>
+		            	<f:validateLength maximum="#{altaCotizacionManagedBean.tamanoNumeroDocumento}" minimum="#{altaCotizacionManagedBean.tamanoNumeroDocumento}"></f:validateLength>
 		            </p:inputText>
 				</h:panelGrid>
 			</h:panelGrid>
             <f:facet name="footer" >
-                <p:commandButton value="Grabar" icon="ui-icon-disk" action="#{clienteManagedBean.grabar}" 
-                	styleClass="ui-priority-primary" update="@form" style="margin-right:10px" />
+                <p:commandButton value="Grabar" icon="ui-icon-disk" action="#{altaCotizacionManagedBean.crearCliente}"
+                	styleClass="ui-priority-primary" update="@form, buscarClienteDialog" style="margin-right:10px" />
                 	
-            	<p:commandButton process="@this" value="Limpiar" icon="ui-icon-trash" action="#{clienteManagedBean.limpiarForm}" 
+            	<p:commandButton process="@this" value="Limpiar" icon="ui-icon-trash" action="#{altaCotizacionManagedBean.limpiarFormCliente}" 
             		 update="@form">
             		<p:resetInput target="@form" />
             	</p:commandButton>

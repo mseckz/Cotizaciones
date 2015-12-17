@@ -58,7 +58,7 @@
 					            	<f:selectItem itemLabel="Seleccione Tipo de Documento"  noSelectionOption="true" itemDisabled="true"></f:selectItem>
 					            	<f:selectItems value="#{clienteManagedBean.variables}" var="variables" itemValue="#{variables.idConfigVariable}"
 					            	itemLabel="#{variables.descripcion}"></f:selectItems>
-					            	<p:ajax listener="#{clienteManagedBean.onTipoDocChange}" process="@this" ></p:ajax>
+					            	<p:ajax listener="#{clienteManagedBean.onTipoDocChange}" process="@this" update="txtNumeroDocumento"></p:ajax>
 					            </p:selectOneMenu>
 					          	
 					            <h:outputLabel for="txtNumeroDocumento" value="Numero Documento" />
@@ -69,7 +69,7 @@
 							</h:panelGrid>
 						</h:panelGrid>
 			            <f:facet name="footer" >
-			                <p:commandButton value="Grabar" icon="ui-icon-disk" action="#{clienteManagedBean.grabar}" 
+			                <p:commandButton id="btnGrabar" value="Grabar" icon="ui-icon-disk" action="#{clienteManagedBean.grabar}" 
 			                	styleClass="ui-priority-primary" update="@form,tablaCli" style="margin-right:10px"/>
 			                	
 			            	<p:commandButton process="@this" value="Limpiar" icon="ui-icon-trash" action="#{clienteManagedBean.limpiarForm}" 

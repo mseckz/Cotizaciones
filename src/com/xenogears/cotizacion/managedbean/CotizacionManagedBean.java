@@ -32,6 +32,7 @@ public class CotizacionManagedBean {
 	}
 
 	public String redireccionarIndex() {
+		cotizaciones = cotService.getCotizacionRepository().obtenerPendientes();
 		return "/paginas/cotizacion/indexCotizacion.xhtml?faces-redirect=true";
 	}
 
@@ -63,6 +64,7 @@ public class CotizacionManagedBean {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "",
 				"Cotizacion " + cotizacion.getCodigoCotizacion() + " aprobada");
 		FacesContext.getCurrentInstance().addMessage(null, message);
+		cotizaciones = cotService.getCotizacionRepository().obtenerPendientes();
 	}
 
 	public void anularCotizacion() {
@@ -72,6 +74,7 @@ public class CotizacionManagedBean {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "",
 				"Cotizacion " + cotizacion.getCodigoCotizacion() + " anulada");
 		FacesContext.getCurrentInstance().addMessage(null, message);
+		cotizaciones = cotService.getCotizacionRepository().obtenerPendientes();
 	}
 
 	public CotizacionService getCotService() {

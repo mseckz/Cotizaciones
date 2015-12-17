@@ -10,19 +10,20 @@
 	<p:outputPanel>
 		<h:form>
 			<p:dataTable var="auto" value="#{altaCotizacionManagedBean.autos}" id="tablaAutos" paginator="true" rows="10" 
+		   			filteredValue="#{altaCotizacionManagedBean.autosFiltrados}"
 		   			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 		   			rowsPerPageTemplate="5,10,20,50" paginatorPosition="bottom" >
 		   		<p:column>
 		   			<p:commandButton value="Seleccionar" action="#{altaCotizacionManagedBean.setAutoSeleccionado(auto)}" 
-		   			process="@form" update=":formCotizacion:panelCotizacion" onclick="PF('w_buscarAutoDialog').hide()" ></p:commandButton>
+		   			process="@this" update="formTablaAutos:panelDatosAuto" onclick="PF('w_buscarAutoDialog').hide()" ></p:commandButton>
 		   		</p:column>
-		   		<p:column headerText="Codigo" filterable="true" filterBy="#{auto.codigoAuto}">
+		   		<p:column headerText="Codigo" filterable="true" filterBy="#{auto.codigoAuto}" filterMatchMode="contains">
 		   			<h:outputText value="#{auto.codigoAuto}" ></h:outputText>
 		   		</p:column>
-		   		<p:column headerText="Modelo" filterable="true" filterBy="#{auto.modelo}">
+		   		<p:column headerText="Modelo" filterable="true" filterBy="#{auto.modelo}" filterMatchMode="contains">
 		   			<h:outputText value="#{auto.modelo}" ></h:outputText>
 		   		</p:column>
-		   		<p:column headerText="Marca" filterable="true" filterBy="#{auto.marca}">
+		   		<p:column headerText="Marca" filterable="true" filterBy="#{auto.marca}" filterMatchMode="contains">
 		   			<h:outputText value="#{auto.marca}" ></h:outputText>
 		   		</p:column>
 			</p:dataTable>

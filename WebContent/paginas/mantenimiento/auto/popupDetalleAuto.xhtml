@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<p:dialog header="Detalle de Auto" widgetVar="w_detalleAutoDialog" modal="true" showEffect="fade" 
+			hideEffect="fade" resizable="false" width="1000" closeOnEscape="true" id="detalleAutoDialog" closable="true">
+			
+		<h:panelGrid columns="2" cellpadding="5" style="width:100%">
+			<h:panelGrid columns="2" cellpadding="5" style="width:80%">
+				<p:outputLabel value="Codigo:"></p:outputLabel>
+				<h:outputText value="#{autoManagedBean.autoDetalle.codigoAuto}"></h:outputText>
+				
+				<p:outputLabel value="TIpo Auto: "></p:outputLabel>
+				<h:outputText value="#{autoManagedBean.autoDetalle.descripcionTipo}"></h:outputText>
+				
+				<p:outputLabel value="Marca: "></p:outputLabel>
+				<h:outputText value="#{autoManagedBean.autoDetalle.marca}"></h:outputText>
+				
+				<p:outputLabel value="Modelo: "></p:outputLabel>
+				<h:outputText value="#{autoManagedBean.autoDetalle.modelo}"></h:outputText>
+				
+				<p:outputLabel value="Año: "></p:outputLabel>
+				<h:outputText value="#{autoManagedBean.autoDetalle.anio}"></h:outputText>
+				
+				<p:outputLabel value="Precio: "></p:outputLabel>
+				<h:outputText value="#{autoManagedBean.autoDetalle.precio}">
+					<f:convertNumber type="currency" currencySymbol="S/."></f:convertNumber>
+				</h:outputText>
+			</h:panelGrid>
+			
+			<h:panelGrid columns="2" cellpadding="5" style="width:80%">
+				<img style="width:200px;height:200px" src="#{autoManagedBean.autoDetalle.urlFoto}" />
+			</h:panelGrid>
+			
+		</h:panelGrid>
+		
+	</p:dialog>
+	
+</html>
