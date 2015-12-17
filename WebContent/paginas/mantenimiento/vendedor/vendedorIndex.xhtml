@@ -8,31 +8,31 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/WEB-INF/template/template.xhtml">
-	<ui:define name="content">
+	<ui:define  name="content">
 	    
 	   
-	    	<h:form>
+	    	<h:form id="content">
 	    		<p:growl autoUpdate="true" life="3000" showSummary="true" showDetail="true" escape="false" globalOnly="true"></p:growl>
 	    		<p:messages id="messages" showSummary="true" showDetail="false" autoUpdate="true" closable="true"></p:messages>
-				<p:panel header="Mantenimiento de Vendedores">
+				<p:panel  header="Mantenimiento de Vendedores">
 					<br/>
 					<h:panelGrid columns="2" cellpadding="5">
 						<h:panelGrid columns="2" cellpadding="5">
 							<h:outputLabel for="txtCodigo" value="Codigo" rendered="#{vendedorManagedBean.vendedor.idVendedor != null}" />
 				            <p:inputText id="txtCodigo" value="#{vendedorManagedBean.vendedor.codigoVendedor}"
-				               rendered="#{vendedorManagedBean.vendedor.idVendedor != null}" readonly="true" disabled="true" >
+				               rendered="#{vendedorManagedBean.vendedor.idVendedor != null}" readonly="true" disabled="true">
 				            </p:inputText>
 				 
 				 			<h:outputLabel for="txtDNI" value="DNI" />
-				            <p:inputText id="txtDNI" value="#{vendedorManagedBean.vendedor.docIdentidad}" required="true" 
+				            <p:inputText id="txtDNI" value="#{vendedorManagedBean.vendedor.docIdentidad}" required="true"  maxlength="8" 
 				            	requiredMessage="Ingrese DNI" validatorMessage="Ingrese dni correcto" >
 				            	<f:validateRegex pattern="[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" />
 				            </p:inputText>
 				 			
 				            <h:outputLabel for="txtNombres" value="Nombres" />
-				            <p:inputText id="txtNombres" value="#{vendedorManagedBean.vendedor.nombres}" required="true" 
+				            <p:inputText id="txtNombres" value="#{vendedorManagedBean.vendedor.nombres}" required="true" type="text"
 				            	requiredMessage="Ingrese nombres" validatorMessage="Ingrese nombre valido" >
-				            	<f:validateRegex pattern="^[a-zA-Z\\s]*$" ></f:validateRegex>
+				            	<f:validateRegex pattern="^[a-zA-Z\\s$]*" ></f:validateRegex>
 				            </p:inputText>
 				            
 				            <h:outputLabel for="txtApellidoPat" value="Apellido Paterno" />
@@ -56,7 +56,7 @@
 				            </p:inputText>
 				            
 				            <h:outputLabel for="txtTelefono" value="Telefono" />
-				            <p:inputText id="txtTelefono" value="#{vendedorManagedBean.vendedor.telefono}"  />
+				            <p:inputText id="txtTelefono" value="#{vendedorManagedBean.vendedor.telefono}" maxlength="9" />
 				            
 				            <h:outputLabel for="txtFecNac" value="Fecha Nacimiento" />
 				            <p:calendar id="txtFecNac" required="true" value="#{vendedorManagedBean.vendedor.fechaNacimiento}" showOn="button" pattern="yyyy/MM/dd"
@@ -74,7 +74,7 @@
 				            
 				        </h:panelGrid>
 			            <f:facet name="footer">
-			                <p:commandButton value="Grabar" icon="ui-icon-disk" 
+			                <p:commandButton id="btnGrabar" value="Grabar" icon="ui-icon-disk" 
 								action="#{vendedorManagedBean.grabar}" styleClass="ui-priority-primary" update="@form,tablaVend"/>
 							<p:commandButton process="@this" value="Limpiar" icon="ui-icon-trash" action="#{vendedorManagedBean.limpiarForm}" 
 			            		 update="@form,tablaVend">
@@ -113,7 +113,12 @@
 		   			<p:tooltip value="Eliminar" for="btnEliminar" />
 		   		</p:column>
 		   	</p:dataTable>
+		   	<p:blockUI block="content" trigger="btnGrabar">
+				<p:graphicImage value="http://www.cmeparts.com/image/preloader.gif"></p:graphicImage>
+			</p:blockUI>
 		   	</h:form> 
+
 	</ui:define>
+
 </ui:composition>
 </html>

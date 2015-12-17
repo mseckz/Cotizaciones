@@ -98,7 +98,6 @@ public class ClienteManagedBean {
 		servicio.getClienteRepository().save(clienteEliminar);
 		clienteEliminar = new Cliente();
 		RequestContext.getCurrentInstance().execute("{setTimeout(function() {PF('w_eliminarClienteDialog').hide();},1000);}");
-//		RequestContext.getCurrentInstance().execute("{setTimeout(function() {PF('w_tablaUsuarios').clearFilters();},1000);}");
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Cliente eliminado con exito");
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}

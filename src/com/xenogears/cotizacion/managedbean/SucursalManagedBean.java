@@ -35,6 +35,9 @@ public class SucursalManagedBean {
 		return "/paginas/mantenimiento/sucursal/sucursalIndex.xhtml?faces-redirect=true";
 	}
 	
+	public void limpiarForm(){
+		sucursal=new Sucursal();
+	}
 	public String registrar(){
 		sucursalService.registrar(sucursal);
 		sucursal = new Sucursal();

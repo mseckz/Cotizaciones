@@ -10,7 +10,7 @@
 <ui:composition template="/WEB-INF/template/template.xhtml">
 	<ui:define name="content">
 	    
-    	<h:form>
+	    <h:form id="content">
     		<h:messages></h:messages>
 			<p:panel header="Mantenimiento de sucursales">
 				<h:panelGrid columns="2" cellpadding="5">
@@ -43,8 +43,12 @@
 		            	requiredMessage="Ingrese Nombre" />
 		            
 		            <f:facet name="footer">
-		                <p:commandButton value="Grabar" icon="ui-icon-disk" 
+		                <p:commandButton id="btnGrabar" value="Grabar" icon="ui-icon-disk" 
 							action="#{sucursalManagedBean.registrar}" styleClass="ui-priority-primary" update="@form"/>
+		            	<p:commandButton process="@this" value="Limpiar" icon="ui-icon-trash" action="#{sucursalManagedBean.limpiarForm}" 
+			            		 update="@form,tablaSucursal">
+			            		<p:resetInput target="@form" />
+			            	</p:commandButton>
 		            </f:facet>
 				</h:panelGrid>
 			</p:panel>
@@ -73,7 +77,9 @@
 				</p:column>
 				
 			</p:dataTable>
-			
+			<p:blockUI block="content" trigger="btnGrabar">
+				<p:graphicImage value="http://www.cmeparts.com/image/preloader.gif"></p:graphicImage>
+			</p:blockUI>
 		</h:form>
 		
 	</ui:define>
