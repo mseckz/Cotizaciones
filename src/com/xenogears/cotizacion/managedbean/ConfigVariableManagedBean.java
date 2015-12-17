@@ -42,6 +42,10 @@ public class ConfigVariableManagedBean {
 		}
 	}
 	
+	public void limpiarForm(){
+		configVar = new ConfigVariable();
+	}
+	
 	public ConfigVariableService getConfigvarService() {
 		return configvarService;
 	}
@@ -59,7 +63,7 @@ public class ConfigVariableManagedBean {
 	}
 
 	public List<ConfigVariable> getVariables() {
-		variables = Lists.newArrayList(configvarService.getConfigVarRepository().findAll());
+		variables = configvarService.getConfigVarRepository().listarPorTabla();
 		return variables;
 	}
 

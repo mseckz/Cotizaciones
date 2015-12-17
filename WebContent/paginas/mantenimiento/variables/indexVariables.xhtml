@@ -14,7 +14,7 @@
 			<p:panel header="Mantenimiento Variables">
 				<h:panelGrid columns="2" cellpadding="5">
 					<h:panelGrid columns="2" cellpadding="5">
-						<h:outputLabel for="chkPadre" value="Tabla" />
+						<h:outputLabel for="chkPadre" value="Ingresar Tabla" />
 						<p:selectBooleanCheckbox value="#{configVariableManagedBean.flagTabla}">
 							<p:ajax event="change" update="@form" />
 						</p:selectBooleanCheckbox>
@@ -35,6 +35,9 @@
 		            <f:facet name="footer">
 		                <p:commandButton value="Grabar" icon="ui-icon-disk" 
 							action="#{configVariableManagedBean.registrar}" styleClass="ui-priority-primary" update="@form,tablaVariables"/>
+							
+						<p:commandButton value="Limpiar" icon="ui-icon-trash" 
+							action="#{configVariableManagedBean.limpiarForm}" update="@form,tablaVariables"/>
 		            </f:facet>  
 		        </h:panelGrid>
 			</p:panel>

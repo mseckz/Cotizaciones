@@ -41,4 +41,12 @@ public class ConfigVariableRepositoryImpl implements ConfigVariableRepositoryCus
 		return "uno";
 	}
 
+	@Override
+	public List<ConfigVariable> listarPorTabla() {
+		TypedQuery<ConfigVariable> query = entityManager.createQuery(""
+				+ "Select c from ConfigVariable c where"
+				+ " c.flagEstado = true order by c.padre.idConfigVariable,c.descripcion", ConfigVariable.class);
+		return query.getResultList();
+	}
+	
 }
